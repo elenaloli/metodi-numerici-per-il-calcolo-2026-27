@@ -1,0 +1,1813 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Calcolo multivariato &#8212; Metodi numerici per il calcolo</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'book/calcolo_multivariato';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Ottimizzazione numerica: introduzione" href="Condizioni_di_ottimalita.html" />
+    <link rel="prev" title="Introduzione al corso Metodi Numerici per il calcolo" href="intro_mnpc.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo_mnpc.png" class="logo__image only-light" alt="Metodi numerici per il calcolo - Home"/>
+    <script>document.write(`<img src="../_static/logo_mnpc.png" class="logo__image only-dark" alt="Metodi numerici per il calcolo - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Metodi numerici per il calcolo
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro_mnpc.html">Introduzione al corso Metodi Numerici per il calcolo</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Calcolo multivariato</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Condizioni_di_ottimalita.html">Ottimizzazione numerica: introduzione</a></li>
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="Metodi_di_discesa.html">Metodi di discesa</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/elenaloli/metodi-numerici-per-il-calcolo-2026-27.git" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/elenaloli/metodi-numerici-per-il-calcolo-2026-27.git/issues/new?title=Issue%20on%20page%20%2Fbook/calcolo_multivariato.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/book/calcolo_multivariato.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Calcolo multivariato</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Calcolo multivariato</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#introduzione-al-calcolo-multivariato">Introduzione al calcolo multivariato</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#funzioni-di-piu-variabili">Funzioni di più variabili</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-1">Esempio 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-2">Esempio 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-3">Esempio 3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#una-funzione-di-tre-variabili">Una funzione di tre variabili</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#curve-e-superfici-di-livello">Curve e superfici di livello</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio">Esempio</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#derivate-parziali">Derivate parziali</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Esempio 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Esempio 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Esempio 3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-geometrica">Interpretazione geometrica</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#il-gradiente">Il gradiente</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Esempio</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-del-gradiente">Interpretazione del gradiente</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Esempio</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#derivate-parziali-seconde">Derivate parziali seconde</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Esempio</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-matrice-hessiana">La matrice hessiana</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Esempio 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Esempio 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-dell-hessiano">Interpretazione dell’hessiano</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#funzioni-vettoriali">Funzioni vettoriali</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Esempio 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Esempio 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-matrice-jacobiana">La matrice jacobiana</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Esempio 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Esempio 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Esempio 3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relazione-tra-gradiente-e-jacobiano">Relazione tra gradiente e jacobiano</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-dello-jacobiano">Interpretazione dello jacobiano</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-riassuntivo">Esempio riassuntivo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizi">Esercizi</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio-1">Esercizio 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio-2">Esercizio 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio-3">Esercizio 3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio-4">Esercizio 4</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio-6">Esercizio 6</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio-7">Esercizio 7</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="calcolo-multivariato">
+<h1>Calcolo multivariato<a class="headerlink" href="#calcolo-multivariato" title="Link to this heading">#</a></h1>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="introduzione-al-calcolo-multivariato">
+<h1>Introduzione al calcolo multivariato<a class="headerlink" href="#introduzione-al-calcolo-multivariato" title="Link to this heading">#</a></h1>
+<p>In molti problemi dell’informatica e dell’analisi dei dati una quantità dipende da più variabili contemporaneamente. Per esempio:</p>
+<ul class="simple">
+<li><p>il tempo di esecuzione di un algoritmo può dipendere dalla dimensione dell’input e dal numero di processori disponibili;</p></li>
+<li><p>la probabilità di classificare correttamente un dato può dipendere da diversi parametri del modello;</p></li>
+<li><p>il valore di una funzione di costo dipende generalmente da tutti i pesi di una rete neurale;</p></li>
+<li><p>l’intensità di un’immagine digitale dipende dalle coordinate spaziali del pixel.</p></li>
+</ul>
+<p>Per descrivere matematicamente queste situazioni è necessario estendere il concetto di funzione reale di una variabile alle <strong>funzioni di più variabili</strong>.</p>
+<p>Analogamente, i concetti di derivata prima e seconda vengono generalizzati mediante:</p>
+<ul class="simple">
+<li><p>le derivate parziali;</p></li>
+<li><p>il gradiente;</p></li>
+<li><p>la matrice hessiana;</p></li>
+<li><p>la matrice jacobiana.</p></li>
+</ul>
+<section id="funzioni-di-piu-variabili">
+<h2>Funzioni di più variabili<a class="headerlink" href="#funzioni-di-piu-variabili" title="Link to this heading">#</a></h2>
+<p>Una funzione reale di due variabili associa a ogni coppia <span class="math notranslate nohighlight">\((x,y)\)</span> appartenente a un insieme <span class="math notranslate nohighlight">\(D\subseteq\mathbb{R}^2\)</span> un numero reale:</p>
+<div class="math notranslate nohighlight">
+\[
+f:D\subseteq\mathbb{R}^2\longrightarrow\mathbb{R}.
+\]</div>
+<p>Scriveremo</p>
+<div class="math notranslate nohighlight">
+\[
+z=f(x,y).
+\]</div>
+<p>Le variabili <span class="math notranslate nohighlight">\(x\)</span> e <span class="math notranslate nohighlight">\(y\)</span> sono dette <strong>variabili indipendenti</strong>, mentre <span class="math notranslate nohighlight">\(z\)</span> è la <strong>variabile dipendente</strong>.</p>
+<p>Più in generale, una funzione reale di <span class="math notranslate nohighlight">\(n\)</span> variabili è una funzione</p>
+<div class="math notranslate nohighlight">
+\[
+f:D\subseteq\mathbb{R}^n\longrightarrow\mathbb{R},
+\]</div>
+<p>che associa al vettore</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{x}=(x_1,x_2,\ldots,x_n)^T
+\]</div>
+<p>il numero reale</p>
+<div class="math notranslate nohighlight">
+\[
+f(\mathbf{x})=f(x_1,x_2,\ldots,x_n).
+\]</div>
+<section id="esempio-1">
+<h3>Esempio 1<a class="headerlink" href="#esempio-1" title="Link to this heading">#</a></h3>
+<p>Consideriamo la funzione</p>
+<div class="math notranslate nohighlight">
+\[
+f(x,y)=x^2+y^2.
+\]</div>
+<p>Il dominio è tutto <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span>. Alcuni valori della funzione sono</p>
+<div class="math notranslate nohighlight">
+\[
+f(0,0)=0,\qquad f(1,2)=5,\qquad f(-1,3)=10.
+\]</div>
+<p>Il grafico di <span class="math notranslate nohighlight">\(f\)</span> è la superficie</p>
+<div class="math notranslate nohighlight">
+\[
+z=x^2+y^2,
+\]</div>
+<p>che ha la forma di un paraboloide.</p>
+<ul class="simple">
+<li></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Costruzione della griglia</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Valutazione della funzione</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">X</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Y</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="c1"># Grafico della superficie</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$x$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$y$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s2">&quot;$f(x,y)$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Superficie $f(x,y)=x^2+y^2$&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/0e0325e19553e2e8a5c0bb0337c7ea871202644dc65c4097f13e8b65c8029300.png" src="../_images/0e0325e19553e2e8a5c0bb0337c7ea871202644dc65c4097f13e8b65c8029300.png" />
+</div>
+</div>
+</section>
+<section id="esempio-2">
+<h3>Esempio 2<a class="headerlink" href="#esempio-2" title="Link to this heading">#</a></h3>
+<p>La funzione</p>
+<div class="math notranslate nohighlight">
+\[
+f(x,y)=\sqrt{1-x^2-y^2}
+\]</div>
+<p>è definita soltanto quando</p>
+<div class="math notranslate nohighlight">
+\[
+1-x^2-y^2\geq 0.
+\]</div>
+<p>Il suo dominio è quindi il disco chiuso</p>
+<div class="math notranslate nohighlight">
+\[
+D=\left\{(x,y)\in\mathbb{R}^2:x^2+y^2\leq 1\right\}.
+\]</div>
+<p>Il grafico rappresenta la semisfera superiore di raggio <span class="math notranslate nohighlight">\(1\)</span>.</p>
+<p align="center">
+  <img src="immagini_sorgente\fig2m.png"  width="400">
+</p>
+</section>
+<section id="esempio-3">
+<h3>Esempio 3<a class="headerlink" href="#esempio-3" title="Link to this heading">#</a></h3>
+<p>La funzione</p>
+<div class="math notranslate nohighlight">
+\[
+f(x,y)=\frac{1}{x-y}
+\]</div>
+<p>è definita per tutti i punti del piano tranne quelli appartenenti alla retta <span class="math notranslate nohighlight">\(x=y\)</span>.</p>
+<p>Il dominio è</p>
+<div class="math notranslate nohighlight">
+\[
+D=\left\{(x,y)\in\mathbb{R}^2:x\neq y\right\}.
+\]</div>
+</section>
+<section id="una-funzione-di-tre-variabili">
+<h3>Una funzione di tre variabili<a class="headerlink" href="#una-funzione-di-tre-variabili" title="Link to this heading">#</a></h3>
+<p>Una funzione di tre variabili ha la forma</p>
+<div class="math notranslate nohighlight">
+\[
+f:\mathbb{R}^3\longrightarrow\mathbb{R}.
+\]</div>
+<p>Per esempio,</p>
+<div class="math notranslate nohighlight">
+\[
+f(x,y,z)=x^2+y^2+z^2
+\]</div>
+<p>associa a ogni punto dello spazio il quadrato della sua distanza dall’origine.</p>
+<p>In questo caso non è possibile rappresentare il grafico della funzione nello spazio tridimensionale, perché il grafico sarebbe un sottoinsieme di <span class="math notranslate nohighlight">\(\mathbb{R}^4\)</span>.</p>
+<p>È però possibile studiare le <strong>superfici di livello</strong>.</p>
+<p>–</p>
+</section>
+</section>
+<section id="curve-e-superfici-di-livello">
+<h2>Curve e superfici di livello<a class="headerlink" href="#curve-e-superfici-di-livello" title="Link to this heading">#</a></h2>
+<p>Data una funzione</p>
+<div class="math notranslate nohighlight">
+\[
+f:\mathbb{R}^2\longrightarrow\mathbb{R},
+\]</div>
+<p>una curva di livello corrispondente al valore <span class="math notranslate nohighlight">\(c\in\mathbb{R}\)</span> è l’insieme dei punti che soddisfano</p>
+<div class="math notranslate nohighlight">
+\[
+f(x,y)=c.
+\]</div>
+<p>Le curve di livello permettono di rappresentare una funzione di due variabili nel piano.</p>
+<section id="esempio">
+<h3>Esempio<a class="headerlink" href="#esempio" title="Link to this heading">#</a></h3>
+<p>Per la funzione</p>
+<div class="math notranslate nohighlight">
+\[
+f(x,y)=x^2+y^2,
+\]</div>
+<p>le curve di livello sono descritte dall’equazione</p>
+<div class="math notranslate nohighlight">
+\[
+x^2+y^2=c.
+\]</div>
+<p>Se <span class="math notranslate nohighlight">\(c&gt;0\)</span>, si ottengono circonferenze centrate nell’origine e di raggio <span class="math notranslate nohighlight">\(\sqrt{c}\)</span>.</p>
+<p>Per <span class="math notranslate nohighlight">\(c=0\)</span> si ottiene soltanto il punto <span class="math notranslate nohighlight">\((0,0)\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Griglia sul dominio [-1,1] x [-1,1]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># La funzione è definita soltanto nel disco unitario</span>
+<span class="n">R2</span> <span class="o">=</span> <span class="n">X</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Y</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+
+<span class="n">mask</span> <span class="o">=</span> <span class="n">R2</span> <span class="o">&lt;=</span> <span class="mi">1</span>
+<span class="n">Z</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">R2</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span>
+
+<span class="c1"># Valori della funzione corrispondenti alle curve di livello</span>
+<span class="n">livelli</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="n">curve</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">livelli</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">clabel</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$x$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$y$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s2">&quot;Curve di livello di &quot;</span>
+    <span class="sa">r</span><span class="s2">&quot;$f(x,y)=\sqrt{1-x^2-y^2}$&quot;</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/82a782248b84e66c385ad780e84e296f31e7843a2050fd74feb9d318dfeaaaf6.png" src="../_images/82a782248b84e66c385ad780e84e296f31e7843a2050fd74feb9d318dfeaaaf6.png" />
+</div>
+</div>
+<p>Le curve di livello sono utilizzate, per esempio, nelle mappe geografiche: le curve che uniscono punti aventi la stessa altitudine sono dette <strong>isoipse</strong>.</p>
+<p>Per una funzione di tre variabili</p>
+<div class="math notranslate nohighlight">
+\[
+f:\mathbb{R}^3\longrightarrow\mathbb{R},
+\]</div>
+<p>l’equazione</p>
+<div class="math notranslate nohighlight">
+\[
+f(x,y,z)=c
+\]</div>
+<p>descrive generalmente una superficie di livello.</p>
+<p>Per esempio, per</p>
+<div class="math notranslate nohighlight">
+\[
+f(x,y,z)=x^2+y^2+z^2,
+\]</div>
+<p>le superfici di livello sono le sfere</p>
+<div class="math notranslate nohighlight">
+\[
+x^2+y^2+z^2=c,
+\]</div>
+<p>di centro l’origine e raggio <span class="math notranslate nohighlight">\(\sqrt{c}\)</span>.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="derivate-parziali">
+<h2>Derivate parziali<a class="headerlink" href="#derivate-parziali" title="Link to this heading">#</a></h2>
+<p>Per una funzione di una variabile, la derivata misura la variazione della funzione quando varia la sua unica variabile indipendente.</p>
+<p>Per una funzione di più variabili possiamo invece studiare la variazione rispetto a una variabile alla volta, mantenendo fisse tutte le altre.</p>
+<p>Sia</p>
+<div class="math notranslate nohighlight">
+\[
+f:\mathbb{R}^2\longrightarrow\mathbb{R}.
+\]</div>
+<p>La derivata parziale di <span class="math notranslate nohighlight">\(f\)</span> rispetto a <span class="math notranslate nohighlight">\(x\)</span> nel punto <span class="math notranslate nohighlight">\((x,y)\)</span> è definita da</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial f}{\partial x}(x,y)
+=
+\lim_{h\to 0}
+\frac{f(x+h,y)-f(x,y)}{h},
+\]</div>
+<p>quando tale limite esiste.</p>
+<p>Analogamente, la derivata parziale rispetto a <span class="math notranslate nohighlight">\(y\)</span> è</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial f}{\partial y}(x,y)
+=
+\lim_{h\to 0}
+\frac{f(x,y+h)-f(x,y)}{h}.
+\]</div>
+<p>Si utilizzano frequentemente anche le notazioni</p>
+<div class="math notranslate nohighlight">
+\[
+f_x(x,y)=\frac{\partial f}{\partial x}(x,y),
+\qquad
+f_y(x,y)=\frac{\partial f}{\partial y}(x,y).
+\]</div>
+<p>Nel calcolo di <span class="math notranslate nohighlight">\(f_x\)</span>, la variabile <span class="math notranslate nohighlight">\(y\)</span> viene considerata costante.</p>
+<p>Nel calcolo di <span class="math notranslate nohighlight">\(f_y\)</span>, la variabile <span class="math notranslate nohighlight">\(x\)</span> viene considerata costante.</p>
+<section id="id1">
+<h3>Esempio 1<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>Consideriamo</p>
+<div class="math notranslate nohighlight">
+\[
+f(x,y)=x^2y+3xy^2.
+\]</div>
+<p>La derivata parziale rispetto a <span class="math notranslate nohighlight">\(x\)</span> è</p>
+<div class="math notranslate nohighlight">
+\[
+f_x(x,y)
+=
+\frac{\partial}{\partial x}\left(x^2y+3xy^2\right)
+=
+2xy+3y^2.
+\]</div>
+<p>La derivata parziale rispetto a <span class="math notranslate nohighlight">\(y\)</span> è</p>
+<div class="math notranslate nohighlight">
+\[
+f_y(x,y)
+=
+\frac{\partial}{\partial y}\left(x^2y+3xy^2\right)
+=
+x^2+6xy.
+\]</div>
+<p>Nel punto <span class="math notranslate nohighlight">\((1,2)\)</span> si ha</p>
+<div class="math notranslate nohighlight">
+\[
+f_x(1,2)=2\cdot 1\cdot 2+3\cdot 2^2=16,
+\]</div>
+<p>e</p>
+<div class="math notranslate nohighlight">
+\[
+f_y(1,2)=1^2+6\cdot 1\cdot 2=13.
+\]</div>
+</section>
+<section id="id2">
+<h3>Esempio 2<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<p>Sia</p>
+<div class="math notranslate nohighlight">
+\[
+f(x,y)=e^{xy}.
+\]</div>
+<p>Applicando la regola della derivata di una funzione composta, otteniamo</p>
+<div class="math notranslate nohighlight">
+\[
+f_x(x,y)=y e^{xy},
+\qquad
+f_y(x,y)=x e^{xy}.
+\]</div>
+</section>
+<section id="id3">
+<h3>Esempio 3<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<p>Consideriamo la funzione di tre variabili</p>
+<div class="math notranslate nohighlight">
+\[
+f(x,y,z)=x^2y+yz^3.
+\]</div>
+<p>Le tre derivate parziali sono</p>
+<div class="math notranslate nohighlight">
+\[
+f_x(x,y,z)=2xy,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+f_y(x,y,z)=x^2+z^3,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+f_z(x,y,z)=3yz^2.
+\]</div>
+</section>
+<section id="interpretazione-geometrica">
+<h3>Interpretazione geometrica<a class="headerlink" href="#interpretazione-geometrica" title="Link to this heading">#</a></h3>
+<p>Per una funzione <span class="math notranslate nohighlight">\(z=f(x,y)\)</span>, la derivata parziale <span class="math notranslate nohighlight">\(f_x(x_0,y_0)\)</span> rappresenta la pendenza della superficie nella direzione dell’asse <span class="math notranslate nohighlight">\(x\)</span>, mantenendo <span class="math notranslate nohighlight">\(y=y_0\)</span> costante.</p>
+<p>Analogamente, <span class="math notranslate nohighlight">\(f_y(x_0,y_0)\)</span> rappresenta la pendenza nella direzione dell’asse <span class="math notranslate nohighlight">\(y\)</span>, mantenendo <span class="math notranslate nohighlight">\(x=x_0\)</span> costante.</p>
+<p>Le derivate parziali descrivono quindi come cambia la funzione muovendosi lungo le direzioni degli assi coordinati.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="il-gradiente">
+<h2>Il gradiente<a class="headerlink" href="#il-gradiente" title="Link to this heading">#</a></h2>
+<p>Le derivate parziali prime di una funzione scalare possono essere raccolte in un unico vettore, detto <strong>gradiente</strong>.</p>
+<p>Per una funzione</p>
+<div class="math notranslate nohighlight">
+\[
+f:\mathbb{R}^n\longrightarrow\mathbb{R},
+\]</div>
+<p>il gradiente è definito come</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla f(\mathbf{x})
+=
+\begin{pmatrix}
+\displaystyle\frac{\partial f}{\partial x_1}(\mathbf{x})\\[2mm]
+\displaystyle\frac{\partial f}{\partial x_2}(\mathbf{x})\\
+\vdots\\
+\displaystyle\frac{\partial f}{\partial x_n}(\mathbf{x})
+\end{pmatrix}.
+\end{split}\]</div>
+<p>Nel caso di una funzione di due variabili,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla f(x,y)
+=
+\begin{pmatrix}
+f_x(x,y)\\
+f_y(x,y)
+\end{pmatrix}.
+\end{split}\]</div>
+<p>Nel caso di tre variabili,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla f(x,y,z)
+=
+\begin{pmatrix}
+f_x(x,y,z)\\
+f_y(x,y,z)\\
+f_z(x,y,z)
+\end{pmatrix}.
+\end{split}\]</div>
+<section id="id4">
+<h3>Esempio<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>Consideriamo</p>
+<div class="math notranslate nohighlight">
+\[
+f(x,y)=x^2+2xy+3y^2.
+\]</div>
+<p>Le derivate parziali sono</p>
+<div class="math notranslate nohighlight">
+\[
+f_x(x,y)=2x+2y,
+\qquad
+f_y(x,y)=2x+6y.
+\]</div>
+<p>Pertanto,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla f(x,y)
+=
+\begin{pmatrix}
+2x+2y\\
+2x+6y
+\end{pmatrix}.
+\end{split}\]</div>
+<p>Nel punto <span class="math notranslate nohighlight">\((1,-1)\)</span> si ottiene</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla f(1,-1)
+=
+\begin{pmatrix}
+0\\
+-4
+\end{pmatrix}.
+\end{split}\]</div>
+</section>
+<section id="interpretazione-del-gradiente">
+<h3>Interpretazione del gradiente<a class="headerlink" href="#interpretazione-del-gradiente" title="Link to this heading">#</a></h3>
+<p>Il gradiente ha due importanti proprietà geometriche:</p>
+<ol class="arabic simple">
+<li><p>il vettore <span class="math notranslate nohighlight">\(\nabla f(x,y)\)</span> indica la direzione di massima crescita locale della funzione;</p></li>
+<li><p>il gradiente è perpendicolare alla curva di livello che passa per il punto considerato.</p></li>
+</ol>
+<p>La direzione opposta,</p>
+<div class="math notranslate nohighlight">
+\[
+-\nabla f(x,y),
+\]</div>
+<p>è la direzione di massima diminuzione locale della funzione.</p>
+<p>Questa osservazione è alla base del metodo del <strong>gradiente discendente</strong>, utilizzato in molti algoritmi di ottimizzazione e di apprendimento automatico.</p>
+</section>
+<section id="id5">
+<h3>Esempio<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>Sia</p>
+<div class="math notranslate nohighlight">
+\[
+f(x,y)=x^2+y^2.
+\]</div>
+<p>Il gradiente è</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla f(x,y)
+=
+\begin{pmatrix}
+2x\\
+2y
+\end{pmatrix}.
+\end{split}\]</div>
+<p>Nel punto <span class="math notranslate nohighlight">\((1,2)\)</span> si ha</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla f(1,2)
+=
+\begin{pmatrix}
+2\\
+4
+\end{pmatrix}.
+\end{split}\]</div>
+<p>La funzione aumenta più rapidamente nella direzione del vettore <span class="math notranslate nohighlight">\((2,4)^T\)</span>.</p>
+<p>La direzione di massima diminuzione è invece <span class="math notranslate nohighlight">\((-2,-4)^T\)</span>, che punta verso l’origine, cioè verso il punto di minimo della funzione.</p>
+<hr class="docutils" />
+</p>
+  <img src="immagini_sorgente\fig3m.png"  width="400">
+</p></section>
+</section>
+<section id="derivate-parziali-seconde">
+<h2>Derivate parziali seconde<a class="headerlink" href="#derivate-parziali-seconde" title="Link to this heading">#</a></h2>
+<p>Le derivate parziali possono essere ulteriormente derivate.</p>
+<p>Per una funzione di due variabili si definiscono le derivate parziali seconde</p>
+<div class="math notranslate nohighlight">
+\[
+f_{xx}
+=
+\frac{\partial^2 f}{\partial x^2},
+\qquad
+f_{yy}
+=
+\frac{\partial^2 f}{\partial y^2},
+\]</div>
+<p>e le derivate parziali miste</p>
+<div class="math notranslate nohighlight">
+\[
+f_{xy}
+=
+\frac{\partial^2 f}{\partial y\,\partial x},
+\qquad
+f_{yx}
+=
+\frac{\partial^2 f}{\partial x\,\partial y}.
+\]</div>
+<p>Per esempio,</p>
+<div class="math notranslate nohighlight">
+\[
+f_{xy}
+=
+\frac{\partial}{\partial y}
+\left(
+\frac{\partial f}{\partial x}
+\right).
+\]</div>
+<p>Se le derivate parziali miste sono continue in un intorno del punto considerato, allora vale il teorema di Schwarz:</p>
+<div class="math notranslate nohighlight">
+\[
+f_{xy}=f_{yx}.
+\]</div>
+<section id="id6">
+<h3>Esempio<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<p>Sia</p>
+<div class="math notranslate nohighlight">
+\[
+f(x,y)=x^3y^2+2xy.
+\]</div>
+<p>Le derivate prime sono</p>
+<div class="math notranslate nohighlight">
+\[
+f_x(x,y)=3x^2y^2+2y,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+f_y(x,y)=2x^3y+2x.
+\]</div>
+<p>Le derivate seconde sono</p>
+<div class="math notranslate nohighlight">
+\[
+f_{xx}(x,y)=6xy^2,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+f_{yy}(x,y)=2x^3,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+f_{xy}(x,y)=6x^2y+2,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+f_{yx}(x,y)=6x^2y+2.
+\]</div>
+<p>In questo caso si ha</p>
+<div class="math notranslate nohighlight">
+\[
+f_{xy}=f_{yx}.
+\]</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="la-matrice-hessiana">
+<h2>La matrice hessiana<a class="headerlink" href="#la-matrice-hessiana" title="Link to this heading">#</a></h2>
+<p>Le derivate parziali seconde di una funzione scalare vengono raccolte nella <strong>matrice hessiana</strong>.</p>
+<p>Per una funzione</p>
+<div class="math notranslate nohighlight">
+\[
+f:\mathbb{R}^n\longrightarrow\mathbb{R},
+\]</div>
+<p>la matrice hessiana è</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla^2 f(\mathbf{x})
+=
+\begin{pmatrix}
+\displaystyle\frac{\partial^2 f}{\partial x_1^2}
+&amp;
+\displaystyle\frac{\partial^2 f}{\partial x_1\partial x_2}
+&amp;
+\cdots
+&amp;
+\displaystyle\frac{\partial^2 f}{\partial x_1\partial x_n}
+\\[2mm]
+\displaystyle\frac{\partial^2 f}{\partial x_2\partial x_1}
+&amp;
+\displaystyle\frac{\partial^2 f}{\partial x_2^2}
+&amp;
+\cdots
+&amp;
+\displaystyle\frac{\partial^2 f}{\partial x_2\partial x_n}
+\\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots\\
+\displaystyle\frac{\partial^2 f}{\partial x_n\partial x_1}
+&amp;
+\displaystyle\frac{\partial^2 f}{\partial x_n\partial x_2}
+&amp;
+\cdots
+&amp;
+\displaystyle\frac{\partial^2 f}{\partial x_n^2}
+\end{pmatrix}.
+\end{split}\]</div>
+<p>Nel caso di una funzione di due variabili,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla^2 f(x,y)
+=
+\begin{pmatrix}
+f_{xx}(x,y) &amp; f_{xy}(x,y)\\
+f_{yx}(x,y) &amp; f_{yy}(x,y)
+\end{pmatrix}.
+\end{split}\]</div>
+<p>Se le derivate miste sono continue, la matrice hessiana è simmetrica:</p>
+<div class="math notranslate nohighlight">
+\[
+f_{xy}=f_{yx}.
+\]</div>
+<section id="id7">
+<h3>Esempio 1<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<p>Consideriamo</p>
+<div class="math notranslate nohighlight">
+\[
+f(x,y)=x^2+2xy+3y^2.
+\]</div>
+<p>Il gradiente è</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla f(x,y)
+=
+\begin{pmatrix}
+2x+2y\\
+2x+6y
+\end{pmatrix}.
+\end{split}\]</div>
+<p>Le derivate seconde sono</p>
+<div class="math notranslate nohighlight">
+\[
+f_{xx}=2,
+\qquad
+f_{xy}=2,
+\qquad
+f_{yx}=2,
+\qquad
+f_{yy}=6.
+\]</div>
+<p>La matrice hessiana è quindi costante:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla^2 f(x,y)
+=
+\begin{pmatrix}
+2 &amp; 2\\
+2 &amp; 6
+\end{pmatrix}.
+\end{split}\]</div>
+</section>
+<section id="id8">
+<h3>Esempio 2<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<p>Sia</p>
+<div class="math notranslate nohighlight">
+\[
+f(x,y)=x^2y+y^3.
+\]</div>
+<p>Le derivate prime sono</p>
+<div class="math notranslate nohighlight">
+\[
+f_x(x,y)=2xy,
+\qquad
+f_y(x,y)=x^2+3y^2.
+\]</div>
+<p>Le derivate seconde sono</p>
+<div class="math notranslate nohighlight">
+\[
+f_{xx}(x,y)=2y,
+\qquad
+f_{xy}(x,y)=2x,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+f_{yx}(x,y)=2x,
+\qquad
+f_{yy}(x,y)=6y.
+\]</div>
+<p>Pertanto,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla^2 f(x,y)
+=
+\begin{pmatrix}
+2y &amp; 2x\\
+2x &amp; 6y
+\end{pmatrix}.
+\end{split}\]</div>
+</section>
+<section id="interpretazione-dell-hessiano">
+<h3>Interpretazione dell’hessiano<a class="headerlink" href="#interpretazione-dell-hessiano" title="Link to this heading">#</a></h3>
+<p>Il gradiente descrive la pendenza della funzione, mentre la matrice hessiana descrive la sua curvatura locale.</p>
+<p>In una variabile, il segno della derivata seconda permette di distinguere tra concavità verso l’alto e concavità verso il basso.</p>
+<p>In più variabili, un ruolo analogo è svolto dagli autovalori della matrice hessiana.</p>
+</section>
+</section>
+<section id="funzioni-vettoriali">
+<h2>Funzioni vettoriali<a class="headerlink" href="#funzioni-vettoriali" title="Link to this heading">#</a></h2>
+<p>Finora abbiamo considerato funzioni che associano a un vettore un numero reale:</p>
+<div class="math notranslate nohighlight">
+\[
+f:\mathbb{R}^n\longrightarrow\mathbb{R}.
+\]</div>
+<p>Una funzione può però avere più componenti in uscita. Si parla allora di <strong>funzione vettoriale</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+F:\mathbb{R}^n\longrightarrow\mathbb{R}^m.
+\]</div>
+<p>La funzione può essere scritta nella forma</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+F(\mathbf{x})
+=
+\begin{pmatrix}
+F_1(\mathbf{x})\\
+F_2(\mathbf{x})\\
+\vdots\\
+F_m(\mathbf{x})
+\end{pmatrix},
+\end{split}\]</div>
+<p>dove ogni componente</p>
+<div class="math notranslate nohighlight">
+\[
+F_i:\mathbb{R}^n\longrightarrow\mathbb{R}
+\]</div>
+<p>è una funzione scalare.</p>
+<section id="id9">
+<h3>Esempio 1<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<p>La funzione</p>
+<div class="math notranslate nohighlight">
+\[
+F:\mathbb{R}^2\longrightarrow\mathbb{R}^2
+\]</div>
+<p>definita da</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+F(x,y)
+=
+\begin{pmatrix}
+x^2+y\\
+xy
+\end{pmatrix}
+\end{split}\]</div>
+<p>ha due variabili in ingresso e due componenti in uscita.</p>
+<p>Nel punto <span class="math notranslate nohighlight">\((1,2)\)</span> si ha</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+F(1,2)
+=
+\begin{pmatrix}
+1^2+2\\
+1\cdot 2
+\end{pmatrix}
+=
+\begin{pmatrix}
+3\\
+2
+\end{pmatrix}.
+\end{split}\]</div>
+</section>
+<section id="id10">
+<h3>Esempio 2<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<p>La funzione</p>
+<div class="math notranslate nohighlight">
+\[
+F:\mathbb{R}^3\longrightarrow\mathbb{R}^2
+\]</div>
+<p>definita da</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+F(x,y,z)
+=
+\begin{pmatrix}
+x+y+z\\
+x^2+y^2+z^2
+\end{pmatrix}
+\end{split}\]</div>
+<p>riceve in ingresso un vettore di tre componenti e restituisce un vettore di due componenti.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="la-matrice-jacobiana">
+<h2>La matrice jacobiana<a class="headerlink" href="#la-matrice-jacobiana" title="Link to this heading">#</a></h2>
+<p>Per una funzione vettoriale, le derivate parziali prime vengono raccolte nella <strong>matrice jacobiana</strong>.</p>
+<p>Sia</p>
+<div class="math notranslate nohighlight">
+\[
+F:\mathbb{R}^n\longrightarrow\mathbb{R}^m,
+\]</div>
+<p>con</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+F(\mathbf{x})
+=
+\begin{pmatrix}
+F_1(\mathbf{x})\\
+F_2(\mathbf{x})\\
+\vdots\\
+F_m(\mathbf{x})
+\end{pmatrix}.
+\end{split}\]</div>
+<p>La matrice jacobiana di <span class="math notranslate nohighlight">\(F\)</span> è la matrice <span class="math notranslate nohighlight">\(m\times n\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+J_F(\mathbf{x})
+=
+\begin{pmatrix}
+\displaystyle\frac{\partial F_1}{\partial x_1}
+&amp;
+\displaystyle\frac{\partial F_1}{\partial x_2}
+&amp;
+\cdots
+&amp;
+\displaystyle\frac{\partial F_1}{\partial x_n}
+\\[2mm]
+\displaystyle\frac{\partial F_2}{\partial x_1}
+&amp;
+\displaystyle\frac{\partial F_2}{\partial x_2}
+&amp;
+\cdots
+&amp;
+\displaystyle\frac{\partial F_2}{\partial x_n}
+\\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots\\
+\displaystyle\frac{\partial F_m}{\partial x_1}
+&amp;
+\displaystyle\frac{\partial F_m}{\partial x_2}
+&amp;
+\cdots
+&amp;
+\displaystyle\frac{\partial F_m}{\partial x_n}
+\end{pmatrix}.
+\end{split}\]</div>
+<p>Ogni riga della matrice jacobiana contiene le derivate parziali di una componente della funzione.</p>
+<section id="id11">
+<h3>Esempio 1<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<p>Consideriamo</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+F(x,y)
+=
+\begin{pmatrix}
+x^2+y\\
+xy
+\end{pmatrix}.
+\end{split}\]</div>
+<p>Le componenti sono</p>
+<div class="math notranslate nohighlight">
+\[
+F_1(x,y)=x^2+y,
+\qquad
+F_2(x,y)=xy.
+\]</div>
+<p>Le loro derivate parziali sono</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial F_1}{\partial x}=2x,
+\qquad
+\frac{\partial F_1}{\partial y}=1,
+\]</div>
+<p>e</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial F_2}{\partial x}=y,
+\qquad
+\frac{\partial F_2}{\partial y}=x.
+\]</div>
+<p>La matrice jacobiana è</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+J_F(x,y)
+=
+\begin{pmatrix}
+2x &amp; 1\\
+y &amp; x
+\end{pmatrix}.
+\end{split}\]</div>
+<p>Nel punto <span class="math notranslate nohighlight">\((1,2)\)</span> si ottiene</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+J_F(1,2)
+=
+\begin{pmatrix}
+2 &amp; 1\\
+2 &amp; 1
+\end{pmatrix}.
+\end{split}\]</div>
+</section>
+<section id="id12">
+<h3>Esempio 2<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
+<p>Sia</p>
+<div class="math notranslate nohighlight">
+\[
+F:\mathbb{R}^2\longrightarrow\mathbb{R}^3
+\]</div>
+<p>definita da</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+F(x,y)
+=
+\begin{pmatrix}
+x+y\\
+x^2-y^2\\
+e^{xy}
+\end{pmatrix}.
+\end{split}\]</div>
+<p>La matrice jacobiana ha tre righe e due colonne:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+J_F(x,y)
+=
+\begin{pmatrix}
+1 &amp; 1\\
+2x &amp; -2y\\
+ye^{xy} &amp; xe^{xy}
+\end{pmatrix}.
+\end{split}\]</div>
+</section>
+<section id="id13">
+<h3>Esempio 3<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
+<p>Sia</p>
+<div class="math notranslate nohighlight">
+\[
+F:\mathbb{R}^3\longrightarrow\mathbb{R}^2
+\]</div>
+<p>definita da</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+F(x,y,z)
+=
+\begin{pmatrix}
+xy+z\\
+x^2+y^2+z^2
+\end{pmatrix}.
+\end{split}\]</div>
+<p>La matrice jacobiana è</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+J_F(x,y,z)
+=
+\begin{pmatrix}
+y &amp; x &amp; 1\\
+2x &amp; 2y &amp; 2z
+\end{pmatrix}.
+\end{split}\]</div>
+</section>
+<section id="relazione-tra-gradiente-e-jacobiano">
+<h3>Relazione tra gradiente e jacobiano<a class="headerlink" href="#relazione-tra-gradiente-e-jacobiano" title="Link to this heading">#</a></h3>
+<p>Il gradiente può essere visto come un caso particolare della matrice jacobiana.</p>
+<p>Se</p>
+<div class="math notranslate nohighlight">
+\[
+f:\mathbb{R}^n\longrightarrow\mathbb{R},
+\]</div>
+<p>allora la matrice jacobiana di <span class="math notranslate nohighlight">\(f\)</span> ha una sola riga:</p>
+<div class="math notranslate nohighlight">
+\[
+J_f(\mathbf{x})
+=
+\begin{pmatrix}
+\displaystyle\frac{\partial f}{\partial x_1}
+&amp;
+\displaystyle\frac{\partial f}{\partial x_2}
+&amp;
+\cdots
+&amp;
+\displaystyle\frac{\partial f}{\partial x_n}
+\end{pmatrix}.
+\]</div>
+<p>Con la convenzione secondo cui il gradiente è un vettore colonna, si ha</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla f(\mathbf{x})=J_f(\mathbf{x})^T.
+\]</div>
+</section>
+<section id="interpretazione-dello-jacobiano">
+<h3>Interpretazione dello jacobiano<a class="headerlink" href="#interpretazione-dello-jacobiano" title="Link to this heading">#</a></h3>
+<p>La matrice jacobiana descrive come varia localmente una funzione vettoriale.</p>
+<p>Vicino a un punto <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>, una funzione differenziabile può essere approssimata mediante</p>
+<div class="math notranslate nohighlight">
+\[
+F(\mathbf{x}+\mathbf{h})
+\approx
+F(\mathbf{x})+J_F(\mathbf{x})\mathbf{h}.
+\]</div>
+<p>Lo jacobiano rappresenta quindi la migliore approssimazione lineare della funzione in un intorno del punto.</p>
+<p>Questa idea generalizza la formula in una variabile</p>
+<div class="math notranslate nohighlight">
+\[
+f(x+h)\approx f(x)+f'(x)h.
+\]</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="esempio-riassuntivo">
+<h2>Esempio riassuntivo<a class="headerlink" href="#esempio-riassuntivo" title="Link to this heading">#</a></h2>
+<p>Consideriamo la funzione scalare</p>
+<div class="math notranslate nohighlight">
+\[
+f(x,y)=x^2y+\sin y.
+\]</div>
+<p>Le derivate parziali prime sono</p>
+<div class="math notranslate nohighlight">
+\[
+f_x(x,y)=2xy,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+f_y(x,y)=x^2+\cos y.
+\]</div>
+<p>Il gradiente è</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla f(x,y)
+=
+\begin{pmatrix}
+2xy\\
+x^2+\cos y
+\end{pmatrix}.
+\end{split}\]</div>
+<p>Le derivate seconde sono</p>
+<div class="math notranslate nohighlight">
+\[
+f_{xx}(x,y)=2y,
+\qquad
+f_{xy}(x,y)=2x,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+f_{yx}(x,y)=2x,
+\qquad
+f_{yy}(x,y)=-\sin y.
+\]</div>
+<p>La matrice hessiana è</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla^2 f(x,y)
+=
+\begin{pmatrix}
+2y &amp; 2x\\
+2x &amp; -\sin y
+\end{pmatrix}.
+\end{split}\]</div>
+<p>Consideriamo ora la funzione vettoriale</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+F(x,y)
+=
+\begin{pmatrix}
+x^2y+\sin y\\
+x+y^2
+\end{pmatrix}.
+\end{split}\]</div>
+<p>La matrice jacobiana è</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+J_F(x,y)
+=
+\begin{pmatrix}
+2xy &amp; x^2+\cos y\\
+1 &amp; 2y
+\end{pmatrix}.
+\end{split}\]</div>
+<p>In sintesi:</p>
+<ul class="simple">
+<li><p>il gradiente riguarda una funzione scalare e raccoglie le derivate parziali prime;</p></li>
+<li><p>la matrice hessiana riguarda una funzione scalare e raccoglie le derivate parziali seconde;</p></li>
+<li><p>la matrice jacobiana riguarda una funzione vettoriale e raccoglie le derivate parziali prime di tutte le sue componenti.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="esercizi">
+<h2>Esercizi<a class="headerlink" href="#esercizi" title="Link to this heading">#</a></h2>
+<section id="esercizio-1">
+<h3>Esercizio 1<a class="headerlink" href="#esercizio-1" title="Link to this heading">#</a></h3>
+<p>Determinare il dominio delle seguenti funzioni:</p>
+<div class="math notranslate nohighlight">
+\[
+f_1(x,y)=\sqrt{4-x^2-y^2},
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+f_2(x,y)=\log(x+y),
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+f_3(x,y)=\frac{1}{x^2+y^2-1}.
+\]</div>
+</section>
+<section id="esercizio-2">
+<h3>Esercizio 2<a class="headerlink" href="#esercizio-2" title="Link to this heading">#</a></h3>
+<p>Calcolare le derivate parziali prime delle funzioni:</p>
+<div class="math notranslate nohighlight">
+\[
+f_1(x,y)=x^3y+2xy^2,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+f_2(x,y)=\sin(xy),
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+f_3(x,y,z)=xyz+x^2z.
+\]</div>
+</section>
+<section id="esercizio-3">
+<h3>Esercizio 3<a class="headerlink" href="#esercizio-3" title="Link to this heading">#</a></h3>
+<p>Calcolare il gradiente della funzione</p>
+<div class="math notranslate nohighlight">
+\[
+f(x,y)=e^{x+y}+x^2y
+\]</div>
+<p>e valutarlo nel punto <span class="math notranslate nohighlight">\((0,1)\)</span>.</p>
+</section>
+<section id="esercizio-4">
+<h3>Esercizio 4<a class="headerlink" href="#esercizio-4" title="Link to this heading">#</a></h3>
+<p>Calcolare la matrice hessiana della funzione</p>
+<div class="math notranslate nohighlight">
+\[
+f(x,y)=x^3+xy^2+y^4.
+\]</div>
+</section>
+<section id="esercizio-6">
+<h3>Esercizio 6<a class="headerlink" href="#esercizio-6" title="Link to this heading">#</a></h3>
+<p>Calcolare la matrice jacobiana della funzione</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+F(x,y)
+=
+\begin{pmatrix}
+x^2+y^2\\
+xy\\
+e^{x-y}
+\end{pmatrix}.
+\end{split}\]</div>
+</section>
+<section id="esercizio-7">
+<h3>Esercizio 7<a class="headerlink" href="#esercizio-7" title="Link to this heading">#</a></h3>
+<p>Sia</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+F(x,y,z)
+=
+\begin{pmatrix}
+x+y+z\\
+xy+yz\\
+x^2+z^2
+\end{pmatrix}.
+\end{split}\]</div>
+<p>Calcolare <span class="math notranslate nohighlight">\(J_F(x,y,z)\)</span> e valutarlo nel punto <span class="math notranslate nohighlight">\((1,0,-1)\)</span>.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./book"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro_mnpc.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Introduzione al corso Metodi Numerici per il calcolo</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Condizioni_di_ottimalita.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Ottimizzazione numerica: introduzione</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Calcolo multivariato</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#introduzione-al-calcolo-multivariato">Introduzione al calcolo multivariato</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#funzioni-di-piu-variabili">Funzioni di più variabili</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-1">Esempio 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-2">Esempio 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-3">Esempio 3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#una-funzione-di-tre-variabili">Una funzione di tre variabili</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#curve-e-superfici-di-livello">Curve e superfici di livello</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio">Esempio</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#derivate-parziali">Derivate parziali</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Esempio 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Esempio 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Esempio 3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-geometrica">Interpretazione geometrica</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#il-gradiente">Il gradiente</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Esempio</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-del-gradiente">Interpretazione del gradiente</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Esempio</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#derivate-parziali-seconde">Derivate parziali seconde</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Esempio</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-matrice-hessiana">La matrice hessiana</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Esempio 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Esempio 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-dell-hessiano">Interpretazione dell’hessiano</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#funzioni-vettoriali">Funzioni vettoriali</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Esempio 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Esempio 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-matrice-jacobiana">La matrice jacobiana</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Esempio 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Esempio 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Esempio 3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relazione-tra-gradiente-e-jacobiano">Relazione tra gradiente e jacobiano</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-dello-jacobiano">Interpretazione dello jacobiano</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-riassuntivo">Esempio riassuntivo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizi">Esercizi</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio-1">Esercizio 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio-2">Esercizio 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio-3">Esercizio 3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio-4">Esercizio 4</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio-6">Esercizio 6</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio-7">Esercizio 7</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Elena Loli Piccolomini
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

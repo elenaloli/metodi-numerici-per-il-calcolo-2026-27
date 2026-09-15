@@ -1,0 +1,1215 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Stochastic Gradient Descent (SGD) &#8212; Metodi numerici per il calcolo</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'SGD';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo_mnpc.png" class="logo__image only-light" alt="Metodi numerici per il calcolo - Home"/>
+    <script>document.write(`<img src="_static/logo_mnpc.png" class="logo__image only-dark" alt="Metodi numerici per il calcolo - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Metodi numerici per il calcolo
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="book/intro_mnpc.html">Introduzione al corso Metodi Numerici per il calcolo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="book/calcolo_multivariato.html">Calcolo multivariato</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="book/Ottimizzazione.html">Ottimizzazione numerica</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/elenaloli/metodi-numerici-per-il-calcolo-2026-27.git" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/elenaloli/metodi-numerici-per-il-calcolo-2026-27.git/issues/new?title=Issue%20on%20page%20%2FSGD.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/SGD.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Stochastic Gradient Descent (SGD)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#empirical-risk-minimization">Empirical Risk Minimization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-mean-squared-error-mse">Example: Mean Squared Error (MSE)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation-for-stochastic-gradient-descent">Motivation for Stochastic Gradient Descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-sgd-algorithm">The SGD Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-with-full-gradient-descent">Comparison with Full Gradient Descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-implementation">Typical Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#remarks">Remarks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-complete-example-multi-linear-regression-with-gd-and-sgd">A Complete Example: Multi-Linear Regression with GD and SGD</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-dataset">The Dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-definition">1. Problem Definition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preprocessing">2. Data Preprocessing</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-normalization">Data Normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bias-column">The bias column</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-gradient-descent">3. Implementing Gradient Descent</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-stochastic-gradient-descent">4. Implementing Stochastic Gradient Descent</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-comparison">5. Training and Comparison</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">6. Discussion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#questions-for-reflection">7. Questions for Reflection</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adam-adaptive-moment-estimation">Adam: Adaptive Moment Estimation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-adam-on-the-house-prices-dataset">Implementing Adam on the House Prices dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adam-optimizer-with-mini-batches">Adam Optimizer (with mini-batches)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-sgd-vs-adam-with-standardized-data">Comparison: SGD vs. Adam (with standardized data)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Discussion</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="stochastic-gradient-descent-sgd">
+<h1>Stochastic Gradient Descent (SGD)<a class="headerlink" href="#stochastic-gradient-descent-sgd" title="Link to this heading">#</a></h1>
+<p>When training a Machine Learning model, we typically deal with a dataset</p>
+<div class="math notranslate nohighlight">
+\[
+(X, Y) = \{ (x^{(i)}, y^{(i)}) \}_{i=1}^N,
+\]</div>
+<p>and a <strong>parametric model</strong> <span class="math notranslate nohighlight">\( f_\Theta(x) \)</span> whose parameters <span class="math notranslate nohighlight">\(\Theta \in \mathbb{R}^d\)</span> (also called <strong>weights</strong>) must be learned.<br />
+The <strong>training phase</strong> is formulated as an <strong>optimization problem</strong>, where we seek parameters <span class="math notranslate nohighlight">\(\Theta\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[
+f_\Theta(x^{(i)}) \approx y^{(i)} \quad \text{for all } i=1,\dots,N.
+\]</div>
+<p>To quantify this approximation, we introduce a <strong>loss function</strong> <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta) := \mathcal{L}(\Theta; X, Y)\)</span>, which measures how far the model predictions are from the true targets.</p>
+<section id="empirical-risk-minimization">
+<h2>Empirical Risk Minimization<a class="headerlink" href="#empirical-risk-minimization" title="Link to this heading">#</a></h2>
+<p>In most ML problems, the loss can be expressed as a sum (or average) over <strong>sample-wise losses</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(\Theta; X, Y) = \frac{1}{N} \sum_{i=1}^N \ell_i(\Theta; x^{(i)}, y^{(i)}),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\ell_i\)</span> quantifies the error for the <span class="math notranslate nohighlight">\(i\)</span>-th training sample.</p>
+<p>The training optimization problem becomes:</p>
+<div class="math notranslate nohighlight">
+\[
+\Theta^* = \arg\min_\Theta \, \mathcal{L}(\Theta; X, Y)
+         = \arg\min_\Theta \, \frac{1}{N}\sum_{i=1}^N \ell_i(\Theta; x^{(i)}, y^{(i)}).
+\]</div>
+<p>The <strong>Gradient Descent (GD)</strong> method (from previous section) updates the parameters iteratively as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{cases}
+\Theta^{(0)} \in \mathbb{R}^d, \\
+\Theta^{(k+1)} = \Theta^{(k)} - \eta_k \, \nabla_\Theta \mathcal{L}(\Theta^{(k)}; X, Y)
+= \Theta^{(k)} - \eta_k \, \frac{1}{N}\sum_{i=1}^N \nabla_\Theta \ell_i(\Theta^{(k)}; x^{(i)}, y^{(i)}).
+\end{cases}
+\end{split}\]</div>
+<p>Here <span class="math notranslate nohighlight">\(\eta_k &gt; 0\)</span> denotes the <strong>learning rate</strong> (or step size).</p>
+</section>
+<section id="example-mean-squared-error-mse">
+<h2>Example: Mean Squared Error (MSE)<a class="headerlink" href="#example-mean-squared-error-mse" title="Link to this heading">#</a></h2>
+<p>A common loss in regression problems is the <strong>Mean Squared Error (MSE)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(\Theta; X, Y) = \frac{1}{N}\sum_{i=1}^N (f_\Theta(x^{(i)}) - y^{(i)})^2
+= \sum_{i=1}^N \underbrace{\frac{1}{N}(f_\Theta(x^{(i)}) - y^{(i)})^2}_{=: \ell_i(\Theta; x^{(i)}, y^{(i)})}.
+\]</div>
+<p>By the chain rule:</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_\Theta \ell_i(\Theta; x^{(i)}, y^{(i)}) 
+= \frac{2}{N}\,(f_\Theta(x^{(i)}) - y^{(i)}) \, \nabla_\Theta f_\Theta(x^{(i)}),
+\]</div>
+<p>so that:</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_\Theta \mathcal{L}(\Theta; X, Y) 
+= \frac{2}{N}\sum_{i=1}^N (f_\Theta(x^{(i)}) - y^{(i)})\,\nabla_\Theta f_\Theta(x^{(i)}).
+\]</div>
+<p>Therefore, one iteration of Gradient Descent becomes:</p>
+<div class="math notranslate nohighlight">
+\[
+\Theta^{(k+1)} = \Theta^{(k)} - \eta_k \frac{2}{N}\sum_{i=1}^N (f_\Theta(x^{(i)}) - y^{(i)})\,\nabla_\Theta f_\Theta(x^{(i)}).
+\]</div>
+</section>
+<section id="motivation-for-stochastic-gradient-descent">
+<h2>Motivation for Stochastic Gradient Descent<a class="headerlink" href="#motivation-for-stochastic-gradient-descent" title="Link to this heading">#</a></h2>
+<p>While the computation of each <span class="math notranslate nohighlight">\(\nabla_\Theta \ell_i(\Theta; x^{(i)}, y^{(i)})\)</span> is inexpensive, the full gradient <span class="math notranslate nohighlight">\(\nabla_\Theta \mathcal{L}(\Theta; X, Y)\)</span> requires summing over all <span class="math notranslate nohighlight">\(N\)</span> samples, which is a prohibitive cost when <span class="math notranslate nohighlight">\(N\)</span> is very large.</p>
+<p>The <strong>Stochastic Gradient Descent (SGD)</strong> algorithm addresses this by replacing the <strong>exact gradient</strong> with a <strong>stochastic approximation</strong> computed on a random subset of data (a <em>mini-batch</em>).</p>
+</section>
+<section id="the-sgd-algorithm">
+<h2>The SGD Algorithm<a class="headerlink" href="#the-sgd-algorithm" title="Link to this heading">#</a></h2>
+<p>Let <span class="math notranslate nohighlight">\(N_\text{batch} \ll N\)</span> be the <strong>batch size</strong>, and let <span class="math notranslate nohighlight">\(\mathcal{M}_k \subset \{1,\dots,N\}\)</span> denote a random subset of indices such that <span class="math notranslate nohighlight">\(|\mathcal{M}_k| = N_\text{batch}\)</span>.</p>
+<p>At each iteration <span class="math notranslate nohighlight">\(k\)</span>:</p>
+<ol class="arabic">
+<li><p><strong>Sample a mini-batch:</strong><br />
+Randomly select a subset <span class="math notranslate nohighlight">\(\mathcal{M}_k\)</span> (a <strong>batch</strong>) from the dataset (typically without replacement).</p></li>
+<li><p><strong>Compute the approximate gradient:</strong></p>
+<div class="math notranslate nohighlight">
+\[
+   \nabla_\Theta \mathcal{L}(\Theta^{(k)}; \mathcal{M}_k)
+   = \frac{1}{N_\text{batch}}\sum_{i\in\mathcal{M}_k} \nabla_\Theta \ell_i(\Theta^{(k)}; x^{(i)}, y^{(i)}).
+   \]</div>
+</li>
+<li><p><strong>Update the parameters:</strong></p>
+<div class="math notranslate nohighlight">
+\[
+   \Theta^{(k+1)} = \Theta^{(k)} - \eta_k \, \nabla_\Theta \mathcal{L}(\Theta^{(k)}; \mathcal{M}_k).
+   \]</div>
+</li>
+<li><p><strong>Repeat</strong> until all data have been used once.<br />
+When the entire dataset has been processed, we say one <strong>epoch</strong> of SGD has been completed.<br />
+The algorithm is typically run for a fixed number <span class="math notranslate nohighlight">\(E\)</span> of epochs.</p></li>
+</ol>
+<p><img alt="" src="fig/SGD.png" /></p>
+</section>
+<section id="comparison-with-full-gradient-descent">
+<h2>Comparison with Full Gradient Descent<a class="headerlink" href="#comparison-with-full-gradient-descent" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Gradient Descent (GD)</p></th>
+<th class="head"><p>Stochastic Gradient Descent (SGD)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Gradient computation</p></td>
+<td><p>Full dataset</p></td>
+<td><p>Random subset (mini-batch)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Iteration cost</p></td>
+<td><p>High (depends on <span class="math notranslate nohighlight">\(N\)</span>)</p></td>
+<td><p>Low (depends on <span class="math notranslate nohighlight">\(N_\text{batch}\)</span>)</p></td>
+</tr>
+<tr class="row-even"><td><p>Variance</p></td>
+<td><p>Deterministic</p></td>
+<td><p>Stochastic</p></td>
+</tr>
+<tr class="row-odd"><td><p>Convergence</p></td>
+<td><p>Smooth and stable</p></td>
+<td><p>Noisy, but often faster</p></td>
+</tr>
+<tr class="row-even"><td><p>Scalability</p></td>
+<td><p>Poor for large datasets</p></td>
+<td><p>Excellent</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The stochasticity introduces <strong>noise</strong> in the parameter updates, but this noise can help the optimizer <strong>escape shallow local minima</strong> and often improves generalization.</p>
+</section>
+<section id="typical-implementation">
+<h2>Typical Implementation<a class="headerlink" href="#typical-implementation" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">SGD</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">grad_f</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta0</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Simplified Stochastic Gradient Descent (SGD) implementation.</span>
+<span class="sd">    f: loss function, grad_f: gradient wrt Theta</span>
+<span class="sd">    X, Y: dataset</span>
+<span class="sd">    Theta0: initial parameters</span>
+<span class="sd">    lr: learning rate</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Theta</span> <span class="o">=</span> <span class="n">Theta0</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="c1"># Shuffle data indices</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+            <span class="n">batch_idx</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span><span class="o">+</span><span class="n">batch_size</span><span class="p">]</span>
+            <span class="n">grad</span> <span class="o">=</span> <span class="n">grad_f</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">X</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">])</span>
+            <span class="n">Theta</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">grad</span>
+    <span class="k">return</span> <span class="n">Theta</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="remarks">
+<h2>Remarks<a class="headerlink" href="#remarks" title="Link to this heading">#</a></h2>
+<ul>
+<li><p>The <strong>batch size</strong> controls the trade-off between computational cost and gradient accuracy.<br />
+Small batches introduce more stochastic noise; large batches approach full GD behavior.</p></li>
+<li><p>The <strong>learning rate</strong> <span class="math notranslate nohighlight">\(\eta_k\)</span> is usually constant or follows a decaying schedule, e.g.</p>
+<div class="math notranslate nohighlight">
+\[
+  \eta_k = \frac{\eta_0}{1 + \gamma_k}, \quad \gamma &gt; 0.
+  \]</div>
+</li>
+<li><p>In practice, modern optimizers (e.g. Adam, RMSProp) extend SGD with adaptive step-sizes and momentum, which we will discuss later in the course.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>Exercise (Mini-Batch Approximation):</strong><br />
+For a <span class="math notranslate nohighlight">\(d\)</span>-dimensional input vector <span class="math notranslate nohighlight">\(x^{(i)}\)</span>, consider the function</p>
+<div class="math notranslate nohighlight">
+\[
+&gt; \mathcal{L}(\Theta; X, Y) = \frac{1}{N}\sum_{i=1}^N (\Theta^T x^{(i)} - y^{(i)})^2,
+&gt; \]</div>
+<p>where <span class="math notranslate nohighlight">\(\Theta \in \mathbb{R}^d\)</span>.</p>
+<ol class="arabic simple">
+<li><p>For <span class="math notranslate nohighlight">\(d = 1\)</span>, define a synthetic dataset <span class="math notranslate nohighlight">\(X, Y\)</span> where <span class="math notranslate nohighlight">\(X\)</span> is a set of <span class="math notranslate nohighlight">\(N = 100\)</span> evenly-spaced elements in the range <span class="math notranslate nohighlight">\([0, 1]\)</span>, while <span class="math notranslate nohighlight">\(Y = 2X + 1 + e\)</span>, <span class="math notranslate nohighlight">\(e \sim \mathcal{N}(0, 0.01)\)</span>.</p></li>
+<li><p>Implement Gradient Descent and Stochastic Gradient Descent for this loss.</p></li>
+<li><p>Compare the number of iterations and the computational cost.</p></li>
+<li><p>Plot the evolution of the loss across epochs for different batch sizes (<span class="math notranslate nohighlight">\(N_\text{batch} = 1, 10, N\)</span>).</p></li>
+</ol>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Exercise (Variance of the Stochastic Gradient):</strong><br />
+For the same loss of the previous exercise, compute the gradient over multiple random batches <span class="math notranslate nohighlight">\(\mathcal{M}_k\)</span> of the same size, and compare:</p>
+<div class="math notranslate nohighlight">
+\[
+&gt; \mathrm{Var}\big(\nabla_\Theta \mathcal{L}(\Theta; \mathcal{M}_k)\big)
+&gt; \]</div>
+<p>as a function of the batch size.<br />
+Discuss how increasing <span class="math notranslate nohighlight">\(N_\text{batch}\)</span> affects the variance and the convergence stability.</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Exercise (Learning Rate Scheduling):</strong><br />
+Implement SGD on the same dataset with three learning-rate strategies:<br />
+constant <span class="math notranslate nohighlight">\(\eta_k=\eta_0\)</span>, exponentially decaying <span class="math notranslate nohighlight">\(\eta_k = \eta_0 \, e^{-\gamma k}\)</span>, and inverse scaling <span class="math notranslate nohighlight">\(\eta_k = \frac{\eta_0}{1+\gamma k}\)</span>.<br />
+Compare convergence rates and discuss which choice balances speed and stability better.</p>
+</div></blockquote>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>SGD has some drawbacks compared to GD. In particular, there is no way to check whether it reached the convergence (since we can’t obviously compute the gradient of <span class="math notranslate nohighlight">\(\mathcal{L}(\theta; X, Y)\)</span> to check its distance from zero, as it is required for the first Stopping Criteria) and we can’t use the backtracking algorithm, for the same reason. As a consequence, the algorithm will stop ONLY after reaching the fixed number of epochs, and we must set a good value for the step size <span class="math notranslate nohighlight">\(\alpha_k\)</span> by hand. Those problems are partially solved by recent algorithms like SGD with Momentum, Adam, AdaGrad, …</p>
+</div>
+</section>
+<section id="a-complete-example-multi-linear-regression-with-gd-and-sgd">
+<h2>A Complete Example: Multi-Linear Regression with GD and SGD<a class="headerlink" href="#a-complete-example-multi-linear-regression-with-gd-and-sgd" title="Link to this heading">#</a></h2>
+<p>To conclude our discussion on Gradient Descent and its stochastic variant, we now consider a <strong>complete example</strong> where we will implement both algorithms <em>from scratch</em> (i.e., using only <code class="docutils literal notranslate"><span class="pre">numpy</span></code>) to solve a <strong>multi-linear regression</strong> problem on a real dataset.</p>
+<p>This exercise will help you understand how both <strong>Gradient Descent (GD)</strong> and <strong>Stochastic Gradient Descent (SGD)</strong> behave in a real training scenario and how different choices (e.g., batch size, learning rate) affect convergence.</p>
+<section id="the-dataset">
+<h3>The Dataset<a class="headerlink" href="#the-dataset" title="Link to this heading">#</a></h3>
+<p>We will use the <strong>“House Prices – Advanced Regression Techniques”</strong> dataset from Kaggle: <a class="reference external" href="https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques">https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques</a></p>
+<p>The dataset contains various features describing houses (e.g., number of rooms, area, year built) and the <strong>sale price</strong> as the target variable.</p>
+<p>For simplicity, we will use only a few continuous variables, for example:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">LotArea</span></code> (the area of the lot in square feet),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OverallQual</span></code> (an overall quality rating),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">YearBuilt</span></code> (the construction year).</p></li>
+</ul>
+<p>Our goal is to predict the house price <span class="math notranslate nohighlight">\(y\)</span> using a linear model:</p>
+<div class="math notranslate nohighlight">
+\[
+f_\Theta(x) = \Theta^T x,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(x \in \mathbb{R}^d\)</span> is the feature vector (including a bias term), and <span class="math notranslate nohighlight">\(\Theta = [\Theta_1, \Theta_2, \Theta_3] \in \mathbb{R}^d\)</span> are the model parameters.</p>
+</section>
+<section id="problem-definition">
+<h3>1. Problem Definition<a class="headerlink" href="#problem-definition" title="Link to this heading">#</a></h3>
+<p>We define the <strong>Mean Squared Error (MSE)</strong> loss function as:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(\Theta; X, Y) = \frac{1}{N}\sum_{i=1}^N (f_\Theta(x^{(i)}) - y^{(i)})^2
+= \frac{1}{N}\|X\Theta - Y\|_2^2,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(X\)</span> is the data matrix of shape <span class="math notranslate nohighlight">\((N, d)\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> the vector of targets. The gradient of the loss with respect to <span class="math notranslate nohighlight">\(\Theta\)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_\Theta \mathcal{L}(\Theta; X, Y) = \frac{2}{N} X^T (X\Theta - Y).
+\]</div>
+</section>
+<section id="data-preprocessing">
+<h3>2. Data Preprocessing<a class="headerlink" href="#data-preprocessing" title="Link to this heading">#</a></h3>
+<p>The first step is to:</p>
+<ul class="simple">
+<li><p>Load the dataset (you can download the <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file from Kaggle),</p></li>
+<li><p>Select only the numerical columns we are interested in,</p></li>
+<li><p>Normalize them to have mean 0 and variance 1,</p></li>
+<li><p>Add a <strong>bias column</strong> of ones to <span class="math notranslate nohighlight">\(X\)</span>.</p></li>
+</ul>
+<p>Before delving into the implementation details of these steps, let us discuss the motivation for the last two steps.</p>
+<section id="data-normalization">
+<h4>Data Normalization<a class="headerlink" href="#data-normalization" title="Link to this heading">#</a></h4>
+<p>Before applying any gradient-based optimizer (such as Gradient Descent, Stochastic Gradient Descent, or any variant), it is essential to <strong>normalize or standardize the data</strong>, because:</p>
+<ol class="arabic simple">
+<li><p><strong>Balanced feature scales:</strong><br />
+Features measured in different units (e.g., square meters, years, ratings) produce gradients of very different magnitudes, making the loss landscape highly anisotropic and ill-conditioned (as we already saw in the previous section).</p></li>
+<li><p><strong>Faster and smoother convergence:</strong><br />
+Centering and scaling features makes the contours of the loss more spherical, helping gradient-based methods move more directly toward the minimum.</p></li>
+</ol>
+<p>Hence, we always <strong>standardize both the features and the target</strong> in regression tasks:</p>
+<div class="math notranslate nohighlight">
+\[
+x_j \leftarrow \frac{x_j - \mu_j}{\sigma_j}, 
+\quad
+y \leftarrow \frac{y - \mu_y}{\sigma_y}.
+\]</div>
+<p>After training, predictions can be <strong>denormalized</strong> back to the original scale.</p>
+</section>
+<section id="the-bias-column">
+<h4>The bias column<a class="headerlink" href="#the-bias-column" title="Link to this heading">#</a></h4>
+<p>To simplify the implementation of the SGD method and make the resulting algorithm independent on the dimensionality <span class="math notranslate nohighlight">\(d\)</span> of the input space, we consider the <strong>matrix formulation</strong> of the optimization problem, where the model <span class="math notranslate nohighlight">\(f_\Theta(x^{(i)})\)</span> reads:</p>
+<div class="math notranslate nohighlight">
+\[
+f_\Theta(x^{(i)}) = \Theta^T x^{(i)}.
+\]</div>
+<p>Note that, while this formulation leads to more flexible implementation, the resulting model loses access to the <strong>bias</strong> term (sometimes called <strong>quote</strong>) compared to the scalar formulation:</p>
+<div class="math notranslate nohighlight">
+\[
+f_\Theta(x^{(i)}) = \sum_{j=1}^d W_j x_j^{(i)} + b_i.
+\]</div>
+<p>To recover that term, a typical solution is to add an artificial dummy column on <span class="math notranslate nohighlight">\(X\)</span>, composed of all <span class="math notranslate nohighlight">\(1\)</span>s, so that:</p>
+<div class="math notranslate nohighlight">
+\[
+\tilde{X} = [1, X],
+\]</div>
+<p>and:</p>
+<div class="math notranslate nohighlight">
+\[
+f_\Theta(x^{(i)}) = \Theta^T \tilde{x}^{(i)} = \Theta^T [1, x^{(i)}] = \Theta_1 + \Theta_{2:{d+1}}^T x^{(i)},
+\]</div>
+<p>effectively recovering the bias term.</p>
+<p>We can now move to implementing the data preprocessing step for our example problem.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># Load the dataset (download from Kaggle first)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/train.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Select some useful continuous features</span>
+<span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;LotArea&quot;</span><span class="p">,</span> <span class="s2">&quot;OverallQual&quot;</span><span class="p">,</span> <span class="s2">&quot;YearBuilt&quot;</span><span class="p">]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">features</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;SalePrice&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Normalize features</span>
+<span class="n">X</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="o">/</span> <span class="n">X</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">Y</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="o">/</span> <span class="n">Y</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Add bias term</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">])</span>
+<span class="n">N</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset size: </span><span class="si">{</span><span class="n">N</span><span class="si">}</span><span class="s2"> samples, </span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2"> features (including bias)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="c1"># Load the dataset (download from Kaggle first)</span>
+<span class="ne">----&gt; </span><span class="mi">5</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/train.csv&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="c1"># Select some useful continuous features</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;LotArea&quot;</span><span class="p">,</span> <span class="s2">&quot;OverallQual&quot;</span><span class="p">,</span> <span class="s2">&quot;YearBuilt&quot;</span><span class="p">]</span>
+
+<span class="nn">File /opt/anaconda3/envs/libro/lib/python3.13/site-packages/pandas/io/parsers/readers.py:873,</span> in <span class="ni">read_csv</span><span class="nt">(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, skip_blank_lines, parse_dates, date_format, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, on_bad_lines, low_memory, memory_map, float_precision, storage_options, dtype_backend)</span>
+<span class="g g-Whitespace">    </span><span class="mi">861</span> <span class="n">kwds_defaults</span> <span class="o">=</span> <span class="n">_refine_defaults_read</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">862</span>     <span class="n">dialect</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">863</span>     <span class="n">delimiter</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>    <span class="mi">869</span>     <span class="n">dtype_backend</span><span class="o">=</span><span class="n">dtype_backend</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">870</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">871</span> <span class="n">kwds</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwds_defaults</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">873</span> <span class="k">return</span> <span class="n">_read</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
+
+<span class="nn">File /opt/anaconda3/envs/libro/lib/python3.13/site-packages/pandas/io/parsers/readers.py:300,</span> in <span class="ni">_read</span><span class="nt">(filepath_or_buffer, kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">297</span> <span class="n">_validate_names</span><span class="p">(</span><span class="n">kwds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;names&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">299</span> <span class="c1"># Create the parser.</span>
+<span class="ne">--&gt; </span><span class="mi">300</span> <span class="n">parser</span> <span class="o">=</span> <span class="n">TextFileReader</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">302</span> <span class="k">if</span> <span class="n">chunksize</span> <span class="ow">or</span> <span class="n">iterator</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">303</span>     <span class="k">return</span> <span class="n">parser</span>
+
+<span class="nn">File /opt/anaconda3/envs/libro/lib/python3.13/site-packages/pandas/io/parsers/readers.py:1645,</span> in <span class="ni">TextFileReader.__init__</span><span class="nt">(self, f, engine, **kwds)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1642</span>     <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwds</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1644</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="p">:</span> <span class="n">IOHandles</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="ne">-&gt; </span><span class="mi">1645</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_engine</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span>
+
+<span class="nn">File /opt/anaconda3/envs/libro/lib/python3.13/site-packages/pandas/io/parsers/readers.py:1904,</span> in <span class="ni">TextFileReader._make_engine</span><span class="nt">(self, f, engine)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1902</span>     <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mode</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1903</span>         <span class="n">mode</span> <span class="o">+=</span> <span class="s2">&quot;b&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">1904</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="o">=</span> <span class="n">get_handle</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1905</span>     <span class="n">f</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1906</span>     <span class="n">mode</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1907</span>     <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1908</span>     <span class="n">compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compression&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1909</span>     <span class="n">memory_map</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;memory_map&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1910</span>     <span class="n">is_text</span><span class="o">=</span><span class="n">is_text</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1911</span>     <span class="n">errors</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding_errors&quot;</span><span class="p">,</span> <span class="s2">&quot;strict&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1912</span>     <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storage_options&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1913</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1914</span> <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="g g-Whitespace">   </span><span class="mi">1915</span> <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="o">.</span><span class="n">handle</span>
+
+<span class="nn">File /opt/anaconda3/envs/libro/lib/python3.13/site-packages/pandas/io/common.py:930,</span> in <span class="ni">get_handle</span><span class="nt">(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)</span>
+<span class="g g-Whitespace">    </span><span class="mi">925</span> <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">926</span>     <span class="c1"># Check whether the filename is to be opened in binary mode.</span>
+<span class="g g-Whitespace">    </span><span class="mi">927</span>     <span class="c1"># Binary mode does not support &#39;encoding&#39; and &#39;newline&#39;.</span>
+<span class="g g-Whitespace">    </span><span class="mi">928</span>     <span class="k">if</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span> <span class="ow">and</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">929</span>         <span class="c1"># Encoding</span>
+<span class="ne">--&gt; </span><span class="mi">930</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">931</span>             <span class="n">handle</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">932</span>             <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">933</span>             <span class="n">encoding</span><span class="o">=</span><span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">934</span>             <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">935</span>             <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">936</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">937</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">938</span>         <span class="c1"># Binary mode</span>
+<span class="g g-Whitespace">    </span><span class="mi">939</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;data/train.csv&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="implementing-gradient-descent">
+<h3>3. Implementing Gradient Descent<a class="headerlink" href="#implementing-gradient-descent" title="Link to this heading">#</a></h3>
+<p>We now implement Gradient Descent using the formula</p>
+<div class="math notranslate nohighlight">
+\[
+\Theta^{(k+1)} = \Theta^{(k)} - \eta_k \, \nabla_\Theta \mathcal{L}(\Theta^{(k)}; X, Y).
+\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">l</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+    <span class="n">residuals</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">Theta</span> <span class="o">-</span> <span class="n">Y</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">residuals</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">grad_l</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">Theta</span> <span class="o">-</span> <span class="n">Y</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">gradient_descent</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">grad_l</span><span class="p">,</span> <span class="n">Theta0</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
+    <span class="n">Theta</span> <span class="o">=</span> <span class="n">Theta0</span>
+    <span class="n">losses</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="n">grad_l</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+        <span class="n">Theta</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">grad</span>
+        <span class="n">losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">Theta</span><span class="p">,</span> <span class="n">losses</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="implementing-stochastic-gradient-descent">
+<h3>4. Implementing Stochastic Gradient Descent<a class="headerlink" href="#implementing-stochastic-gradient-descent" title="Link to this heading">#</a></h3>
+<p>For SGD, at each iteration we approximate the full gradient by sampling a random <strong>mini-batch</strong> <span class="math notranslate nohighlight">\(\mathcal{M}_k\)</span> of size <span class="math notranslate nohighlight">\(N_\text{batch}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_\Theta \mathcal{L}(\Theta; \mathcal{M}_k) = \frac{2}{N_\text{batch}} X_{\mathcal{M}_k}^T (X_{\mathcal{M}_k}\Theta - Y_{\mathcal{M}_k}).
+\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sgd</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">grad_l</span><span class="p">,</span> <span class="n">Theta0</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
+    <span class="n">Theta</span> <span class="o">=</span> <span class="n">Theta0</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+    <span class="n">losses</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+            <span class="n">batch_idx</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span><span class="o">+</span><span class="n">batch_size</span><span class="p">]</span>
+            <span class="n">Xb</span><span class="p">,</span> <span class="n">Yb</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
+            <span class="n">grad</span> <span class="o">=</span> <span class="n">grad_l</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">Xb</span><span class="p">,</span> <span class="n">Yb</span><span class="p">)</span>
+            <span class="n">Theta</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">grad</span>
+        <span class="n">losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">Theta</span><span class="p">,</span> <span class="n">losses</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="training-and-comparison">
+<h3>5. Training and Comparison<a class="headerlink" href="#training-and-comparison" title="Link to this heading">#</a></h3>
+<p>We can now train both algorithms and compare their convergence.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run both GD and SGD</span>
+<span class="n">Theta_gd</span><span class="p">,</span> <span class="n">loss_gd</span> <span class="o">=</span> <span class="n">gradient_descent</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">grad_l</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span><span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">Theta_sgd</span><span class="p">,</span> <span class="n">loss_sgd</span> <span class="o">=</span> <span class="n">sgd</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">grad_l</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loss_gd</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;GD&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loss_sgd</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;SGD&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epochs&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Convergence of GD vs. SGD&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/23fc11bfa74b0fe7537a8ee644ca089927cbb17b9ead651d75a7ae01c4dfb004.png" src="_images/23fc11bfa74b0fe7537a8ee644ca089927cbb17b9ead651d75a7ae01c4dfb004.png" />
+</div>
+</div>
+</section>
+<section id="discussion">
+<h3>6. Discussion<a class="headerlink" href="#discussion" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Gradient Descent (GD)</strong> computes the exact gradient at each iteration, ensuring smooth convergence, but is computationally expensive for large datasets.</p></li>
+<li><p><strong>SGD</strong>, by using mini-batches, introduces stochastic noise in the updates but drastically reduces computational cost per iteration.<br />
+This noise can even <strong>help</strong> avoid getting stuck in local minima (for non-convex problems) and improves generalization.</p></li>
+<li><p>The <strong>learning rate</strong> and <strong>batch size</strong> jointly control the trade-off between convergence speed and stability.</p></li>
+</ul>
+<p>You should experiment with:</p>
+<ul class="simple">
+<li><p>Different values of <code class="docutils literal notranslate"><span class="pre">lr</span></code> (e.g., <code class="docutils literal notranslate"><span class="pre">1e-2</span></code>, <code class="docutils literal notranslate"><span class="pre">5e-4</span></code>),</p></li>
+<li><p>Different batch sizes (<code class="docutils literal notranslate"><span class="pre">N_batch</span> <span class="pre">=</span> <span class="pre">1,</span> <span class="pre">32,</span> <span class="pre">128,</span> <span class="pre">N</span></code>),</p></li>
+</ul>
+</section>
+<section id="questions-for-reflection">
+<h3>7. Questions for Reflection<a class="headerlink" href="#questions-for-reflection" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Compare the convergence curves of GD and SGD. Which is smoother? Which converges faster in terms of time per epoch?</p></li>
+<li><p>How does batch size influence the final convergence point and oscillations?</p></li>
+<li><p>If you replace the fixed learning rate with a decaying schedule (e.g. <span class="math notranslate nohighlight">\(\eta_k = \frac{\eta_0}{1+k}\)</span>), how does the behavior change?</p></li>
+<li><p>Compute the norm of the final gradient <span class="math notranslate nohighlight">\(\|\nabla_\Theta \mathcal{L}(\Theta^{(E)}; X, Y)\|\)</span> for both algorithms and interpret its value.</p></li>
+<li><p>Plot the value of <span class="math notranslate nohighlight">\(\|\nabla_\Theta \mathcal{L}(\Theta^{(k)}; X, Y)\|\)</span> along the iterations for the two methods and discuss the behavior.</p></li>
+</ol>
+<p>This exercise consolidates all the concepts discussed so far:</p>
+<ul class="simple">
+<li><p>decomposition of the loss as a sum over samples,</p></li>
+<li><p>explicit computation of gradients,</p></li>
+<li><p>iterative updates via Gradient Descent and SGD,</p></li>
+<li><p>and the trade-offs between accuracy, stability, and computational cost.</p></li>
+</ul>
+</section>
+</section>
+<section id="adam-adaptive-moment-estimation">
+<h2>Adam: Adaptive Moment Estimation<a class="headerlink" href="#adam-adaptive-moment-estimation" title="Link to this heading">#</a></h2>
+<p><strong>Adam</strong> is an optimization algorithm that improves on standard SGD by using both <strong>momentum</strong> (to accelerate convergence) and <strong>adaptive learning rates</strong> (to handle parameters with different scales).</p>
+<p>Given a stochastic gradient at iteration <span class="math notranslate nohighlight">\(k\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+g^{(k)} \;=\; \nabla_\Theta \mathcal{L}\big(\Theta^{(k)}; \mathcal{M}_k\big),
+\]</div>
+<p>Adam maintains two <strong>exponential moving averages (EMAs)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+m^{(k)} &amp;= \beta_1\, m^{(k-1)} + (1-\beta_1)\, g^{(k)} &amp;&amp;\text{(first moment: mean of gradients)}\\[4pt]
+v^{(k)} &amp;= \beta_2\, v^{(k-1)} + (1-\beta_2)\, (g^{(k)})^2 &amp;&amp;\text{(second moment: variance of gradients)}
+\end{aligned}
+\end{split}\]</div>
+<p>After correcting the initialization bias:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat m^{(k)} = \frac{m^{(k)}}{1-\beta_1^k}, 
+\qquad 
+\hat v^{(k)} = \frac{v^{(k)}}{1-\beta_2^k},
+\]</div>
+<p>the parameter update is:</p>
+<div class="math notranslate nohighlight">
+\[
+\Theta^{(k+1)} = \Theta^{(k)} - \eta\, \frac{\hat m^{(k)}}{\sqrt{\hat v^{(k)}} + \varepsilon} g^{(k)}.
+\]</div>
+<p>Typical choices: <span class="math notranslate nohighlight">\(\beta_1=0.9, \; \beta_2=0.999, \; \varepsilon = 10^{-8}\)</span>.</p>
+<section id="implementing-adam-on-the-house-prices-dataset">
+<h3>Implementing Adam on the House Prices dataset<a class="headerlink" href="#implementing-adam-on-the-house-prices-dataset" title="Link to this heading">#</a></h3>
+<p>We reuse the Kaggle <em>House Prices</em> dataset and we solve the same optimization problem as before with Adam.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># Load the dataset</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/train.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Select features</span>
+<span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;LotArea&quot;</span><span class="p">,</span> <span class="s2">&quot;OverallQual&quot;</span><span class="p">,</span> <span class="s2">&quot;YearBuilt&quot;</span><span class="p">]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">features</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;SalePrice&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Normalize the data</span>
+<span class="n">X_mean</span><span class="p">,</span> <span class="n">X_std</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">X</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">Y_mean</span><span class="p">,</span> <span class="n">Y_std</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">Y</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">X_mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">X_std</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">Y_mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">Y_std</span>
+
+<span class="c1"># Add bias column</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">])</span>
+<span class="n">N</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">l</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="n">residuals</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">Theta</span> <span class="o">-</span> <span class="n">Y</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">residuals</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">grad_l</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">Theta</span> <span class="o">-</span> <span class="n">Y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="adam-optimizer-with-mini-batches">
+<h3>Adam Optimizer (with mini-batches)<a class="headerlink" href="#adam-optimizer-with-mini-batches" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">adam</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> 
+        <span class="n">grad_l</span><span class="p">,</span>
+        <span class="n">Theta0</span><span class="p">,</span> 
+        <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> 
+        <span class="n">beta1</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="mf">0.999</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
+        <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> 
+        <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> 
+        <span class="n">epochs</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
+    <span class="n">N</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">Theta</span> <span class="o">=</span> <span class="n">Theta0</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">Theta</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">Theta</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">losses</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+            <span class="n">batch_idx</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span><span class="o">+</span><span class="n">batch_size</span><span class="p">]</span>
+            <span class="n">Xb</span><span class="p">,</span> <span class="n">Yb</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="n">grad_l</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">Xb</span><span class="p">,</span> <span class="n">Yb</span><span class="p">)</span>
+
+            <span class="c1"># Adam updates</span>
+            <span class="n">t</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">m</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">)</span> <span class="o">*</span> <span class="n">g</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">beta2</span> <span class="o">*</span> <span class="n">v</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">beta2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">g</span> <span class="o">*</span> <span class="n">g</span><span class="p">)</span>
+            <span class="n">m_hat</span> <span class="o">=</span> <span class="n">m</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">beta1</span><span class="o">**</span><span class="n">t</span><span class="p">)</span>
+            <span class="n">v_hat</span> <span class="o">=</span> <span class="n">v</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">beta2</span><span class="o">**</span><span class="n">t</span><span class="p">)</span>
+            <span class="n">Theta</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="p">(</span><span class="n">m_hat</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v_hat</span><span class="p">)</span> <span class="o">+</span> <span class="n">eps</span><span class="p">))</span>
+
+        <span class="n">losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">Theta</span><span class="p">,</span> <span class="n">losses</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="comparison-sgd-vs-adam-with-standardized-data">
+<h3>Comparison: SGD vs. Adam (with standardized data)<a class="headerlink" href="#comparison-sgd-vs-adam-with-standardized-data" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Train both</span>
+<span class="n">Theta_sgd</span><span class="p">,</span> <span class="n">loss_sgd</span> <span class="o">=</span> <span class="n">sgd</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">grad_l</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">Theta_adam</span><span class="p">,</span> <span class="n">loss_adam</span> <span class="o">=</span> <span class="n">adam</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">grad_l</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loss_sgd</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;SGD&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loss_adam</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Adam&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Normalized MSE Loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;SGD vs. Adam on Standardized Data&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/44e2f1bed16dbd6e6a525b8960e7bb9a752772ce7eb038ad09f2eb29dc04cd81.png" src="_images/44e2f1bed16dbd6e6a525b8960e7bb9a752772ce7eb038ad09f2eb29dc04cd81.png" />
+</div>
+</div>
+</section>
+<section id="id1">
+<h3>Discussion<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>After standardization:</p>
+<ul class="simple">
+<li><p>Both <strong>SGD</strong> and <strong>Adam</strong> converge smoothly and to nearly identical minima.</p></li>
+<li><p><strong>Adam</strong> usually shows faster initial loss reduction due to its adaptive scaling of gradients.</p></li>
+<li><p>Without normalization, the gradient magnitudes differ across parameters, causing Adam’s per-parameter learning rates to explode or vanish.</p></li>
+<li><p>In normalized space, the curvature of the loss is more uniform, allowing adaptive methods like Adam to perform as intended.</p></li>
+</ul>
+<p>Finally, when producing predictions in the original scale, remember to <strong>denormalize</strong> the output:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{y}_\text{real} = \hat{y}_\text{normalized} \cdot \sigma_Y + \mu_Y.
+\]</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#empirical-risk-minimization">Empirical Risk Minimization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-mean-squared-error-mse">Example: Mean Squared Error (MSE)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation-for-stochastic-gradient-descent">Motivation for Stochastic Gradient Descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-sgd-algorithm">The SGD Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-with-full-gradient-descent">Comparison with Full Gradient Descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-implementation">Typical Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#remarks">Remarks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-complete-example-multi-linear-regression-with-gd-and-sgd">A Complete Example: Multi-Linear Regression with GD and SGD</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-dataset">The Dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-definition">1. Problem Definition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preprocessing">2. Data Preprocessing</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-normalization">Data Normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bias-column">The bias column</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-gradient-descent">3. Implementing Gradient Descent</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-stochastic-gradient-descent">4. Implementing Stochastic Gradient Descent</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-comparison">5. Training and Comparison</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">6. Discussion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#questions-for-reflection">7. Questions for Reflection</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adam-adaptive-moment-estimation">Adam: Adaptive Moment Estimation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-adam-on-the-house-prices-dataset">Implementing Adam on the House Prices dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adam-optimizer-with-mini-batches">Adam Optimizer (with mini-batches)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-sgd-vs-adam-with-standardized-data">Comparison: SGD vs. Adam (with standardized data)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Discussion</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Elena Loli Piccolomini
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

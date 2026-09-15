@@ -1,0 +1,16 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+chapters:
+- file: book/intro_mnpc
+- file: book/calcolo_multivariato
+- file: book/Ottimizzazione
+#- file: book/intro_algebra lineare
+#- file: book/svd_eigs
+#- file: book/minimi-quadrati
+#- file: book/analisi_dati_regr
+#- file: book/equazioni_differenziali
+#- file: book/convoluzioni?
+

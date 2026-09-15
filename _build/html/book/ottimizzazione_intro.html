@@ -1,0 +1,743 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Ottimizzazione numerica: introduzione &#8212; Metodi numerici per il calcolo</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'book/ottimizzazione_intro';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Metodi numerici per il calcolo - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Metodi numerici per il calcolo - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Metodi numerici per il calcolo
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro_mnpc.html">Introduzione al corso Metodi Numerici per il calcolo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calcolo_multivariato.html">Calcolo multivariato</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Condizioni_di_ottimalita.html">Ottimizzazione numerica: introduzione</a></li>
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="Metodi_di_discesa.html">Metodi di discesa</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fbook/ottimizzazione_intro.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/book/ottimizzazione_intro.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Ottimizzazione numerica: introduzione</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Ottimizzazione numerica: introduzione</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definizioni-punti-di-minimo">Definizioni: punti di minimo</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#applicazione-una-funzione-di-costo">Applicazione: una funzione di costo</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#schema-riassuntivo">Schema riassuntivo</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio-5">Esercizio 5</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="ottimizzazione-numerica-introduzione">
+<h1>Ottimizzazione numerica: introduzione<a class="headerlink" href="#ottimizzazione-numerica-introduzione" title="Link to this heading">#</a></h1>
+<p>L’ottimizzazione è il settore della matematica che studia come individuare la soluzione migliore tra tutte quelle possibili. In termini matematici, questo significa spesso determinare il punto in cui una funzione assume il suo valore minimo o massimo. I problemi di minimo sono particolarmente importanti perché molte situazioni reali possono essere descritte come la ricerca della configurazione che riduce al minimo un costo, un errore, un consumo di risorse o una distanza rispetto a un obiettivo.</p>
+<p>Esempi di problemi di ottimizzazione compaiono in moltissimi ambiti. Nell’ingegneria si cerca di progettare strutture efficienti e resistenti utilizzando la minore quantità possibile di materiale. Nella logistica si vogliono ridurre i tempi e i costi di trasporto. Nell’elaborazione delle immagini si cerca una ricostruzione che sia allo stesso tempo fedele ai dati osservati e priva di rumore. In economia si ottimizzano profitti, investimenti e allocazione delle risorse.</p>
+<p>L’ottimizzazione riveste un ruolo centrale anche nell’analisi dei dati, nel machine learning e nelle reti neurali. In questi contesti si introduce generalmente una funzione di costo, o funzione di perdita, che misura quanto le previsioni del modello siano lontane dai valori desiderati. Addestrare un modello significa quindi trovare i valori dei suoi parametri che rendono questa funzione il più piccola possibile.</p>
+<p>Nel caso di una rete neurale, i parametri da determinare sono i pesi e i bias dei diversi strati. Poiché il loro numero può essere molto elevato, il problema di ottimizzazione è generalmente multidimensionale. Il gradiente della funzione di costo indica la direzione in cui la funzione cresce più rapidamente; muovendosi nella direzione opposta si cerca quindi di ridurne il valore. Questa idea è alla base del metodo del gradiente discendente e di molti degli algoritmi utilizzati per l’addestramento delle reti neurali.</p>
+<p>Lo studio del gradiente, della matrice hessiana e delle derivate di funzioni di più variabili permette quindi non solo di descrivere il comportamento locale di una funzione, ma anche di costruire metodi numerici in grado di individuare in modo efficiente punti di minimo.</p>
+<p>Data una funzione</p>
+<div class="math notranslate nohighlight">
+\[ 
+f:\Omega \subset R^n \rightarrow R 
+\]</div>
+<p>matematicamente il problema si formula come un problema di minimo.</p>
+<div class="math notranslate nohighlight">
+\[
+argmin_{x \in \Omega} f(x)
+\]</div>
+<p>oppure di massimo:</p>
+<div class="math notranslate nohighlight">
+\[
+argmax_{x \in \Omega} f(x)
+\]</div>
+<p>cioè si ricerca l’ascissa del punto di minimo o di massimo della funzione.</p>
+<p>I due problemi sono equivalenti semplicemente cambiando il segno della funzione, cioè se <span class="math notranslate nohighlight">\(f(x)\)</span> è continua e limitata,</p>
+<div class="math notranslate nohighlight">
+\[
+argimn_{x \in \Omega} f(x)=argmax_{x \in \Omega} -f(x).
+\]</div>
+<p>Quindi di solito si studia solo il problema di minimizzare una funzione, al quale ci si può sempre facilmente ricondurre.</p>
+<p>L’insieme <span class="math notranslate nohighlight">\(\Omega\)</span>, spesso detto insieme dei valori accettabili o insieme dei vincoli, descrive sotto quali ipotesi la soluzione
+del problema deve sottostare per essere dichiarata accettabile.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Quanto appena descritto rappresenta un procedimento chiamato <strong>modellizzazione matematica</strong>, in cui un processo viene descritto matematicamente assegnando delle variabili e delle funzioni ai vari elementi del processo. Questo tipo di approccio è tipico di praticamente qualunque applicazione, ed è necessario prenderci la mano per capire bene il resto del corso.</p>
+</div>
+<p>In base alla forma dell’insieme <span class="math notranslate nohighlight">\(\Omega\)</span> dei vincoli, oltre che alle proprietà matematiche della funzione obiettivo <span class="math notranslate nohighlight">\(f(x)\)</span>, i problemi di ottimizzazione si classificano in varie categorie.</p>
+<p>Partendo dalla scelta di <span class="math notranslate nohighlight">\(\Omega\)</span>, riconosciamo due classi principali:</p>
+<ul class="simple">
+<li><p>Se <span class="math notranslate nohighlight">\(\Omega = \mathbb{R}^n\)</span>, allora diciamo che il problema è <strong>non vincolato</strong> (<em>unconstrained</em>, in Inglese)</p></li>
+<li><p>Se <span class="math notranslate nohighlight">\(\Omega \subset \mathbb{R}^n\)</span>, allora diciamo che il problema è <strong>vincolato</strong> (<em>constrained</em>, in Inglese)</p></li>
+</ul>
+<p>Ulteriori classificazioni si hanno considerando altre proprietà della funzione obiettivo. Ad esempio:</p>
+<ul class="simple">
+<li><p>Se <span class="math notranslate nohighlight">\(f(x) = x^T w\)</span> è una funzione lineare in <span class="math notranslate nohighlight">\(x\)</span>, allora il problema è detto <strong>lineare</strong>,</p></li>
+<li><p>Se <span class="math notranslate nohighlight">\(f(x) = x^T A x + x^T b\)</span> è una funzione quadratica in <span class="math notranslate nohighlight">\(x\)</span>, allora il problema è detto <strong>quadratico</strong>.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In questo corso tratteremo ottimizzazione non vincolata.</p>
+</div>
+<section id="definizioni-punti-di-minimo">
+<h2>Definizioni: punti di minimo<a class="headerlink" href="#definizioni-punti-di-minimo" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x^*\)</span> è un punto di <strong>minimo locale</strong> di <span class="math notranslate nohighlight">\(f(x)\)</span> se
+esiste un <span class="math notranslate nohighlight">\(\epsilon&gt;0\)</span> tale</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[f(x^*)\leq f(x) \quad \text{per ogni } x \text{ tale che }
+    \|x-x^*\|&lt;\epsilon\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x^*\)</span> è un punto di <strong>minimo locale in senso
+stretto</strong> di <span class="math notranslate nohighlight">\(f(x)\)</span> se esiste un <span class="math notranslate nohighlight">\(\epsilon&gt;0\)</span> tale</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[f(x^*) &lt; f(x) \quad \text{per ogni }  x \text{ tale che }
+    \|x-x^*\|&lt;\epsilon, \quad x\neq x^*\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x^*\)</span> è un punto di <strong>minimo globale</strong> di <span class="math notranslate nohighlight">\(f(x)\)</span> se</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[f(x^*)\leq f(x) \quad \text{per ogni } x \in {R}^n\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x^*\)</span> è un punto di <strong>minimo globale in senso
+stretto</strong> di <span class="math notranslate nohighlight">\(f(x)\)</span> se</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[f(x^*) &lt; f(x) \quad \text{per ogni } x \in {R}^n, \quad x\neq x^*\]</div>
+</section>
+</section>
+<section id="applicazione-una-funzione-di-costo">
+<h1>Applicazione: una funzione di costo<a class="headerlink" href="#applicazione-una-funzione-di-costo" title="Link to this heading">#</a></h1>
+<p>Consideriamo la funzione di costo</p>
+<div class="math notranslate nohighlight">
+\[
+L(w_1,w_2)
+=
+(w_1-1)^2+2(w_2+1)^2.
+\]</div>
+<p>Questa funzione misura la distanza, opportunamente pesata, del vettore <span class="math notranslate nohighlight">\((w_1,w_2)\)</span> dal punto <span class="math notranslate nohighlight">\((1,-1)\)</span>.</p>
+<p>Il gradiente è</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla L(w_1,w_2)
+=
+\begin{pmatrix}
+2(w_1-1)\\
+4(w_2+1)
+\end{pmatrix}.
+\end{split}\]</div>
+<p>Ponendo il gradiente uguale a zero,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{cases}
+2(w_1-1)=0,\\
+4(w_2+1)=0,
+\end{cases}
+\end{split}\]</div>
+<p>si ottiene</p>
+<div class="math notranslate nohighlight">
+\[
+w_1=1,
+\qquad
+w_2=-1.
+\]</div>
+<p>La matrice hessiana è</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla^2 L(w_1,w_2)
+=
+\begin{pmatrix}
+2 &amp; 0\\
+0 &amp; 4
+\end{pmatrix}.
+\end{split}\]</div>
+<p>Poiché entrambi gli autovalori sono positivi, il punto <span class="math notranslate nohighlight">\((1,-1)\)</span> è un minimo.</p>
+<p>Inoltre, poiché la funzione è quadratica e strettamente convessa, tale minimo è globale.</p>
+<p>Un passo del metodo del gradiente discendente ha la forma</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{pmatrix}
+w_1^{(k+1)}\\
+w_2^{(k+1)}
+\end{pmatrix}
+=
+\begin{pmatrix}
+w_1^{(k)}\\
+w_2^{(k)}
+\end{pmatrix}
+-
+\alpha
+\nabla L\left(w_1^{(k)},w_2^{(k)}\right),
+\end{split}\]</div>
+<p>dove <span class="math notranslate nohighlight">\(\alpha&gt;0\)</span> è il passo di apprendimento.</p>
+<p>Questa formula costituisce la base di numerosi algoritmi utilizzati nell’ottimizzazione numerica e nel machine learning.</p>
+<hr class="docutils" />
+</section>
+<section id="schema-riassuntivo">
+<h1>Schema riassuntivo<a class="headerlink" href="#schema-riassuntivo" title="Link to this heading">#</a></h1>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Oggetto</p></th>
+<th class="head"><p>Tipo di funzione</p></th>
+<th class="head"><p>Dimensione</p></th>
+<th class="head"><p>Contenuto</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Gradiente</p></td>
+<td><p><span class="math notranslate nohighlight">\(f:\mathbb{R}^n\to\mathbb{R}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(n\times 1\)</span></p></td>
+<td><p>derivate prime</p></td>
+</tr>
+<tr class="row-odd"><td><p>Hessiano</p></td>
+<td><p><span class="math notranslate nohighlight">\(f:\mathbb{R}^n\to\mathbb{R}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(n\times n\)</span></p></td>
+<td><p>derivate seconde</p></td>
+</tr>
+<tr class="row-even"><td><p>Jacobiano</p></td>
+<td><p><span class="math notranslate nohighlight">\(F:\mathbb{R}^n\to\mathbb{R}^m\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(m\times n\)</span></p></td>
+<td><p>derivate prime delle componenti</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>In particolare,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla f(\mathbf{x})
+=
+\begin{pmatrix}
+\partial f/\partial x_1\\
+\vdots\\
+\partial f/\partial x_n
+\end{pmatrix},
+\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[
+\nabla^2 f(\mathbf{x})
+=
+\left[
+\frac{\partial^2 f}{\partial x_i\partial x_j}
+\right]_{i,j=1}^n,
+\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+J_F(\mathbf{x})
+=
+\left[
+\frac{\partial F_i}{\partial x_j}
+\right]_{\substack{i=1,\ldots,m\\j=1,\ldots,n}}.
+\end{split}\]</div>
+<hr class="docutils" />
+<section id="esercizio-5">
+<h2>Esercizio 5<a class="headerlink" href="#esercizio-5" title="Link to this heading">#</a></h2>
+<p>Determinare e classificare i punti stazionari delle funzioni</p>
+<div class="math notranslate nohighlight">
+\[
+f_1(x,y)=x^2+4y^2,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+f_2(x,y)=x^2-y^2,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+f_3(x,y)=-x^2-y^2.
+\]</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./book"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Ottimizzazione numerica: introduzione</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definizioni-punti-di-minimo">Definizioni: punti di minimo</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#applicazione-una-funzione-di-costo">Applicazione: una funzione di costo</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#schema-riassuntivo">Schema riassuntivo</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio-5">Esercizio 5</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Elena Loli Piccolomini
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

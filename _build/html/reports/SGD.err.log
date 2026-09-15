@@ -1,0 +1,125 @@
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/libro/lib/python3.13/site-packages/jupyter_core/utils/__init__.py", line 154, in wrapped
+    asyncio.get_running_loop()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/libro/lib/python3.13/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+    ~~~~~~~~~^
+        nb,
+        ^^^
+    ...<4 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/envs/libro/lib/python3.13/site-packages/nbclient/client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/opt/anaconda3/envs/libro/lib/python3.13/site-packages/jupyter_core/utils/__init__.py", line 158, in wrapped
+    return loop.run_until_complete(inner)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/opt/anaconda3/envs/libro/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/opt/anaconda3/envs/libro/lib/python3.13/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+        cell, index, execution_count=self.code_cells_executed + 1
+    )
+  File "/opt/anaconda3/envs/libro/lib/python3.13/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/anaconda3/envs/libro/lib/python3.13/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import numpy as np
+import pandas as pd
+
+# Load the dataset (download from Kaggle first)
+df = pd.read_csv("data/train.csv")
+
+# Select some useful continuous features
+features = ["LotArea", "OverallQual", "YearBuilt"]
+X = df[features].values
+Y = df["SalePrice"].values.reshape(-1, 1)
+
+# Normalize features
+X = (X - X.mean(axis=0)) / X.std(axis=0)
+Y = (Y - Y.mean(axis=0)) / Y.std(axis=0)
+
+# Add bias term
+X = np.hstack([np.ones((X.shape[0], 1)), X])
+N, d = X.shape
+print(f"Dataset size: {N} samples, {d} features (including bias)")
+------------------
+
+
+[31m---------------------------------------------------------------------------[39m
+[31mFileNotFoundError[39m                         Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[2][39m[32m, line 5[39m
+[32m      2[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mpandas[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mpd[39;00m
+[32m      4[39m [38;5;66;03m# Load the dataset (download from Kaggle first)[39;00m
+[32m----> [39m[32m5[39m df = pd.read_csv([33m"[39m[33mdata/train.csv[39m[33m"[39m)
+[32m      7[39m [38;5;66;03m# Select some useful continuous features[39;00m
+[32m      8[39m features = [[33m"[39m[33mLotArea[39m[33m"[39m, [33m"[39m[33mOverallQual[39m[33m"[39m, [33m"[39m[33mYearBuilt[39m[33m"[39m]
+
+[36mFile [39m[32m/opt/anaconda3/envs/libro/lib/python3.13/site-packages/pandas/io/parsers/readers.py:873[39m, in [36mread_csv[39m[34m(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, skip_blank_lines, parse_dates, date_format, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, on_bad_lines, low_memory, memory_map, float_precision, storage_options, dtype_backend)[39m
+[32m    861[39m kwds_defaults = _refine_defaults_read(
+[32m    862[39m     dialect,
+[32m    863[39m     delimiter,
+[32m   (...)[39m[32m    869[39m     dtype_backend=dtype_backend,
+[32m    870[39m )
+[32m    871[39m kwds.update(kwds_defaults)
+[32m--> [39m[32m873[39m [38;5;28;01mreturn[39;00m _read(filepath_or_buffer, kwds)
+
+[36mFile [39m[32m/opt/anaconda3/envs/libro/lib/python3.13/site-packages/pandas/io/parsers/readers.py:300[39m, in [36m_read[39m[34m(filepath_or_buffer, kwds)[39m
+[32m    297[39m _validate_names(kwds.get([33m"[39m[33mnames[39m[33m"[39m, [38;5;28;01mNone[39;00m))
+[32m    299[39m [38;5;66;03m# Create the parser.[39;00m
+[32m--> [39m[32m300[39m parser = TextFileReader(filepath_or_buffer, **kwds)
+[32m    302[39m [38;5;28;01mif[39;00m chunksize [38;5;129;01mor[39;00m iterator:
+[32m    303[39m     [38;5;28;01mreturn[39;00m parser
+
+[36mFile [39m[32m/opt/anaconda3/envs/libro/lib/python3.13/site-packages/pandas/io/parsers/readers.py:1645[39m, in [36mTextFileReader.__init__[39m[34m(self, f, engine, **kwds)[39m
+[32m   1642[39m     [38;5;28mself[39m.options[[33m"[39m[33mhas_index_names[39m[33m"[39m] = kwds[[33m"[39m[33mhas_index_names[39m[33m"[39m]
+[32m   1644[39m [38;5;28mself[39m.handles: IOHandles | [38;5;28;01mNone[39;00m = [38;5;28;01mNone[39;00m
+[32m-> [39m[32m1645[39m [38;5;28mself[39m._engine = [38;5;28mself[39m._make_engine(f, [38;5;28mself[39m.engine)
+
+[36mFile [39m[32m/opt/anaconda3/envs/libro/lib/python3.13/site-packages/pandas/io/parsers/readers.py:1904[39m, in [36mTextFileReader._make_engine[39m[34m(self, f, engine)[39m
+[32m   1902[39m     [38;5;28;01mif[39;00m [33m"[39m[33mb[39m[33m"[39m [38;5;129;01mnot[39;00m [38;5;129;01min[39;00m mode:
+[32m   1903[39m         mode += [33m"[39m[33mb[39m[33m"[39m
+[32m-> [39m[32m1904[39m [38;5;28mself[39m.handles = get_handle(
+[32m   1905[39m     f,
+[32m   1906[39m     mode,
+[32m   1907[39m     encoding=[38;5;28mself[39m.options.get([33m"[39m[33mencoding[39m[33m"[39m, [38;5;28;01mNone[39;00m),
+[32m   1908[39m     compression=[38;5;28mself[39m.options.get([33m"[39m[33mcompression[39m[33m"[39m, [38;5;28;01mNone[39;00m),
+[32m   1909[39m     memory_map=[38;5;28mself[39m.options.get([33m"[39m[33mmemory_map[39m[33m"[39m, [38;5;28;01mFalse[39;00m),
+[32m   1910[39m     is_text=is_text,
+[32m   1911[39m     errors=[38;5;28mself[39m.options.get([33m"[39m[33mencoding_errors[39m[33m"[39m, [33m"[39m[33mstrict[39m[33m"[39m),
+[32m   1912[39m     storage_options=[38;5;28mself[39m.options.get([33m"[39m[33mstorage_options[39m[33m"[39m, [38;5;28;01mNone[39;00m),
+[32m   1913[39m )
+[32m   1914[39m [38;5;28;01massert[39;00m [38;5;28mself[39m.handles [38;5;129;01mis[39;00m [38;5;129;01mnot[39;00m [38;5;28;01mNone[39;00m
+[32m   1915[39m f = [38;5;28mself[39m.handles.handle
+
+[36mFile [39m[32m/opt/anaconda3/envs/libro/lib/python3.13/site-packages/pandas/io/common.py:930[39m, in [36mget_handle[39m[34m(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)[39m
+[32m    925[39m [38;5;28;01melif[39;00m [38;5;28misinstance[39m(handle, [38;5;28mstr[39m):
+[32m    926[39m     [38;5;66;03m# Check whether the filename is to be opened in binary mode.[39;00m
+[32m    927[39m     [38;5;66;03m# Binary mode does not support 'encoding' and 'newline'.[39;00m
+[32m    928[39m     [38;5;28;01mif[39;00m ioargs.encoding [38;5;129;01mand[39;00m [33m"[39m[33mb[39m[33m"[39m [38;5;129;01mnot[39;00m [38;5;129;01min[39;00m ioargs.mode:
+[32m    929[39m         [38;5;66;03m# Encoding[39;00m
+[32m--> [39m[32m930[39m         handle = [38;5;28mopen[39m(
+[32m    931[39m             handle,
+[32m    932[39m             ioargs.mode,
+[32m    933[39m             encoding=ioargs.encoding,
+[32m    934[39m             errors=errors,
+[32m    935[39m             newline=[33m"[39m[33m"[39m,
+[32m    936[39m         )
+[32m    937[39m     [38;5;28;01melse[39;00m:
+[32m    938[39m         [38;5;66;03m# Binary mode[39;00m
+[32m    939[39m         handle = [38;5;28mopen[39m(handle, ioargs.mode)
+
+[31mFileNotFoundError[39m: [Errno 2] No such file or directory: 'data/train.csv'
+
