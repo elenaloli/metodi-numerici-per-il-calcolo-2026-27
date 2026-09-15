@@ -1,0 +1,1362 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Metodi di discesa &#8212; Metodi numerici per il calcolo</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Metodi_di_discesa';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Metodi numerici per il calcolo</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Metodi numerici per il calcolo
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="book/intro_mnpc.html">Introduzione al corso Metodi Numerici per il calcolo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="book/calcolo_multivariato.html">Calcolo multivariato</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="book/Condizioni_di_ottimalita.html">Ottimizzazione numerica: introduzione</a></li>
+
+
+
+
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/elenaloli/metodi-numerici-per-il-calcolo-2026-27.git" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/elenaloli/metodi-numerici-per-il-calcolo-2026-27.git/issues/new?title=Issue%20on%20page%20%2FMetodi_di_discesa.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Metodi_di_discesa.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Metodi di discesa</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generalita-sugli-algoritmi">Generalità sugli algoritmi</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodi-di-discesa-una-funzione-non-convessa">Metodi di discesa: una funzione non convessa</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Metodi di discesa</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direzione-di-discesa">Direzione di discesa</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#caratterizzazione-di-una-direzione-di-discesa">Caratterizzazione di una direzione di discesa</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-1">Esempio 1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-2">Esempio 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-geometrica">Interpretazione geometrica</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direzione-di-ricerca-e-gradiente">Direzione di ricerca e gradiente</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direzione-di-discesa-di-salita-o-caso-incerto">Direzione di discesa, di salita o caso incerto</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-direzione-dell-antigradiente">La direzione dell’antigradiente</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodi-di-ricerca-in-linea-geometrie-possibili">Metodi di ricerca in linea: geometrie possibili</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scelta-della-lunghezza-del-passo">Scelta della lunghezza del passo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#obiettivi-della-ricerca-unidimensionale">Obiettivi della ricerca unidimensionale</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-la-sola-discesa-non-garantisce-la-convergenza">Esempio: la sola discesa non garantisce la convergenza</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ricerca-in-linea">Ricerca in linea</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ricerca-in-linea-esatta">Ricerca in linea esatta</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ricerca-in-linea-inesatta">Ricerca in linea inesatta</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condizioni-di-wolfe">Condizioni di Wolfe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condizione-di-armijo-e-backtracking">Condizione di Armijo e backtracking</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo-di-backtracking-principio">Algoritmo di backtracking: principio</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo-di-backtracking-pseudocodice">Algoritmo di backtracking: pseudocodice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#schema-algoritmico">Schema algoritmico</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#criteri-di-arresto-e-fallimenti">Criteri di arresto e fallimenti</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#altre-condizioni-di-arresto">Altre condizioni di arresto</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodo-del-gradiente">Metodo del gradiente</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradiente-stocastico-motivazione">Gradiente stocastico: motivazione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dal-gradiente-completo-al-gradiente-stocastico">Dal gradiente completo al gradiente stocastico</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mini-batch-gradient-descent">Mini-batch gradient descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo-del-gradiente-stocastico-mini-batch">Algoritmo del gradiente stocastico mini-batch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-rate-e-comportamento-del-metodo">Learning rate e comportamento del metodo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vantaggi-e-limiti">Vantaggi e limiti</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vantaggi">Vantaggi</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limiti">Limiti</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementazione-problema-dei-minimi-quadrati">Implementazione: problema dei minimi quadrati</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-numerico">Esempio numerico</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio">Esercizio</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#il-metodo-di-newton-puro-per-l-ottimizzazione">Il metodo di Newton puro per l’ottimizzazione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodo-di-newton-puro-proprieta">Metodo di Newton puro: proprietà</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodo-di-newton-puro-vantaggi-e-svantaggi">Metodo di Newton puro: vantaggi e svantaggi</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Vantaggi</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#svantaggi">Svantaggi</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#appendice-implementazione-del-backtracking">Appendice: implementazione del backtracking</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="metodi-di-discesa">
+<h1>Metodi di discesa<a class="headerlink" href="#metodi-di-discesa" title="Link to this heading">#</a></h1>
+<section id="generalita-sugli-algoritmi">
+<h2>Generalità sugli algoritmi<a class="headerlink" href="#generalita-sugli-algoritmi" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Gli algoritmi di ottimizzazione considerati garantiscono, in generale, la determinazione di punti che soddisfano <strong>condizioni necessarie di ottimo</strong>.</p></li>
+<li><p>Tutti i metodi considerati consentono di determinare <strong>punti stazionari</strong> di <span class="math notranslate nohighlight">\(f\)</span>.</p></li>
+<li><p>Nel caso non convesso, la determinazione di punti stazionari non fornisce una soluzione globale e, in generale, non è neanche possibile garantire che sia raggiunto un punto di minimo locale.</p></li>
+</ul>
+</section>
+<section id="metodi-di-discesa-una-funzione-non-convessa">
+<h2>Metodi di discesa: una funzione non convessa<a class="headerlink" href="#metodi-di-discesa-una-funzione-non-convessa" title="Link to this heading">#</a></h2>
+<p>Una funzione non convessa può possedere più punti stazionari e più minimi locali. Un metodo iterativo può convergere verso punti diversi a seconda dell’iterato iniziale e della strategia adottata.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="immagini_sorgente/fig8m.png"><img alt="immagini_sorgente/fig8m.png" src="immagini_sorgente/fig8m.png" style="width: 100%;" />
+</a>
+</figure>
+<p align="center">
+  <img src="immagini_sorgente\fig8m.png"  width="700">
+</p>
+</section>
+<section id="id1">
+<h2>Metodi di discesa<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>Si consideri il problema della minimizzazione non vincolata di una funzione</p>
+<div class="math notranslate nohighlight">
+\[
+f:\mathbb{R}^n\longrightarrow\mathbb{R}
+\]</div>
+<p>differenziabile con continuità, cioè con derivate parziali continue.</p>
+<p>I metodi di discesa sono metodi iterativi che, a partire da un iterato iniziale <span class="math notranslate nohighlight">\(x_0\in\mathbb{R}^n\)</span>, generano una successione</p>
+<div class="math notranslate nohighlight">
+\[
+x_0,x_1,x_2,\ldots
+\]</div>
+<p>definita dall’iterazione</p>
+<div class="math notranslate nohighlight">
+\[
+x_{k+1}=x_k+\alpha_k p_k. \tag{1}
+\]</div>
+<p>Il vettore <span class="math notranslate nohighlight">\(p_k\)</span> è una <strong>direzione di ricerca</strong> e lo scalare <span class="math notranslate nohighlight">\(\alpha_k&gt;0\)</span> è la <strong>lunghezza del passo</strong> (<em>step length</em>). Essi sono scelti in modo da garantire</p>
+<div class="math notranslate nohighlight">
+\[
+f(x_{k+1})&lt;f(x_k),\qquad k=0,1,\ldots
+\]</div>
+</section>
+<section id="direzione-di-discesa">
+<h2>Direzione di discesa<a class="headerlink" href="#direzione-di-discesa" title="Link to this heading">#</a></h2>
+<p><strong>Definizione.</strong> Il vettore <span class="math notranslate nohighlight">\(p\)</span> è una direzione di discesa di <span class="math notranslate nohighlight">\(f\)</span> in <span class="math notranslate nohighlight">\(x\)</span> se esiste <span class="math notranslate nohighlight">\(\bar\alpha&gt;0\)</span> tale che</p>
+<div class="math notranslate nohighlight">
+\[
+ f(x+\alpha p)&lt;f(x)\qquad \text{per ogni }\alpha\in(0,\bar\alpha].
+ \]</div>
+<figure class="align-center">
+<a class="reference internal image-reference" href="immagini_sorgente/fig9m.png"><img alt="immagini_sorgente/fig9m.png" src="immagini_sorgente/fig9m.png" style="width: 100%;" />
+</a>
+</figure>
+<p align="center">
+  <img src="immagini_sorgente\fig9m.png"  width="700">
+</p>
+</section>
+<section id="caratterizzazione-di-una-direzione-di-discesa">
+<h2>Caratterizzazione di una direzione di discesa<a class="headerlink" href="#caratterizzazione-di-una-direzione-di-discesa" title="Link to this heading">#</a></h2>
+<blockquote>
+<div><p><strong>Proposizione.</strong> Sia <span class="math notranslate nohighlight">\(f:\mathbb{R}^n\to\mathbb{R}\)</span> continuamente differenziabile nell’intorno di un punto <span class="math notranslate nohighlight">\(x\in\mathbb{R}^n\)</span> e sia <span class="math notranslate nohighlight">\(p\in\mathbb{R}^n\)</span> un vettore non nullo. Se</p>
+<div class="math notranslate nohighlight">
+\[
+&gt; p^T\nabla f(x)&lt;0, \tag{2}
+&gt; \]</div>
+<p>allora <span class="math notranslate nohighlight">\(p\)</span> è una direzione di discesa per <span class="math notranslate nohighlight">\(f\)</span> in <span class="math notranslate nohighlight">\(x\)</span>.</p>
+</div></blockquote>
+</section>
+<section id="esempio-1">
+<h2>Esempio 1<a class="headerlink" href="#esempio-1" title="Link to this heading">#</a></h2>
+<p>Consideriamo</p>
+<div class="math notranslate nohighlight">
+\[
+f(x_1,x_2)=x_1^3+x_2^2-3x_1,
+\]</div>
+<p>il punto <span class="math notranslate nohighlight">\(x=(-1,0)^T\)</span> e la direzione <span class="math notranslate nohighlight">\(d=(-1,0)^T\)</span>. Il gradiente è</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla f(x)=
+\begin{pmatrix}
+3x_1^2-3\\
+2x_2
+\end{pmatrix},
+\qquad
+\nabla f(-1,0)=
+\begin{pmatrix}0\\0\end{pmatrix}.
+\end{split}\]</div>
+<p>Risulta <span class="math notranslate nohighlight">\(x+td=(-1-t,0)^T\)</span> e</p>
+<div class="math notranslate nohighlight">
+\[
+f(x+td)=(-1-t)^3-3(-1-t)=-t^3-3t^2+2.
+\]</div>
+<p>Poiché</p>
+<div class="math notranslate nohighlight">
+\[
+-t^3-3t^2+2&lt;2=f(x)\qquad \text{per ogni }t&gt;0,
+\]</div>
+<p><span class="math notranslate nohighlight">\(d\)</span> è una direzione di discesa, benché <span class="math notranslate nohighlight">\(d^T\nabla f(x)=0\)</span>.</p>
+</section>
+<section id="esempio-2">
+<h2>Esempio 2<a class="headerlink" href="#esempio-2" title="Link to this heading">#</a></h2>
+<p>Consideriamo ora <span class="math notranslate nohighlight">\(\widetilde{x}=(1,0)^T\)</span> e la stessa direzione <span class="math notranslate nohighlight">\(d=(-1,0)^T\)</span>. Si ha</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla f(\widetilde{x})=
+\begin{pmatrix}0\\0\end{pmatrix}.
+\end{split}\]</div>
+<p>Risulta <span class="math notranslate nohighlight">\(\widetilde{x}+td=(1-t,0)^T\)</span> e</p>
+<div class="math notranslate nohighlight">
+\[
+f(\widetilde{x}+td)=(1-t)^3-3(1-t)=-t^3+3t^2-2.
+\]</div>
+<p>La condizione</p>
+<div class="math notranslate nohighlight">
+\[
+-t^3+3t^2-2&lt;-2=f(\widetilde{x})
+\]</div>
+<p>è verificata soltanto per <span class="math notranslate nohighlight">\(t&gt;3\)</span>. Quindi <span class="math notranslate nohighlight">\(d\)</span> <strong>non</strong> è una direzione di discesa in <span class="math notranslate nohighlight">\(\widetilde{x}\)</span>, perché la disuguaglianza non vale per tutti i valori positivi sufficientemente piccoli di <span class="math notranslate nohighlight">\(t\)</span>.</p>
+</section>
+<section id="interpretazione-geometrica">
+<h2>Interpretazione geometrica<a class="headerlink" href="#interpretazione-geometrica" title="Link to this heading">#</a></h2>
+<p>Per due vettori non nulli <span class="math notranslate nohighlight">\(x,y\in\mathbb{R}^n\)</span>, l’angolo <span class="math notranslate nohighlight">\(\theta\)</span> è definito mediante</p>
+<div class="math notranslate nohighlight">
+\[
+\cos\theta=\frac{x^Ty}{\lVert x\rVert\,\lVert y\rVert}.
+\]</div>
+<p>L’angolo tra <span class="math notranslate nohighlight">\(p\)</span> e <span class="math notranslate nohighlight">\(\nabla f(x)\)</span> è:</p>
+<ul class="simple">
+<li><p><strong>ottuso</strong> se <span class="math notranslate nohighlight">\(p^T\nabla f(x)&lt;0\)</span>;</p></li>
+<li><p><strong>acuto</strong> se <span class="math notranslate nohighlight">\(p^T\nabla f(x)&gt;0\)</span>.</p></li>
+</ul>
+<p>I vettori <span class="math notranslate nohighlight">\(p\)</span> e <span class="math notranslate nohighlight">\(\nabla f(x)\)</span> sono ortogonali se <span class="math notranslate nohighlight">\(p^T\nabla f(x)=0\)</span>.</p>
+</section>
+<section id="direzione-di-ricerca-e-gradiente">
+<h2>Direzione di ricerca e gradiente<a class="headerlink" href="#direzione-di-ricerca-e-gradiente" title="Link to this heading">#</a></h2>
+<p>La retta</p>
+<div class="math notranslate nohighlight">
+\[
+x=x_k+\alpha p_k
+\]</div>
+<p>deve formare un angolo ottuso con la direzione del gradiente. Equivalentemente, la derivata direzionale deve essere negativa:</p>
+<div class="math notranslate nohighlight">
+\[
+p_k^T\nabla f(x_k)&lt;0.
+\]</div>
+<figure class="align-center">
+<a class="reference internal image-reference" href="immagini_sorgente/fig10m.png"><img alt="immagini_sorgente/fig10m.png" src="immagini_sorgente/fig10m.png" style="width: 100%;" />
+</a>
+</figure>
+<p align="center">
+  <img src="immagini_sorgente\fig10m.png"  width="700">
+</p>
+</section>
+<section id="direzione-di-discesa-di-salita-o-caso-incerto">
+<h2>Direzione di discesa, di salita o caso incerto<a class="headerlink" href="#direzione-di-discesa-di-salita-o-caso-incerto" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Se <span class="math notranslate nohighlight">\(p^T\nabla f(x)&lt;0\)</span>, allora <span class="math notranslate nohighlight">\(p\)</span> è una direzione di <strong>discesa</strong> per <span class="math notranslate nohighlight">\(f\)</span> in <span class="math notranslate nohighlight">\(x\)</span>.</p></li>
+<li><p>Se <span class="math notranslate nohighlight">\(p^T\nabla f(x)&gt;0\)</span>, allora <span class="math notranslate nohighlight">\(p\)</span> è una direzione di <strong>salita</strong> per <span class="math notranslate nohighlight">\(f\)</span> in <span class="math notranslate nohighlight">\(x\)</span>.</p></li>
+<li><p>Se <span class="math notranslate nohighlight">\(p^T\nabla f(x)=0\)</span>, in assenza di altre informazioni non è possibile stabilire se <span class="math notranslate nohighlight">\(p\)</span> sia o meno una direzione di discesa.</p></li>
+</ul>
+</section>
+<section id="la-direzione-dell-antigradiente">
+<h2>La direzione dell’antigradiente<a class="headerlink" href="#la-direzione-dell-antigradiente" title="Link to this heading">#</a></h2>
+<p>La direzione</p>
+<div class="math notranslate nohighlight">
+\[
+p=-\nabla f(x)
+\]</div>
+<p>è sempre una direzione di discesa quando <span class="math notranslate nohighlight">\(\nabla f(x)\neq 0\)</span>, perché</p>
+<div class="math notranslate nohighlight">
+\[
+p^T\nabla f(x)=-\lVert\nabla f(x)\rVert^2&lt;0.
+\]</div>
+<p>Nel caso generale, con <span class="math notranslate nohighlight">\(f\)</span> non convessa, la condizione <span class="math notranslate nohighlight">\(p^T\nabla f(x)&lt;0\)</span> è soltanto <strong>sufficiente</strong>: possono esistere direzioni di discesa tali che</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla f(x)^Tp=0.
+\]</div>
+</section>
+<section id="metodi-di-ricerca-in-linea-geometrie-possibili">
+<h2>Metodi di ricerca in linea: geometrie possibili<a class="headerlink" href="#metodi-di-ricerca-in-linea-geometrie-possibili" title="Link to this heading">#</a></h2>
+<p>La forma delle curve di livello cambia con la curvatura della funzione: ellissi per una forma quadratica definita positiva, direzioni piatte nel caso semidefinito e iperboli nel caso indefinito.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="immagini_sorgente/fig11m.png"><img alt="immagini_sorgente/fig11m.png" src="immagini_sorgente/fig11m.png" style="width: 100%;" />
+</a>
+</figure>
+<p align="center">
+  <img src="immagini_sorgente\fig11m.png"  width="700">
+</p></section>
+<section id="scelta-della-lunghezza-del-passo">
+<h2>Scelta della lunghezza del passo<a class="headerlink" href="#scelta-della-lunghezza-del-passo" title="Link to this heading">#</a></h2>
+<p>Esistono diverse tecniche per determinare la lunghezza del passo in modo da garantire la convergenza del metodo verso punti stazionari di <span class="math notranslate nohighlight">\(f\)</span>.</p>
+<p>Sono chiamate tecniche di <strong>ricerca in linea</strong> (<em>line search</em>) o di <strong>ricerca unidimensionale</strong>, perché la ricerca di un nuovo iterato <span class="math notranslate nohighlight">\(x_{k+1}\)</span> è effettuata lungo la linea</p>
+<div class="math notranslate nohighlight">
+\[
+y(\alpha)=x_k+\alpha p_k.
+\]</div>
+<p>La sola scelta di <span class="math notranslate nohighlight">\(\alpha_k\)</span> tale che</p>
+<div class="math notranslate nohighlight">
+\[
+f(x_{k+1})&lt;f(x_k)
+\]</div>
+<p>non garantisce la convergenza del metodo.</p>
+</section>
+<section id="obiettivi-della-ricerca-unidimensionale">
+<h2>Obiettivi della ricerca unidimensionale<a class="headerlink" href="#obiettivi-della-ricerca-unidimensionale" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Determinare il passo <span class="math notranslate nohighlight">\(\alpha_k\)</span> lungo la direzione assegnata <span class="math notranslate nohighlight">\(p_k\)</span> è spesso la parte più complessa di un codice per l’ottimizzazione non vincolata.</p></li>
+<li><p>La ricerca unidimensionale mira ad assicurare la <strong>convergenza globale</strong>; la rapidità di convergenza dipende soprattutto dalla direzione di ricerca.</p></li>
+<li><p>Un valore poco appropriato di <span class="math notranslate nohighlight">\(\alpha_k\)</span> può distruggere le proprietà di rapidità associate alla scelta di <span class="math notranslate nohighlight">\(p_k\)</span>.</p></li>
+<li><p>Vicino alla soluzione, dovrebbe essere accettato il più possibile il passo che garantisce una buona rapidità di convergenza.</p></li>
+<li><p>Occorre trovare un compromesso tra convergenza globale e rapidità di convergenza.</p></li>
+</ul>
+</section>
+<section id="esempio-la-sola-discesa-non-garantisce-la-convergenza">
+<h2>Esempio: la sola discesa non garantisce la convergenza<a class="headerlink" href="#esempio-la-sola-discesa-non-garantisce-la-convergenza" title="Link to this heading">#</a></h2>
+<p>Consideriamo</p>
+<div class="math notranslate nohighlight">
+\[
+\min_x f(x)=x^2,
+\]</div>
+<p>con <span class="math notranslate nohighlight">\(x_0=-3\)</span>, direzione <span class="math notranslate nohighlight">\(p_k=1\)</span> e passo <span class="math notranslate nohighlight">\(\alpha_k=2^{-k}\)</span>. Quindi</p>
+<div class="math notranslate nohighlight">
+\[
+x_{k+1}=x_k+2^{-k}.
+\]</div>
+<p>La successione è</p>
+<div class="math notranslate nohighlight">
+\[
+-3,-2,-\frac{3}{2},-\frac{5}{4},-\frac{9}{8},\ldots,
+\]</div>
+<p>con <span class="math notranslate nohighlight">\(x_k=-(1+2^{1-k})\)</span>. Ogni <span class="math notranslate nohighlight">\(p_k\)</span> è una direzione di discesa:</p>
+<div class="math notranslate nohighlight">
+\[
+p_k^T\nabla f(x_k)=1\cdot 2x_k=-2(1+2^{1-k})&lt;0.
+\]</div>
+<p>Eppure</p>
+<div class="math notranslate nohighlight">
+\[
+\lim_{k\to\infty}x_k=-1,\qquad f'(-1)=-2\neq 0,
+\]</div>
+<p>quindi la successione non converge alla soluzione <span class="math notranslate nohighlight">\(x^*=0\)</span>.</p>
+</section>
+<section id="ricerca-in-linea">
+<h2>Ricerca in linea<a class="headerlink" href="#ricerca-in-linea" title="Link to this heading">#</a></h2>
+<p>Per <span class="math notranslate nohighlight">\(k\)</span> fissato, il passo <span class="math notranslate nohighlight">\(\alpha_k\)</span> viene determinato con riferimento alla funzione di una sola variabile reale</p>
+<div class="math notranslate nohighlight">
+\[
+\phi:\mathbb{R}\longrightarrow\mathbb{R},
+\qquad
+\phi(\alpha)=f(x_k+\alpha p_k),
+\]</div>
+<p>che descrive l’andamento di <span class="math notranslate nohighlight">\(f\)</span> lungo la direzione di ricerca <span class="math notranslate nohighlight">\(p_k\)</span>.</p>
+</section>
+<section id="ricerca-in-linea-esatta">
+<h2>Ricerca in linea esatta<a class="headerlink" href="#ricerca-in-linea-esatta" title="Link to this heading">#</a></h2>
+<p>La scelta ideale consiste nello scegliere <span class="math notranslate nohighlight">\(\alpha_k\)</span> come punto di minimo globale della funzione</p>
+<div class="math notranslate nohighlight">
+\[
+\phi(\alpha)=f(x_k+\alpha p_k),\qquad \alpha\geq 0. \tag{3}
+\]</div>
+<p>La scelta di <span class="math notranslate nohighlight">\(\alpha_k\)</span> impone che <span class="math notranslate nohighlight">\(p_k\)</span> e <span class="math notranslate nohighlight">\(\nabla f(x_{k+1})\)</span> siano ortogonali:</p>
+<div class="math notranslate nohighlight">
+\[
+0=\left.\frac{d}{d\alpha}\phi(\alpha)\right|_{\alpha=\alpha_k}
+=\nabla f(x_k+\alpha_kp_k)^Tp_k
+=\nabla f(x_{k+1})^Tp_k.
+\]</div>
+<p>Nella pratica la ricerca esatta è usata soltanto in casi particolari, perché è computazionalmente costosa: richiede di risolvere l’equazione non lineare <span class="math notranslate nohighlight">\(d\phi/d\alpha=0\)</span>.</p>
+</section>
+<section id="ricerca-in-linea-inesatta">
+<h2>Ricerca in linea inesatta<a class="headerlink" href="#ricerca-in-linea-inesatta" title="Link to this heading">#</a></h2>
+<p>I metodi di ricerca inesatta unidimensionale per i quali è possibile stabilire risultati di convergenza individuano un intervallo di valori accettabili per <span class="math notranslate nohighlight">\(\alpha_k\)</span>.</p>
+<p>Tale intervallo deve assicurare:</p>
+<ul class="simple">
+<li><p>una sufficiente riduzione di <span class="math notranslate nohighlight">\(f\)</span> rispetto al valore corrente <span class="math notranslate nohighlight">\(f(x_k)\)</span>;</p></li>
+<li><p>un sufficiente spostamento rispetto al punto corrente <span class="math notranslate nohighlight">\(x_k\)</span>.</p></li>
+</ul>
+</section>
+<section id="condizioni-di-wolfe">
+<h2>Condizioni di Wolfe<a class="headerlink" href="#condizioni-di-wolfe" title="Link to this heading">#</a></h2>
+<p>Le condizioni di Wolfe sono</p>
+<div class="math notranslate nohighlight">
+\[
+f(x_k+\alpha_kp_k)
+\leq f(x_k)+c_1\alpha_k\nabla f(x_k)^Tp_k, \tag{4}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\nabla f(x_k+\alpha_kp_k)^Tp_k
+\geq c_2\nabla f(x_k)^Tp_k, \tag{5}
+\]</div>
+<p>con <span class="math notranslate nohighlight">\(0&lt;c_1&lt;c_2&lt;1\)</span>.</p>
+<ul class="simple">
+<li><p>La prima disuguaglianza è la <strong>condizione di Armijo</strong> (<em>sufficient decrease condition</em>) e assicura una decrescita sufficiente di <span class="math notranslate nohighlight">\(f\)</span> lungo <span class="math notranslate nohighlight">\(p_k\)</span>.</p></li>
+<li><p>La seconda è la <strong>condizione della curvatura</strong> (<em>curvature condition</em>) e impedisce che <span class="math notranslate nohighlight">\(\alpha_k\)</span> diventi troppo piccolo.</p></li>
+</ul>
+</section>
+<section id="condizione-di-armijo-e-backtracking">
+<h2>Condizione di Armijo e backtracking<a class="headerlink" href="#condizione-di-armijo-e-backtracking" title="Link to this heading">#</a></h2>
+<p>La condizione di Armijo, da sola, non garantisce che la lunghezza del passo non sia troppo piccola. Se però il passo viene scelto con una tecnica di <strong>backtracking</strong>, la condizione di Armijo è sufficiente per garantire la convergenza nelle ipotesi previste.</p>
+<p>Nell’algoritmo di backtracking:</p>
+<ol class="arabic simple">
+<li><p>si pone inizialmente <span class="math notranslate nohighlight">\(\alpha=\bar\alpha\)</span>, di solito con <span class="math notranslate nohighlight">\(\bar\alpha=1\)</span>;</p></li>
+<li><p>si riduce progressivamente <span class="math notranslate nohighlight">\(\alpha\)</span>;</p></li>
+<li><p>ci si arresta al primo valore <span class="math notranslate nohighlight">\(\alpha_k\)</span> che soddisfa la condizione di Armijo.</p></li>
+</ol>
+</section>
+<section id="algoritmo-di-backtracking-principio">
+<h2>Algoritmo di backtracking: principio<a class="headerlink" href="#algoritmo-di-backtracking-principio" title="Link to this heading">#</a></h2>
+<p>Si controlla se il valore corrente di <span class="math notranslate nohighlight">\(\alpha\)</span> <strong>non</strong> soddisfa Armijo, cioè se</p>
+<div class="math notranslate nohighlight">
+\[
+f(x_k+\alpha p_k)&gt;
+f(x_k)+c_1\alpha\nabla f(x_k)^Tp_k.
+\]</div>
+<p>In tal caso si riduce il passo ponendo</p>
+<div class="math notranslate nohighlight">
+\[
+\alpha\leftarrow\rho\alpha,
+\qquad 0&lt;\rho&lt;1,
+\]</div>
+<p>e si verifica nuovamente la condizione.</p>
+<p>Quando Armijo è soddisfatta, si pone <span class="math notranslate nohighlight">\(\alpha_k=\alpha\)</span>. Spesso si sceglie <span class="math notranslate nohighlight">\(\rho=1/2\)</span>; partendo da <span class="math notranslate nohighlight">\(\bar\alpha=1\)</span>, il passo accettato è il primo elemento della successione</p>
+<div class="math notranslate nohighlight">
+\[
+1,\frac{1}{2},\frac{1}{4},\ldots,\frac{1}{2^j},\ldots
+\]</div>
+<p>che verifica Armijo.</p>
+</section>
+<section id="algoritmo-di-backtracking-pseudocodice">
+<h2>Algoritmo di backtracking: pseudocodice<a class="headerlink" href="#algoritmo-di-backtracking-pseudocodice" title="Link to this heading">#</a></h2>
+<p><strong>Dati:</strong> <span class="math notranslate nohighlight">\(\bar\alpha&gt;0\)</span> e <span class="math notranslate nohighlight">\(\rho,c_1\in(0,1)\)</span>.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>alpha = alpha_bar
+j = 0
+
+while f(x_k + alpha p_k) &gt; f(x_k) + c1 alpha grad(f)(x_k)^T p_k:
+    alpha = rho alpha
+    j = j + 1
+
+alpha_k = alpha
+</pre></div>
+</div>
+<p>Nella pratica si arresta anche la riduzione se il passo diventa troppo piccolo:</p>
+<div class="math notranslate nohighlight">
+\[
+\alpha&lt;\tau,
+\qquad
+\tau\simeq 10^{-8}\text{--}10^{-10}.
+\]</div>
+</section>
+<section id="schema-algoritmico">
+<h2>Schema algoritmico<a class="headerlink" href="#schema-algoritmico" title="Link to this heading">#</a></h2>
+<p>Un metodo con ricerca in linea ha il seguente schema generale.</p>
+<blockquote>
+<div><p><strong>Metodo con ricerca in linea</strong></p>
+<p>Dato <span class="math notranslate nohighlight">\(x_0\)</span>, per <span class="math notranslate nohighlight">\(k=0,1,2,\ldots\)</span>:</p>
+<ol class="arabic simple">
+<li><p>determinare una direzione di discesa <span class="math notranslate nohighlight">\(p_k\)</span>;</p></li>
+<li><p>determinare una lunghezza del passo <span class="math notranslate nohighlight">\(\alpha_k\)</span>;</p></li>
+<li><p>porre
+$<span class="math notranslate nohighlight">\(
+x_{k+1}=x_k+\alpha_kp_k.
+\)</span>$</p></li>
+</ol>
+</div></blockquote>
+</section>
+<section id="criteri-di-arresto-e-fallimenti">
+<h2>Criteri di arresto e fallimenti<a class="headerlink" href="#criteri-di-arresto-e-fallimenti" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Negli algoritmi di ottimizzazione esistono diversi criteri per terminare le iterazioni; essi possono indicare il raggiungimento di una soluzione oppure il fallimento dell’algoritmo.</p></li>
+<li><p>Nell’ottimizzazione non vincolata, il criterio di arresto dovrebbe segnalare il raggiungimento di un punto stazionario con la tolleranza specificata dall’utente.</p></li>
+<li><p>Dal punto di vista teorico, per una successione <span class="math notranslate nohighlight">\(x_k\)</span> si usa la condizione</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\lVert\nabla f(x_k)\rVert\leq\varepsilon,
+\qquad \varepsilon&gt;0. \tag{6}
+\]</div>
+</section>
+<section id="altre-condizioni-di-arresto">
+<h2>Altre condizioni di arresto<a class="headerlink" href="#altre-condizioni-di-arresto" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>superamento di un numero massimo di iterazioni;</p></li>
+<li><p>fallimenti interni alle procedure usate dall’algoritmo per calcolare <span class="math notranslate nohighlight">\(x_{k+1}\)</span>, per esempio nella ricerca in linea;</p></li>
+<li><p>altri controlli numerici o specifici del problema.</p></li>
+</ul>
+</section>
+<section id="metodo-del-gradiente">
+<h2>Metodo del gradiente<a class="headerlink" href="#metodo-del-gradiente" title="Link to this heading">#</a></h2>
+<p>La direzione di ricerca è</p>
+<div class="math notranslate nohighlight">
+\[
+p_k=-\nabla f(x_k),\qquad k=0,1,\ldots
+\]</div>
+<ul class="simple">
+<li><p>Se <span class="math notranslate nohighlight">\(\nabla f(x_k)\neq 0\)</span>, l’antigradiente <span class="math notranslate nohighlight">\(-\nabla f(x_k)\)</span> è una direzione di discesa di <span class="math notranslate nohighlight">\(f\)</span> in <span class="math notranslate nohighlight">\(x_k\)</span>.</p></li>
+<li><p>La lunghezza del passo è determinata con una tecnica di ricerca in linea inesatta.</p></li>
+<li><p>Il teorema di Zoutendijk fornisce, sotto opportune ipotesi, un risultato di convergenza globale verso la stazionarietà.</p></li>
+</ul>
+</section>
+<section id="gradiente-stocastico-motivazione">
+<h2>Gradiente stocastico: motivazione<a class="headerlink" href="#gradiente-stocastico-motivazione" title="Link to this heading">#</a></h2>
+<p>In molti problemi di machine learning la funzione obiettivo è la media degli errori calcolati sui dati di addestramento:</p>
+<div class="math notranslate nohighlight">
+\[
+F(x)=\frac{1}{N}\sum_{i=1}^{N} f_i(x),
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(f_i(x)\)</span> misura l’errore del modello sul dato <span class="math notranslate nohighlight">\(i\)</span>.</p>
+<p>Il metodo del gradiente classico calcola a ogni iterazione</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla F(x_k)=\frac{1}{N}\sum_{i=1}^{N}\nabla f_i(x_k),
+\]</div>
+<p>esaminando l’intero dataset prima di aggiornare i parametri. Quando <span class="math notranslate nohighlight">\(N\)</span> è molto grande, questa operazione può essere costosa e produce aggiornamenti poco frequenti.</p>
+<p>L’idea del gradiente stocastico è usare una stima economica del gradiente, ottenuta da uno o pochi dati, e aggiornare più frequentemente i parametri.</p>
+</section>
+<section id="dal-gradiente-completo-al-gradiente-stocastico">
+<h2>Dal gradiente completo al gradiente stocastico<a class="headerlink" href="#dal-gradiente-completo-al-gradiente-stocastico" title="Link to this heading">#</a></h2>
+<p>Scelto casualmente un indice <span class="math notranslate nohighlight">\(i_k\in\{1,\ldots,N\}\)</span>, si pone</p>
+<div class="math notranslate nohighlight">
+\[
+g_k=\nabla f_{i_k}(x_k)
+\]</div>
+<p>e si aggiorna l’iterato mediante</p>
+<div class="math notranslate nohighlight">
+\[
+x_{k+1}=x_k-\alpha_k g_k,
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(\alpha_k&gt;0\)</span> è la lunghezza del passo, detta spesso <strong>learning rate</strong>.</p>
+<p>Se <span class="math notranslate nohighlight">\(i_k\)</span> è scelto uniformemente, allora</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{E}[g_k\mid x_k]=\nabla F(x_k).
+\]</div>
+<p>Quindi <span class="math notranslate nohighlight">\(g_k\)</span> è uno stimatore non distorto del gradiente completo. Possiamo scrivere</p>
+<div class="math notranslate nohighlight">
+\[
+g_k=\nabla F(x_k)+\varepsilon_k,
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(\varepsilon_k\)</span> è l’errore casuale dovuto al campionamento.</p>
+</section>
+<section id="mini-batch-gradient-descent">
+<h2>Mini-batch gradient descent<a class="headerlink" href="#mini-batch-gradient-descent" title="Link to this heading">#</a></h2>
+<p>Nella pratica si utilizza un sottoinsieme <span class="math notranslate nohighlight">\(B_k\)</span> degli indici, chiamato <strong>mini-batch</strong>. Si calcola</p>
+<div class="math notranslate nohighlight">
+\[
+g_k=\frac{1}{|B_k|}\sum_{i\in B_k}\nabla f_i(x_k)
+\]</div>
+<p>e si applica l’aggiornamento</p>
+<div class="math notranslate nohighlight">
+\[
+x_{k+1}=x_k-\alpha_k g_k.
+\]</div>
+<p>La dimensione del mini-batch determina un compromesso:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(|B_k|=1\)</span>: gradiente stocastico puro, economico ma rumoroso;</p></li>
+<li><p><span class="math notranslate nohighlight">\(1&lt;|B_k|&lt;N\)</span>: minore variabilità e calcolo parallelizzabile;</p></li>
+<li><p><span class="math notranslate nohighlight">\(|B_k|=N\)</span>: metodo del gradiente completo.</p></li>
+</ul>
+<p>Una visita completa di tutti gli <span class="math notranslate nohighlight">\(N\)</span> dati prende il nome di <strong>epoca</strong> (<em>epoch</em>).</p>
+</section>
+<section id="algoritmo-del-gradiente-stocastico-mini-batch">
+<h2>Algoritmo del gradiente stocastico mini-batch<a class="headerlink" href="#algoritmo-del-gradiente-stocastico-mini-batch" title="Link to this heading">#</a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Scegliere il punto iniziale x_0
+
+per epoch = 0, 1, ..., numero_epoche - 1:
+
+    mescolare casualmente gli indici dei dati
+
+    suddividere gli indici in mini-batch B_k
+
+    per ogni mini-batch B_k:
+
+        g_k = media dei gradienti sul mini-batch
+
+        x_{k+1} = x_k - alpha_k g_k
+</pre></div>
+</div>
+<p>Mescolare i dati all’inizio di ogni epoca evita che l’ordine degli esempi introduca un comportamento sistematico indesiderato.</p>
+</section>
+<section id="learning-rate-e-comportamento-del-metodo">
+<h2>Learning rate e comportamento del metodo<a class="headerlink" href="#learning-rate-e-comportamento-del-metodo" title="Link to this heading">#</a></h2>
+<p>Con un learning rate costante,</p>
+<div class="math notranslate nohighlight">
+\[
+\alpha_k=\alpha,
+\]</div>
+<p>il metodo può avanzare rapidamente, ma vicino alla soluzione tende a oscillare a causa del rumore stocastico.</p>
+<p>Una scelta teorica classica utilizza passi decrescenti che soddisfano</p>
+<div class="math notranslate nohighlight">
+\[
+\sum_{k=0}^{\infty}\alpha_k=\infty,
+\qquad
+\sum_{k=0}^{\infty}\alpha_k^2&lt;\infty.
+\]</div>
+<p>Un esempio è <span class="math notranslate nohighlight">\(\alpha_k=\alpha_0/(k+1)\)</span>. Nelle applicazioni si utilizzano anche riduzioni a tratti o altri <em>learning-rate schedules</em>.</p>
+<p>Poiché il gradiente completo può essere costoso, si controllano spesso:</p>
+<ul class="simple">
+<li><p>il numero di epoche;</p></li>
+<li><p>la media della funzione obiettivo;</p></li>
+<li><p>l’errore su un insieme di validazione.</p></li>
+</ul>
+</section>
+<section id="vantaggi-e-limiti">
+<h2>Vantaggi e limiti<a class="headerlink" href="#vantaggi-e-limiti" title="Link to this heading">#</a></h2>
+<section id="vantaggi">
+<h3>Vantaggi<a class="headerlink" href="#vantaggi" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Ogni aggiornamento ha costo ridotto.</p></li>
+<li><p>È adatto a dataset molto grandi.</p></li>
+<li><p>Può essere usato quando i dati arrivano progressivamente.</p></li>
+<li><p>Il rumore può aiutare a non arrestarsi in regioni quasi piatte o vicino ad alcuni punti di sella.</p></li>
+</ul>
+</section>
+<section id="limiti">
+<h3>Limiti<a class="headerlink" href="#limiti" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>La funzione obiettivo non necessariamente diminuisce a ogni iterazione.</p></li>
+<li><p>Gli iterati seguono una traiettoria oscillante.</p></li>
+<li><p>La scelta del learning rate è delicata.</p></li>
+<li><p>La convergenza è generalmente meno regolare di quella del gradiente completo.</p></li>
+</ul>
+</section>
+</section>
+<section id="implementazione-problema-dei-minimi-quadrati">
+<h2>Implementazione: problema dei minimi quadrati<a class="headerlink" href="#implementazione-problema-dei-minimi-quadrati" title="Link to this heading">#</a></h2>
+<p>Consideriamo</p>
+<div class="math notranslate nohighlight">
+\[
+\min_w F(w)=\frac{1}{2N}\lVert Xw-y\rVert^2.
+\]</div>
+<p>Per un mini-batch <span class="math notranslate nohighlight">\((X_B,y_B)\)</span>, il gradiente approssimato è</p>
+<div class="math notranslate nohighlight">
+\[
+g_B(w)=\frac{1}{|B|}X_B^T(X_Bw-y_B).
+\]</div>
+<p>La cella seguente implementa il metodo SGD mini-batch e registra il valore della funzione obiettivo completa alla fine di ogni epoca.</p>
+<div class="cell tag_gradiente-stocastico tag_eseguibile docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sgd_least_squares</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span>
+    <span class="n">y</span><span class="p">,</span>
+    <span class="n">w0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+    <span class="n">alpha0</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">decay</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;SGD mini-batch per un problema lineare ai minimi quadrati.&quot;&quot;&quot;</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">X</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Le dimensioni di X e y non sono compatibili&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">epochs</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">batch_size</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">alpha0</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">decay</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;I parametri del metodo devono essere positivi&quot;</span><span class="p">)</span>
+
+    <span class="n">N</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">if</span> <span class="n">w0</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">w0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+    <span class="n">loss_history</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">iteration</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+            <span class="n">batch_indices</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">]</span>
+            <span class="n">X_batch</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">batch_indices</span><span class="p">]</span>
+            <span class="n">y_batch</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">batch_indices</span><span class="p">]</span>
+
+            <span class="n">residual</span> <span class="o">=</span> <span class="n">X_batch</span> <span class="o">@</span> <span class="n">w</span> <span class="o">-</span> <span class="n">y_batch</span>
+            <span class="n">gradient</span> <span class="o">=</span> <span class="n">X_batch</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">residual</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">batch_indices</span><span class="p">)</span>
+
+            <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">decay</span> <span class="o">*</span> <span class="n">iteration</span><span class="p">)</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">w</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">gradient</span>
+            <span class="n">iteration</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">residual</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">w</span> <span class="o">-</span> <span class="n">y</span>
+        <span class="n">loss_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">residual</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">w</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">loss_history</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="esempio-numerico">
+<h2>Esempio numerico<a class="headerlink" href="#esempio-numerico" title="Link to this heading">#</a></h2>
+<p>Generiamo dati secondo il modello lineare</p>
+<div class="math notranslate nohighlight">
+\[
+y_i=w_0+w_1z_i+\eta_i,
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(\eta_i\)</span> rappresenta il rumore. Applichiamo SGD e confrontiamo i parametri stimati con quelli utilizzati per generare i dati.</p>
+<div class="cell tag_gradiente-stocastico tag_eseguibile docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">500</span>
+
+<span class="n">z</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">z</span><span class="p">))</span>
+<span class="n">w_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">w_true</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+
+<span class="n">w_sgd</span><span class="p">,</span> <span class="n">history</span> <span class="o">=</span> <span class="n">sgd_least_squares</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span>
+    <span class="n">y</span><span class="p">,</span>
+    <span class="n">epochs</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">alpha0</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">decay</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Parametri esatti:  &quot;</span><span class="p">,</span> <span class="n">w_true</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Parametri stimati:&quot;</span><span class="p">,</span> <span class="n">w_sgd</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">history</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epoca&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Funzione obiettivo&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Convergenza del gradiente stocastico&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Parametri esatti:   [0.5 2. ]
+Parametri stimati: [0.49283789 1.99954161]
+</pre></div>
+</div>
+<img alt="_images/9aa8d55a13b0aceef6c3da78cb09b1cef0be7d729ab4a51d797b423100141c95.png" src="_images/9aa8d55a13b0aceef6c3da78cb09b1cef0be7d729ab4a51d797b423100141c95.png" />
+</div>
+</div>
+</section>
+<section id="esercizio">
+<h2>Esercizio<a class="headerlink" href="#esercizio" title="Link to this heading">#</a></h2>
+<p>Scrivere le prime due iterazioni del metodo del gradiente applicato alla funzione</p>
+<div class="math notranslate nohighlight">
+\[
+f(x_1,x_2)=x_1^2-3x_2^2
+\]</div>
+<p>a partire dal punto iniziale</p>
+<div class="math notranslate nohighlight">
+\[
+x_0=(1,1)^T,
+\]</div>
+<p>con passo costante <span class="math notranslate nohighlight">\(\alpha=0.1\)</span>.</p>
+<p>Verificare inoltre la condizione di arresto assoluta sulla norma del gradiente con tolleranza</p>
+<div class="math notranslate nohighlight">
+\[
+\tau=10^{-4}.
+\]</div>
+</section>
+<section id="il-metodo-di-newton-puro-per-l-ottimizzazione">
+<h2>Il metodo di Newton puro per l’ottimizzazione<a class="headerlink" href="#il-metodo-di-newton-puro-per-l-ottimizzazione" title="Link to this heading">#</a></h2>
+<p>Il metodo di Newton usa come direzione di ricerca</p>
+<div class="math notranslate nohighlight">
+\[
+p_k=-H_f(x_k)^{-1}\nabla f(x_k),
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(H_f(x_k)=\nabla^2f(x_k)\)</span> è la matrice Hessiana.</p>
+<p>La direzione si ottiene considerando lo sviluppo di Taylor di <span class="math notranslate nohighlight">\(f\)</span> in un intorno di <span class="math notranslate nohighlight">\(x_k\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x_k+p)\approx f_k+p^T\nabla f_k+\frac{1}{2}p^TH_f(x_k)p=:m_k(p).
+\]</div>
+<p>Se <span class="math notranslate nohighlight">\(H_f(x_k)\)</span> è definita positiva, la direzione di Newton è il vettore <span class="math notranslate nohighlight">\(p\)</span> che minimizza <span class="math notranslate nohighlight">\(m_k\)</span>. Nel metodo puro si usa</p>
+<div class="math notranslate nohighlight">
+\[
+\alpha_k=1\qquad\text{per ogni }k.
+\]</div>
+</section>
+<section id="metodo-di-newton-puro-proprieta">
+<h2>Metodo di Newton puro: proprietà<a class="headerlink" href="#metodo-di-newton-puro-proprieta" title="Link to this heading">#</a></h2>
+<p>Il metodo si scrive</p>
+<div class="math notranslate nohighlight">
+\[
+x_{k+1}=x_k-H_f(x_k)^{-1}\nabla f(x_k).
+\]</div>
+<p>Per trovare <span class="math notranslate nohighlight">\(p_k\)</span> non si calcola esplicitamente l’inversa di <span class="math notranslate nohighlight">\(H_f(x_k)\)</span>: si risolve il sistema lineare</p>
+<div class="math notranslate nohighlight">
+\[
+H_f(x_k)p_k=-\nabla f(x_k).
+\]</div>
+<ul class="simple">
+<li><p>La direzione di Newton è di discesa in <span class="math notranslate nohighlight">\(x_k\)</span> se <span class="math notranslate nohighlight">\(H_f(x_k)\)</span> è definita positiva.</p></li>
+<li><p>Se l’Hessiana non è definita positiva, <span class="math notranslate nohighlight">\(p_k\)</span> potrebbe non essere una direzione di discesa.</p></li>
+</ul>
+<p>Le proprietà di convergenza del metodo sono fortemente legate alla definita positività della matrice Hessiana.</p>
+</section>
+<section id="metodo-di-newton-puro-vantaggi-e-svantaggi">
+<h2>Metodo di Newton puro: vantaggi e svantaggi<a class="headerlink" href="#metodo-di-newton-puro-vantaggi-e-svantaggi" title="Link to this heading">#</a></h2>
+<section id="id2">
+<h3>Vantaggi<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Converge rapidamente quando si avvicina alla soluzione <span class="math notranslate nohighlight">\(x^*\)</span>.</p></li>
+</ul>
+</section>
+<section id="svantaggi">
+<h3>Svantaggi<a class="headerlink" href="#svantaggi" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Può non convergere se l’iterato iniziale è troppo distante dalla soluzione.</p></li>
+<li><p>Anche quando converge, può comportarsi in modo indesiderato se la funzione non è convessa.</p></li>
+<li><p>Ha un elevato costo computazionale.</p></li>
+<li><p>Il sistema di Newton può essere mal condizionato.</p></li>
+</ul>
+<p>Per ottenere un metodo robusto ed efficiente è necessario modificare opportunamente il metodo di Newton puro. Esistono diverse varianti, non esaminate in questo corso.</p>
+</section>
+</section>
+<section id="appendice-implementazione-del-backtracking">
+<h2>Appendice: implementazione del backtracking<a class="headerlink" href="#appendice-implementazione-del-backtracking" title="Link to this heading">#</a></h2>
+<p>La cella seguente implementa esattamente il controllo di Armijo descritto nelle slide. Restituisce il passo accettato, il numero di riduzioni e un indicatore di successo.</p>
+<div class="cell tag_backtracking tag_eseguibile docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">backtracking_armijo</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">,</span>
+    <span class="n">grad_f</span><span class="p">,</span>
+    <span class="n">xk</span><span class="p">,</span>
+    <span class="n">pk</span><span class="p">,</span>
+    <span class="n">alpha_bar</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">rho</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">c1</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span>
+    <span class="n">tau</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span>
+    <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calcola un passo che soddisfa la condizione di Armijo.&quot;&quot;&quot;</span>
+    <span class="n">xk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">xk</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">pk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">pk</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="n">grad_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">grad_f</span><span class="p">(</span><span class="n">xk</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">directional_derivative</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">grad_k</span> <span class="o">@</span> <span class="n">pk</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">directional_derivative</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;pk deve essere una direzione di discesa in xk&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">alpha_bar</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">rho</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">c1</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Servono alpha_bar &gt; 0 e rho, c1 in (0, 1)&quot;</span><span class="p">)</span>
+
+    <span class="n">alpha</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">alpha_bar</span><span class="p">)</span>
+    <span class="n">f_k</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">xk</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">armijo_rhs</span> <span class="o">=</span> <span class="n">f_k</span> <span class="o">+</span> <span class="n">c1</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">directional_derivative</span>
+        <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">xk</span> <span class="o">+</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">pk</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="n">armijo_rhs</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="kc">True</span>
+        <span class="n">alpha</span> <span class="o">*=</span> <span class="n">rho</span>
+        <span class="k">if</span> <span class="n">alpha</span> <span class="o">&lt;</span> <span class="n">tau</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">False</span>
+
+    <span class="k">return</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">max_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generalita-sugli-algoritmi">Generalità sugli algoritmi</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodi-di-discesa-una-funzione-non-convessa">Metodi di discesa: una funzione non convessa</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Metodi di discesa</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direzione-di-discesa">Direzione di discesa</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#caratterizzazione-di-una-direzione-di-discesa">Caratterizzazione di una direzione di discesa</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-1">Esempio 1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-2">Esempio 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-geometrica">Interpretazione geometrica</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direzione-di-ricerca-e-gradiente">Direzione di ricerca e gradiente</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direzione-di-discesa-di-salita-o-caso-incerto">Direzione di discesa, di salita o caso incerto</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-direzione-dell-antigradiente">La direzione dell’antigradiente</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodi-di-ricerca-in-linea-geometrie-possibili">Metodi di ricerca in linea: geometrie possibili</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scelta-della-lunghezza-del-passo">Scelta della lunghezza del passo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#obiettivi-della-ricerca-unidimensionale">Obiettivi della ricerca unidimensionale</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-la-sola-discesa-non-garantisce-la-convergenza">Esempio: la sola discesa non garantisce la convergenza</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ricerca-in-linea">Ricerca in linea</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ricerca-in-linea-esatta">Ricerca in linea esatta</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ricerca-in-linea-inesatta">Ricerca in linea inesatta</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condizioni-di-wolfe">Condizioni di Wolfe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condizione-di-armijo-e-backtracking">Condizione di Armijo e backtracking</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo-di-backtracking-principio">Algoritmo di backtracking: principio</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo-di-backtracking-pseudocodice">Algoritmo di backtracking: pseudocodice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#schema-algoritmico">Schema algoritmico</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#criteri-di-arresto-e-fallimenti">Criteri di arresto e fallimenti</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#altre-condizioni-di-arresto">Altre condizioni di arresto</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodo-del-gradiente">Metodo del gradiente</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradiente-stocastico-motivazione">Gradiente stocastico: motivazione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dal-gradiente-completo-al-gradiente-stocastico">Dal gradiente completo al gradiente stocastico</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mini-batch-gradient-descent">Mini-batch gradient descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo-del-gradiente-stocastico-mini-batch">Algoritmo del gradiente stocastico mini-batch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-rate-e-comportamento-del-metodo">Learning rate e comportamento del metodo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vantaggi-e-limiti">Vantaggi e limiti</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vantaggi">Vantaggi</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limiti">Limiti</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementazione-problema-dei-minimi-quadrati">Implementazione: problema dei minimi quadrati</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-numerico">Esempio numerico</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio">Esercizio</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#il-metodo-di-newton-puro-per-l-ottimizzazione">Il metodo di Newton puro per l’ottimizzazione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodo-di-newton-puro-proprieta">Metodo di Newton puro: proprietà</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodo-di-newton-puro-vantaggi-e-svantaggi">Metodo di Newton puro: vantaggi e svantaggi</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Vantaggi</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#svantaggi">Svantaggi</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#appendice-implementazione-del-backtracking">Appendice: implementazione del backtracking</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Elena Loli Piccolomini
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

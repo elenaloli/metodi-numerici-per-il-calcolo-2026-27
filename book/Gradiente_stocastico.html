@@ -1,0 +1,779 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Gradiente stocastico &#8212; Metodi numerici per il calcolo</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'book/Gradiente_stocastico';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo_mnpc.png" class="logo__image only-light" alt="Metodi numerici per il calcolo - Home"/>
+    <script>document.write(`<img src="../_static/logo_mnpc.png" class="logo__image only-dark" alt="Metodi numerici per il calcolo - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Metodi numerici per il calcolo
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro_mnpc.html">Introduzione al corso Metodi Numerici per il calcolo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calcolo_multivariato.html">Calcolo multivariato</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Condizioni_di_ottimalita.html">Ottimizzazione numerica: introduzione</a></li>
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="Metodi_di_discesa.html">Metodi di discesa</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/elenaloli/metodi-numerici-per-il-calcolo-2026-27.git" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/elenaloli/metodi-numerici-per-il-calcolo-2026-27.git/issues/new?title=Issue%20on%20page%20%2Fbook/Gradiente_stocastico.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/book/Gradiente_stocastico.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Gradiente stocastico</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivazione-algoritmo-e-implementazione">Motivazione, algoritmo e implementazione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradiente-stocastico-motivazione">Gradiente stocastico: motivazione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dal-gradiente-completo-al-gradiente-stocastico">Dal gradiente completo al gradiente stocastico</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mini-batch-gradient-descent">Mini-batch gradient descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo-del-gradiente-stocastico-mini-batch">Algoritmo del gradiente stocastico mini-batch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-rate-e-comportamento-del-metodo">Learning rate e comportamento del metodo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vantaggi-e-limiti">Vantaggi e limiti</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vantaggi">Vantaggi</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limiti">Limiti</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementazione-problema-dei-minimi-quadrati">Implementazione: problema dei minimi quadrati</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-numerico">Esempio numerico</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="gradiente-stocastico">
+<h1>Gradiente stocastico<a class="headerlink" href="#gradiente-stocastico" title="Link to this heading">#</a></h1>
+<section id="motivazione-algoritmo-e-implementazione">
+<h2>Motivazione, algoritmo e implementazione<a class="headerlink" href="#motivazione-algoritmo-e-implementazione" title="Link to this heading">#</a></h2>
+</section>
+<section id="gradiente-stocastico-motivazione">
+<h2>Gradiente stocastico: motivazione<a class="headerlink" href="#gradiente-stocastico-motivazione" title="Link to this heading">#</a></h2>
+<p>In molti problemi di machine learning la funzione obiettivo è la media degli errori calcolati sui dati di addestramento:</p>
+<div class="math notranslate nohighlight">
+\[
+F(x)=\frac{1}{N}\sum_{i=1}^{N} f_i(x),
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(f_i(x)\)</span> misura l’errore del modello sul dato <span class="math notranslate nohighlight">\(i\)</span>.</p>
+<p>Il metodo del gradiente classico calcola a ogni iterazione</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla F(x_k)=\frac{1}{N}\sum_{i=1}^{N}\nabla f_i(x_k),
+\]</div>
+<p>esaminando l’intero dataset prima di aggiornare i parametri. Quando <span class="math notranslate nohighlight">\(N\)</span> è molto grande, questa operazione può essere costosa e produce aggiornamenti poco frequenti.</p>
+<p>L’idea del gradiente stocastico è usare una stima economica del gradiente, ottenuta da uno o pochi dati, e aggiornare più frequentemente i parametri.</p>
+</section>
+<section id="dal-gradiente-completo-al-gradiente-stocastico">
+<h2>Dal gradiente completo al gradiente stocastico<a class="headerlink" href="#dal-gradiente-completo-al-gradiente-stocastico" title="Link to this heading">#</a></h2>
+<p>Scelto casualmente un indice <span class="math notranslate nohighlight">\(i_k\in\{1,\ldots,N\}\)</span>, si pone</p>
+<div class="math notranslate nohighlight">
+\[
+g_k=\nabla f_{i_k}(x_k)
+\]</div>
+<p>e si aggiorna l’iterato mediante</p>
+<div class="math notranslate nohighlight">
+\[
+x_{k+1}=x_k-\alpha_k g_k,
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(\alpha_k&gt;0\)</span> è la lunghezza del passo, detta spesso <strong>learning rate</strong>.</p>
+<p>Se <span class="math notranslate nohighlight">\(i_k\)</span> è scelto uniformemente, allora</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{E}[g_k\mid x_k]=\nabla F(x_k).
+\]</div>
+<p>Quindi <span class="math notranslate nohighlight">\(g_k\)</span> è uno stimatore non distorto del gradiente completo. Possiamo scrivere</p>
+<div class="math notranslate nohighlight">
+\[
+g_k=\nabla F(x_k)+\varepsilon_k,
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(\varepsilon_k\)</span> è l’errore casuale dovuto al campionamento.</p>
+</section>
+<section id="mini-batch-gradient-descent">
+<h2>Mini-batch gradient descent<a class="headerlink" href="#mini-batch-gradient-descent" title="Link to this heading">#</a></h2>
+<p>Nella pratica si utilizza un sottoinsieme <span class="math notranslate nohighlight">\(B_k\)</span> degli indici, chiamato <strong>mini-batch</strong>. Si calcola</p>
+<div class="math notranslate nohighlight">
+\[
+g_k=\frac{1}{|B_k|}\sum_{i\in B_k}\nabla f_i(x_k)
+\]</div>
+<p>e si applica l’aggiornamento</p>
+<div class="math notranslate nohighlight">
+\[
+x_{k+1}=x_k-\alpha_k g_k.
+\]</div>
+<p>La dimensione del mini-batch determina un compromesso:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(|B_k|=1\)</span>: gradiente stocastico puro, economico ma rumoroso;</p></li>
+<li><p><span class="math notranslate nohighlight">\(1&lt;|B_k|&lt;N\)</span>: minore variabilità e calcolo parallelizzabile;</p></li>
+<li><p><span class="math notranslate nohighlight">\(|B_k|=N\)</span>: metodo del gradiente completo.</p></li>
+</ul>
+<p>Una visita completa di tutti gli <span class="math notranslate nohighlight">\(N\)</span> dati prende il nome di <strong>epoca</strong> (<em>epoch</em>).</p>
+</section>
+<section id="algoritmo-del-gradiente-stocastico-mini-batch">
+<h2>Algoritmo del gradiente stocastico mini-batch<a class="headerlink" href="#algoritmo-del-gradiente-stocastico-mini-batch" title="Link to this heading">#</a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Scegliere il punto iniziale x_0
+
+per epoch = 0, 1, ..., numero_epoche - 1:
+
+    mescolare casualmente gli indici dei dati
+
+    suddividere gli indici in mini-batch B_k
+
+    per ogni mini-batch B_k:
+
+        g_k = media dei gradienti sul mini-batch
+
+        x_{k+1} = x_k - alpha_k g_k
+</pre></div>
+</div>
+<p>Mescolare i dati all’inizio di ogni epoca evita che l’ordine degli esempi introduca un comportamento sistematico indesiderato.</p>
+</section>
+<section id="learning-rate-e-comportamento-del-metodo">
+<h2>Learning rate e comportamento del metodo<a class="headerlink" href="#learning-rate-e-comportamento-del-metodo" title="Link to this heading">#</a></h2>
+<p>Con un learning rate costante,</p>
+<div class="math notranslate nohighlight">
+\[
+\alpha_k=\alpha,
+\]</div>
+<p>il metodo può avanzare rapidamente, ma vicino alla soluzione tende a oscillare a causa del rumore stocastico.</p>
+<p>Una scelta teorica classica utilizza passi decrescenti che soddisfano</p>
+<div class="math notranslate nohighlight">
+\[
+\sum_{k=0}^{\infty}\alpha_k=\infty,
+\qquad
+\sum_{k=0}^{\infty}\alpha_k^2&lt;\infty.
+\]</div>
+<p>Un esempio è <span class="math notranslate nohighlight">\(\alpha_k=\alpha_0/(k+1)\)</span>. Nelle applicazioni si utilizzano anche riduzioni a tratti o altri <em>learning-rate schedules</em>.</p>
+<p>Poiché il gradiente completo può essere costoso, si controllano spesso:</p>
+<ul class="simple">
+<li><p>il numero di epoche;</p></li>
+<li><p>la media della funzione obiettivo;</p></li>
+<li><p>l’errore su un insieme di validazione.</p></li>
+</ul>
+</section>
+<section id="vantaggi-e-limiti">
+<h2>Vantaggi e limiti<a class="headerlink" href="#vantaggi-e-limiti" title="Link to this heading">#</a></h2>
+<section id="vantaggi">
+<h3>Vantaggi<a class="headerlink" href="#vantaggi" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Ogni aggiornamento ha costo ridotto.</p></li>
+<li><p>È adatto a dataset molto grandi.</p></li>
+<li><p>Può essere usato quando i dati arrivano progressivamente.</p></li>
+<li><p>Il rumore può aiutare a non arrestarsi in regioni quasi piatte o vicino ad alcuni punti di sella.</p></li>
+</ul>
+</section>
+<section id="limiti">
+<h3>Limiti<a class="headerlink" href="#limiti" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>La funzione obiettivo non necessariamente diminuisce a ogni iterazione.</p></li>
+<li><p>Gli iterati seguono una traiettoria oscillante.</p></li>
+<li><p>La scelta del learning rate è delicata.</p></li>
+<li><p>La convergenza è generalmente meno regolare di quella del gradiente completo.</p></li>
+</ul>
+</section>
+</section>
+<section id="implementazione-problema-dei-minimi-quadrati">
+<h2>Implementazione: problema dei minimi quadrati<a class="headerlink" href="#implementazione-problema-dei-minimi-quadrati" title="Link to this heading">#</a></h2>
+<p>Consideriamo</p>
+<div class="math notranslate nohighlight">
+\[
+\min_w F(w)=\frac{1}{2N}\lVert Xw-y\rVert^2.
+\]</div>
+<p>Per un mini-batch <span class="math notranslate nohighlight">\((X_B,y_B)\)</span>, il gradiente approssimato è</p>
+<div class="math notranslate nohighlight">
+\[
+g_B(w)=\frac{1}{|B|}X_B^T(X_Bw-y_B).
+\]</div>
+<p>La cella seguente implementa il metodo SGD mini-batch e registra il valore della funzione obiettivo completa alla fine di ogni epoca.</p>
+<div class="cell tag_gradiente-stocastico tag_eseguibile docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sgd_least_squares</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span>
+    <span class="n">y</span><span class="p">,</span>
+    <span class="n">w0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+    <span class="n">alpha0</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">decay</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;SGD mini-batch per un problema lineare ai minimi quadrati.&quot;&quot;&quot;</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">X</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Le dimensioni di X e y non sono compatibili&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">epochs</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">batch_size</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">alpha0</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">decay</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;I parametri del metodo devono essere positivi&quot;</span><span class="p">)</span>
+
+    <span class="n">N</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">if</span> <span class="n">w0</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">w0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+    <span class="n">loss_history</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">iteration</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+            <span class="n">batch_indices</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">]</span>
+            <span class="n">X_batch</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">batch_indices</span><span class="p">]</span>
+            <span class="n">y_batch</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">batch_indices</span><span class="p">]</span>
+
+            <span class="n">residual</span> <span class="o">=</span> <span class="n">X_batch</span> <span class="o">@</span> <span class="n">w</span> <span class="o">-</span> <span class="n">y_batch</span>
+            <span class="n">gradient</span> <span class="o">=</span> <span class="n">X_batch</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">residual</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">batch_indices</span><span class="p">)</span>
+
+            <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">decay</span> <span class="o">*</span> <span class="n">iteration</span><span class="p">)</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">w</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">gradient</span>
+            <span class="n">iteration</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">residual</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">w</span> <span class="o">-</span> <span class="n">y</span>
+        <span class="n">loss_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">residual</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">w</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">loss_history</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="esempio-numerico">
+<h2>Esempio numerico<a class="headerlink" href="#esempio-numerico" title="Link to this heading">#</a></h2>
+<p>Generiamo dati secondo il modello lineare</p>
+<div class="math notranslate nohighlight">
+\[
+y_i=w_0+w_1z_i+\eta_i,
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(\eta_i\)</span> rappresenta il rumore. Applichiamo SGD e confrontiamo i parametri stimati con quelli utilizzati per generare i dati.</p>
+<div class="cell tag_gradiente-stocastico tag_eseguibile docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">500</span>
+
+<span class="n">z</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">z</span><span class="p">))</span>
+<span class="n">w_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">w_true</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+
+<span class="n">w_sgd</span><span class="p">,</span> <span class="n">history</span> <span class="o">=</span> <span class="n">sgd_least_squares</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span>
+    <span class="n">y</span><span class="p">,</span>
+    <span class="n">epochs</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">alpha0</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">decay</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Parametri esatti:  &quot;</span><span class="p">,</span> <span class="n">w_true</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Parametri stimati:&quot;</span><span class="p">,</span> <span class="n">w_sgd</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">history</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epoca&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Funzione obiettivo&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Convergenza del gradiente stocastico&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Parametri esatti:   [0.5 2. ]
+Parametri stimati: [0.49283789 1.99954161]
+</pre></div>
+</div>
+<img alt="../_images/9aa8d55a13b0aceef6c3da78cb09b1cef0be7d729ab4a51d797b423100141c95.png" src="../_images/9aa8d55a13b0aceef6c3da78cb09b1cef0be7d729ab4a51d797b423100141c95.png" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./book"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivazione-algoritmo-e-implementazione">Motivazione, algoritmo e implementazione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradiente-stocastico-motivazione">Gradiente stocastico: motivazione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dal-gradiente-completo-al-gradiente-stocastico">Dal gradiente completo al gradiente stocastico</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mini-batch-gradient-descent">Mini-batch gradient descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo-del-gradiente-stocastico-mini-batch">Algoritmo del gradiente stocastico mini-batch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-rate-e-comportamento-del-metodo">Learning rate e comportamento del metodo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vantaggi-e-limiti">Vantaggi e limiti</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vantaggi">Vantaggi</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limiti">Limiti</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementazione-problema-dei-minimi-quadrati">Implementazione: problema dei minimi quadrati</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-numerico">Esempio numerico</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Elena Loli Piccolomini
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
