@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Equazioni differenziali ordinarie &#8212; Metodi numerici per il calcolo</title>
+    <title>Introduzione alle equazioni differenziali e ai problemi di Cauchy &#8212; Metodi numerici per il calcolo</title>
   
   
   
@@ -57,6 +57,8 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'book/equazioni_differenziali';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -183,6 +185,7 @@
 <li class="toctree-l1"><a class="reference internal" href="intro_mnpc.html">Introduzione al corso Metodi Numerici per il calcolo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="calcolo_multivariato.html">Calcolo multivariato</a></li>
 
+<li class="toctree-l1"><a class="reference internal" href="Ottimizzazione.html">Ottimizzazione numerica</a></li>
 </ul>
 
     </div>
@@ -355,7 +358,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -366,11 +371,31 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Equazioni differenziali ordinarie</h1>
+    <h1>Introduzione alle equazioni differenziali e ai problemi di Cauchy</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#obiettivi-didattici">Obiettivi didattici</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-studiare-le-equazioni-differenziali">Perché studiare le equazioni differenziali?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#equazioni-differenziali-ordinarie">Equazioni differenziali ordinarie</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#il-problema-di-cauchy">Il problema di Cauchy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dalla-soluzione-continua-ai-valori-numerici">Dalla soluzione continua ai valori numerici</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#il-metodo-di-eulero-esplicito">Il metodo di Eulero esplicito</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo">Algoritmo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#errore-e-convergenza">Errore e convergenza</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#il-passo-e-la-stabilita-numerica">Il passo e la stabilità numerica</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sistemi-di-equazioni-differenziali">Sistemi di equazioni differenziali</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#riepilogo">Riepilogo</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -380,8 +405,436 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="equazioni-differenziali-ordinarie">
-<h1>Equazioni differenziali ordinarie<a class="headerlink" href="#equazioni-differenziali-ordinarie" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="introduzione-alle-equazioni-differenziali-e-ai-problemi-di-cauchy">
+<h1>Introduzione alle equazioni differenziali e ai problemi di Cauchy<a class="headerlink" href="#introduzione-alle-equazioni-differenziali-e-ai-problemi-di-cauchy" title="Link to this heading">#</a></h1>
+<section id="obiettivi-didattici">
+<h2>Obiettivi didattici<a class="headerlink" href="#obiettivi-didattici" title="Link to this heading">#</a></h2>
+<p>Al termine del notebook saremo in grado di:</p>
+<ul class="simple">
+<li><p>riconoscere un’equazione differenziale ordinaria e il suo ordine;</p></li>
+<li><p>formulare un problema di Cauchy;</p></li>
+<li><p>comprendere il ruolo del dato iniziale;</p></li>
+<li><p>derivare e implementare il metodo di Eulero esplicito;</p></li>
+<li><p>valutare sperimentalmente l’errore e l’ordine di convergenza;</p></li>
+<li><p>riconoscere l’effetto del passo sulla stabilità numerica.</p></li>
+</ul>
+<section id="perche-studiare-le-equazioni-differenziali">
+<h3>Perché studiare le equazioni differenziali?<a class="headerlink" href="#perche-studiare-le-equazioni-differenziali" title="Link to this heading">#</a></h3>
+<p>Molti fenomeni vengono descritti più naturalmente specificando <strong>come una quantità varia</strong> anziché fornendo direttamente il suo valore. Se <span class="math notranslate nohighlight">\(y(t)\)</span> indica una grandezza dipendente dal tempo, la derivata <span class="math notranslate nohighlight">\(y'(t)\)</span> ne rappresenta il tasso di variazione.</p>
+<p>Esempi:</p>
+<ul class="simple">
+<li><p>crescita di una popolazione o diffusione di un’epidemia;</p></li>
+<li><p>decadimento di una sostanza;</p></li>
+<li><p>moto di un corpo;</p></li>
+<li><p>evoluzione di temperatura o concentrazione;</p></li>
+<li><p>dinamiche continue usate in modelli per l’analisi dei dati, come i <em>neural ODE</em>.</p></li>
+</ul>
+<p>Un’equazione che lega una funzione incognita alle sue derivate è detta <strong>equazione differenziale</strong>.</p>
+</section>
+<section id="equazioni-differenziali-ordinarie">
+<h3>Equazioni differenziali ordinarie<a class="headerlink" href="#equazioni-differenziali-ordinarie" title="Link to this heading">#</a></h3>
+<p>Un’<strong>equazione differenziale ordinaria</strong> (ODE, <em>Ordinary Differential Equation</em>) contiene derivate rispetto a una sola variabile indipendente.</p>
+<p>L’<strong>ordine</strong> dell’equazione è l’ordine massimo delle derivate presenti. Per esempio:</p>
+<div class="math notranslate nohighlight">
+\[y'(t)=-2y(t)\]</div>
+<p>è un’ODE del primo ordine, mentre</p>
+<div class="math notranslate nohighlight">
+\[y''(t)+3y'(t)+2y(t)=0\]</div>
+<p>è un’ODE del secondo ordine. In questo notebook consideriamo soprattutto equazioni del primo ordine scritte nella forma</p>
+<div class="math notranslate nohighlight">
+\[y'(t)=f(t,y(t)).\]</div>
+<p>La funzione <span class="math notranslate nohighlight">\(f\)</span> descrive la legge di evoluzione del sistema.</p>
+<p><em>Una famiglia di soluzioni</em></p>
+<p>Consideriamo</p>
+<div class="math notranslate nohighlight">
+\[y'(t)=-2y(t).\]</div>
+<p>Tutte le funzioni</p>
+<div class="math notranslate nohighlight">
+\[y(t)=C e^{-2t}, \qquad C\in\mathbb{R},\]</div>
+<p>soddisfano l’equazione. L’equazione differenziale, da sola, non determina quindi un’unica soluzione: occorre un’informazione aggiuntiva.</p>
+</section>
+<section id="il-problema-di-cauchy">
+<h3>Il problema di Cauchy<a class="headerlink" href="#il-problema-di-cauchy" title="Link to this heading">#</a></h3>
+<p>Un <strong>problema di Cauchy</strong> per un’ODE del primo ordine consiste nel trovare una funzione <span class="math notranslate nohighlight">\(y(t)\)</span> tale che</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{cases}
+y'(t)=f(t,y(t)), &amp; t\in[t_0,T],\\
+y(t_0)=y_0.
+\end{cases}
+\end{split}\]</div>
+<p>Il valore <span class="math notranslate nohighlight">\(y_0\)</span> è il <strong>dato iniziale</strong>. Geometricamente, stiamo cercando la curva integrale che passa per il punto <span class="math notranslate nohighlight">\((t_0,y_0)\)</span> e la cui pendenza in ogni punto è assegnata da <span class="math notranslate nohighlight">\(f(t,y)\)</span>.</p>
+<p>Nell’esempio <span class="math notranslate nohighlight">\(y'=-2y\)</span>, imponendo <span class="math notranslate nohighlight">\(y(0)=1\)</span> si ottiene <span class="math notranslate nohighlight">\(C=1\)</span> e quindi</p>
+<div class="math notranslate nohighlight">
+\[y(t)=e^{-2t}.\]</div>
+<p><em>Esistenza e unicità: idea essenziale</em></p>
+<p>Prima di approssimare una soluzione è naturale chiedersi se essa esista e sia unica. Una versione semplificata del teorema di <strong>Cauchy–Lipschitz</strong> afferma che, vicino a <span class="math notranslate nohighlight">\((t_0,y_0)\)</span>:</p>
+<ul class="simple">
+<li><p>se <span class="math notranslate nohighlight">\(f(t,y)\)</span> è continua, esiste almeno una soluzione locale;</p></li>
+<li><p>se inoltre <span class="math notranslate nohighlight">\(f\)</span> è lipschitziana rispetto a <span class="math notranslate nohighlight">\(y\)</span>, la soluzione locale è unica.</p></li>
+</ul>
+<p>La condizione di Lipschitz richiede che esista <span class="math notranslate nohighlight">\(L&gt;0\)</span> tale che</p>
+<div class="math notranslate nohighlight">
+\[|f(t,y_1)-f(t,y_2)|\leq L|y_1-y_2|.\]</div>
+<p>Se <span class="math notranslate nohighlight">\(\partial f/\partial y\)</span> è continua e limitata in una regione, allora in quella regione la condizione è soddisfatta. Per esempio, <span class="math notranslate nohighlight">\(f(t,y)=-2y\)</span> è lipschitziana rispetto a <span class="math notranslate nohighlight">\(y\)</span> con <span class="math notranslate nohighlight">\(L=2\)</span>.</p>
+<blockquote>
+<div><p><strong>Nota.</strong> Queste condizioni sono sufficienti, non necessarie. In questo corso ci concentreremo sulla costruzione e sull’analisi dei metodi numerici.</p>
+</div></blockquote>
+</section>
+<section id="dalla-soluzione-continua-ai-valori-numerici">
+<h3>Dalla soluzione continua ai valori numerici<a class="headerlink" href="#dalla-soluzione-continua-ai-valori-numerici" title="Link to this heading">#</a></h3>
+<p>In generale non è possibile esprimere la soluzione di un problema di Cauchy mediante una formula chiusa. Cerchiamo allora approssimazioni in un insieme discreto di istanti.</p>
+<p>Dividiamo <span class="math notranslate nohighlight">\([t_0,T]\)</span> in <span class="math notranslate nohighlight">\(N\)</span> sottointervalli di ampiezza costante</p>
+<div class="math notranslate nohighlight">
+\[h=\frac{T-t_0}{N}, \qquad t_n=t_0+nh, \quad n=0,\ldots,N.\]</div>
+<p>Indichiamo con <span class="math notranslate nohighlight">\(y_n\)</span> un’approssimazione del valore esatto <span class="math notranslate nohighlight">\(y(t_n)\)</span>. Il numero <span class="math notranslate nohighlight">\(h\)</span> è detto <strong>passo di discretizzazione</strong>.</p>
+</section>
+<section id="il-metodo-di-eulero-esplicito">
+<h3>Il metodo di Eulero esplicito<a class="headerlink" href="#il-metodo-di-eulero-esplicito" title="Link to this heading">#</a></h3>
+<p>Dalla definizione di derivata, per <span class="math notranslate nohighlight">\(h\)</span> piccolo,</p>
+<div class="math notranslate nohighlight">
+\[y'(t_n)\approx\frac{y(t_{n+1})-y(t_n)}{h}.\]</div>
+<p>Poiché l’equazione impone <span class="math notranslate nohighlight">\(y'(t_n)=f(t_n,y(t_n))\)</span>, otteniamo</p>
+<div class="math notranslate nohighlight">
+\[\frac{y(t_{n+1})-y(t_n)}{h}\approx f(t_n,y(t_n)).\]</div>
+<p>Sostituendo i valori esatti con le approssimazioni numeriche segue la formula di Eulero:</p>
+<div class="math notranslate nohighlight">
+\[\boxed{y_{n+1}=y_n+h f(t_n,y_n)}, \qquad y_0\text{ assegnato}.\]</div>
+<p>Il metodo è <strong>esplicito</strong> perché <span class="math notranslate nohighlight">\(y_{n+1}\)</span> si calcola direttamente usando quantità già note. Geometricamente, a ogni passo si prosegue lungo la retta tangente determinata dalla pendenza <span class="math notranslate nohighlight">\(f(t_n,y_n)\)</span>.</p>
+</section>
+<section id="algoritmo">
+<h3>Algoritmo<a class="headerlink" href="#algoritmo" title="Link to this heading">#</a></h3>
+<p><strong>Input:</strong> funzione <span class="math notranslate nohighlight">\(f\)</span>, estremi <span class="math notranslate nohighlight">\(t_0,T\)</span>, dato iniziale <span class="math notranslate nohighlight">\(y_0\)</span>, numero di passi <span class="math notranslate nohighlight">\(N\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Calcola <span class="math notranslate nohighlight">\(h=(T-t_0)/N\)</span>.</p></li>
+<li><p>Poni <span class="math notranslate nohighlight">\(t_0\)</span> e <span class="math notranslate nohighlight">\(y_0\)</span> come valori iniziali.</p></li>
+<li><p>Per <span class="math notranslate nohighlight">\(n=0,\ldots,N-1\)</span>, calcola <span class="math notranslate nohighlight">\(y_{n+1}=y_n+h f(t_n,y_n)\)</span>.</p></li>
+<li><p>Restituisci i nodi <span class="math notranslate nohighlight">\(t_n\)</span> e le approssimazioni <span class="math notranslate nohighlight">\(y_n\)</span>.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;seaborn-v0_8-whitegrid&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">eulero_esplicito</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">intervallo</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Approssima y&#39; = f(t, y), y(t0) = y0, con Eulero esplicito.</span>
+
+<span class="sd">    Parametri</span>
+<span class="sd">    ---------</span>
+<span class="sd">    f          : funzione f(t, y)</span>
+<span class="sd">    intervallo : coppia (t0, T)</span>
+<span class="sd">    y0         : dato iniziale scalare o vettoriale</span>
+<span class="sd">    N          : numero di passi</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">t0</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="n">intervallo</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">T</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)</span> <span class="o">/</span> <span class="n">N</span>
+
+    <span class="n">y0_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,)</span> <span class="o">+</span> <span class="n">y0_array</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">y0_array</span>
+
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">n</span><span class="p">]))</span>
+
+    <span class="k">return</span> <span class="n">t</span><span class="p">,</span> <span class="n">y</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Esempio 1</em></p>
+<p>Consideriamo il problema</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{cases}
+y'(t)=-2y(t),\\
+y(0)=1,
+\end{cases}
+\qquad t\in[0,2].
+\end{split}\]</div>
+<p>La soluzione esatta è <span class="math notranslate nohighlight">\(y(t)=e^{-2t}\)</span>. Applichiamo Eulero con <span class="math notranslate nohighlight">\(N=10\)</span>, dunque <span class="math notranslate nohighlight">\(h=0.2\)</span>. Il primo passo è</p>
+<div class="math notranslate nohighlight">
+\[y_1=y_0+h(-2y_0)=1+0.2(-2)=0.6.\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">y</span>
+<span class="n">soluzione_esatta</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span>
+
+<span class="n">t</span><span class="p">,</span> <span class="n">y_eulero</span> <span class="o">=</span> <span class="n">eulero_esplicito</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">y0</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">y_esatta</span> <span class="o">=</span> <span class="n">soluzione_esatta</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Passo h = </span><span class="si">{</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;  n      t_n       Eulero       Esatta        Errore&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="p">(</span><span class="n">tn</span><span class="p">,</span> <span class="n">yn</span><span class="p">,</span> <span class="n">ye</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y_eulero</span><span class="p">,</span> <span class="n">y_esatta</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">n</span><span class="si">:</span><span class="s1">3d</span><span class="si">}</span><span class="s1">   </span><span class="si">{</span><span class="n">tn</span><span class="si">:</span><span class="s1">6.2f</span><span class="si">}</span><span class="s1">   </span><span class="si">{</span><span class="n">yn</span><span class="si">:</span><span class="s1">10.6f</span><span class="si">}</span><span class="s1">   </span><span class="si">{</span><span class="n">ye</span><span class="si">:</span><span class="s1">10.6f</span><span class="si">}</span><span class="s1">   </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">yn</span><span class="o">-</span><span class="n">ye</span><span class="p">)</span><span class="si">:</span><span class="s1">10.2e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Passo h = 0.20
+  n      t_n       Eulero       Esatta        Errore
+  0     0.00     1.000000     1.000000     0.00e+00
+  1     0.20     0.600000     0.670320     7.03e-02
+  2     0.40     0.360000     0.449329     8.93e-02
+  3     0.60     0.216000     0.301194     8.52e-02
+  4     0.80     0.129600     0.201897     7.23e-02
+  5     1.00     0.077760     0.135335     5.76e-02
+  6     1.20     0.046656     0.090718     4.41e-02
+  7     1.40     0.027994     0.060810     3.28e-02
+  8     1.60     0.016796     0.040762     2.40e-02
+  9     1.80     0.010078     0.027324     1.72e-02
+ 10     2.00     0.006047     0.018316     1.23e-02
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t_fine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_fine</span><span class="p">,</span> <span class="n">soluzione_esatta</span><span class="p">(</span><span class="n">t_fine</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;soluzione esatta&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y_eulero</span><span class="p">,</span> <span class="s1">&#39;o--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Eulero, h = 0.2&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$t$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$y$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Decadimento esponenziale&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/9c1cc8a152e332f89fab77acd4950529c250e8c2c79ea9ee557d9fa4f0a67b9e.png" src="../_images/9c1cc8a152e332f89fab77acd4950529c250e8c2c79ea9ee557d9fa4f0a67b9e.png" />
+</div>
+</div>
+</section>
+<section id="errore-e-convergenza">
+<h3>Errore e convergenza<a class="headerlink" href="#errore-e-convergenza" title="Link to this heading">#</a></h3>
+<p>L’<strong>errore globale</strong> al nodo <span class="math notranslate nohighlight">\(t_n\)</span> è</p>
+<div class="math notranslate nohighlight">
+\[e_n=y(t_n)-y_n.\]</div>
+<p>Per misurare l’errore sull’intero intervallo usiamo, per esempio,</p>
+<div class="math notranslate nohighlight">
+\[E_h=\max_{0\leq n\leq N}|e_n|.\]</div>
+<p>Sotto opportune ipotesi di regolarità, il metodo di Eulero è di <strong>ordine uno</strong>:</p>
+<div class="math notranslate nohighlight">
+\[E_h=O(h).\]</div>
+<p>Quindi, dimezzando <span class="math notranslate nohighlight">\(h\)</span>, ci aspettiamo che l’errore globale si dimezzi circa. Verifichiamolo numericamente.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">numeri_passi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">160</span><span class="p">])</span>
+<span class="n">passi</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="n">numeri_passi</span>
+<span class="n">errori</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">N</span> <span class="ow">in</span> <span class="n">numeri_passi</span><span class="p">:</span>
+    <span class="n">t_num</span><span class="p">,</span> <span class="n">y_num</span> <span class="o">=</span> <span class="n">eulero_esplicito</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">y0</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">errore</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">soluzione_esatta</span><span class="p">(</span><span class="n">t_num</span><span class="p">)</span> <span class="o">-</span> <span class="n">y_num</span><span class="p">))</span>
+    <span class="n">errori</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">errore</span><span class="p">)</span>
+
+<span class="n">errori</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">errori</span><span class="p">)</span>
+<span class="n">ordini</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">errori</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">errori</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;    h          errore massimo    ordine stimato&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">passi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">8.5f</span><span class="si">}</span><span class="s1">      </span><span class="si">{</span><span class="n">errori</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">10.3e</span><span class="si">}</span><span class="s1">          -&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">h</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">passi</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">errori</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">ordini</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">h</span><span class="si">:</span><span class="s1">8.5f</span><span class="si">}</span><span class="s1">      </span><span class="si">{</span><span class="n">err</span><span class="si">:</span><span class="s1">10.3e</span><span class="si">}</span><span class="s1">        </span><span class="si">{</span><span class="n">p</span><span class="si">:</span><span class="s1">5.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    h          errore massimo    ordine stimato
+ 0.40000       2.493e-01          -
+ 0.20000       8.933e-02        1.481
+ 0.10000       4.020e-02        1.152
+ 0.05000       1.920e-02        1.066
+ 0.02500       9.394e-03        1.031
+ 0.01250       4.647e-03        1.015
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">passi</span><span class="p">,</span> <span class="n">errori</span><span class="p">,</span> <span class="s1">&#39;o-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;errore di Eulero&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">passi</span><span class="p">,</span> <span class="n">errori</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">passi</span> <span class="o">/</span> <span class="n">passi</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;riferimento $O(h)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;passo $h$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;errore massimo&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Convergenza del metodo di Eulero&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/3f89e19b3ec348cb8d05c96c0c58e5ef924ae56fde04f0f74a3571f14e740868.png" src="../_images/3f89e19b3ec348cb8d05c96c0c58e5ef924ae56fde04f0f74a3571f14e740868.png" />
+</div>
+</div>
+</section>
+<section id="il-passo-e-la-stabilita-numerica">
+<h3>Il passo e la stabilità numerica<a class="headerlink" href="#il-passo-e-la-stabilita-numerica" title="Link to this heading">#</a></h3>
+<p>Un passo piccolo non serve soltanto a migliorare l’accuratezza: può essere necessario per evitare comportamenti numerici non fisici. Consideriamo l’equazione test</p>
+<div class="math notranslate nohighlight">
+\[y'=\lambda y, \qquad \lambda&lt;0.\]</div>
+<p>La soluzione esatta decade verso zero. Eulero produce invece</p>
+<div class="math notranslate nohighlight">
+\[y_{n+1}=(1+h\lambda)y_n,\]</div>
+<p>e quindi <span class="math notranslate nohighlight">\(y_n=(1+h\lambda)^n y_0\)</span>. Affinché anche la soluzione numerica decada, deve valere</p>
+<div class="math notranslate nohighlight">
+\[|1+h\lambda|&lt;1.\]</div>
+<p>Per <span class="math notranslate nohighlight">\(\lambda=-10\)</span> la condizione diventa <span class="math notranslate nohighlight">\(0&lt;h&lt;0.2\)</span>. Se scegliamo <span class="math notranslate nohighlight">\(h=0.25\)</span>, il fattore di amplificazione è <span class="math notranslate nohighlight">\(-1.5\)</span>: la soluzione numerica oscilla e cresce, anche se quella esatta tende a zero.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f_stiff</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="o">-</span><span class="mi">10</span> <span class="o">*</span> <span class="n">y</span>
+<span class="n">t_esatto</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_esatto</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span> <span class="o">*</span> <span class="n">t_esatto</span><span class="p">),</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;soluzione esatta&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">N</span><span class="p">,</span> <span class="n">colore</span> <span class="ow">in</span> <span class="p">[(</span><span class="mi">20</span><span class="p">,</span> <span class="s1">&#39;C0&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;C3&#39;</span><span class="p">)]:</span>
+    <span class="n">t_num</span><span class="p">,</span> <span class="n">y_num</span> <span class="o">=</span> <span class="n">eulero_esplicito</span><span class="p">(</span><span class="n">f_stiff</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">N</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_num</span><span class="p">,</span> <span class="n">y_num</span><span class="p">,</span> <span class="s1">&#39;o--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colore</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Eulero, h=</span><span class="si">{</span><span class="n">h</span><span class="si">:</span><span class="s1">g</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$t$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$y$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Passo stabile e passo instabile&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/10ba5ff2d6de8ab73cec09b9c955875f6180012d2cf1561d0e43ea3251cc902a.png" src="../_images/10ba5ff2d6de8ab73cec09b9c955875f6180012d2cf1561d0e43ea3251cc902a.png" />
+</div>
+</div>
+<p><em>Esempio 2</em></p>
+<p>Un modello più realistico della crescita esponenziale tiene conto di una capacità massima <span class="math notranslate nohighlight">\(K\)</span> dell’ambiente:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{cases}
+P'(t)=rP(t)\left(1-\dfrac{P(t)}{K}\right),\\
+P(0)=P_0.
+\end{cases}
+\end{split}\]</div>
+<p><span class="math notranslate nohighlight">\(P(t)\)</span> può rappresentare una popolazione o, più in generale, una quantità che inizialmente cresce e poi satura. Il parametro <span class="math notranslate nohighlight">\(r&gt;0\)</span> è il tasso di crescita e <span class="math notranslate nohighlight">\(K&gt;0\)</span> è la capacità portante.</p>
+<p>La soluzione esatta, utile per il confronto, è</p>
+<div class="math notranslate nohighlight">
+\[P(t)=\frac{K}{1+\left(\frac{K-P_0}{P_0}\right)e^{-rt}}.\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">P0</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">,</span> <span class="mf">5.0</span>
+<span class="n">f_logistica</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">,</span> <span class="n">P</span><span class="p">:</span> <span class="n">r</span> <span class="o">*</span> <span class="n">P</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">P</span> <span class="o">/</span> <span class="n">K</span><span class="p">)</span>
+<span class="n">P_esatta</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">K</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">((</span><span class="n">K</span> <span class="o">-</span> <span class="n">P0</span><span class="p">)</span> <span class="o">/</span> <span class="n">P0</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">r</span> <span class="o">*</span> <span class="n">t</span><span class="p">))</span>
+
+<span class="n">t</span><span class="p">,</span> <span class="n">P_eulero</span> <span class="o">=</span> <span class="n">eulero_esplicito</span><span class="p">(</span><span class="n">f_logistica</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">P0</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+<span class="n">t_fine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_fine</span><span class="p">,</span> <span class="n">P_esatta</span><span class="p">(</span><span class="n">t_fine</span><span class="p">),</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;soluzione esatta&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">P_eulero</span><span class="p">,</span> <span class="s1">&#39;o--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Eulero, h=0.5&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;capacità $K$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$t$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$P(t)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Modello logistico&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/b1e86e81f5061e19cafa2dae2ab3ee003df096a11b600d7976bb0b14292e3ee5.png" src="../_images/b1e86e81f5061e19cafa2dae2ab3ee003df096a11b600d7976bb0b14292e3ee5.png" />
+</div>
+</div>
+</section>
+<section id="sistemi-di-equazioni-differenziali">
+<h3>Sistemi di equazioni differenziali<a class="headerlink" href="#sistemi-di-equazioni-differenziali" title="Link to this heading">#</a></h3>
+<p>Le stesse idee valgono quando l’incognita è un vettore <span class="math notranslate nohighlight">\(\mathbf y(t)\in\mathbb{R}^m\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf y'(t)=\mathbf f(t,\mathbf y(t)), \qquad \mathbf y(t_0)=\mathbf y_0.\]</div>
+<p>Eulero si scrive senza modifiche sostanziali:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf y_{n+1}=\mathbf y_n+h\mathbf f(t_n,\mathbf y_n).\]</div>
+<p>Per esempio, l’equazione del secondo ordine <span class="math notranslate nohighlight">\(x''+\gamma x'+\omega^2x=0\)</span> può essere trasformata nel sistema del primo ordine</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{cases}
+x'=v,\\
+v'=-\omega^2x-\gamma v.
+\end{cases}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">omega</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.4</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">oscillatore_smorzato</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">stato</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">stato</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">v</span><span class="p">,</span> <span class="o">-</span><span class="n">omega</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="n">gamma</span> <span class="o">*</span> <span class="n">v</span><span class="p">])</span>
+
+<span class="n">t</span><span class="p">,</span> <span class="n">stato</span> <span class="o">=</span> <span class="n">eulero_esplicito</span><span class="p">(</span><span class="n">oscillatore_smorzato</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">y0</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">N</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">stato</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">stato</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">assi</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">assi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$x(t)$&#39;</span><span class="p">)</span>
+<span class="n">assi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$v(t)$&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">assi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$t$&#39;</span><span class="p">)</span>
+<span class="n">assi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Evoluzione temporale&#39;</span><span class="p">)</span>
+<span class="n">assi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">assi</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+<span class="n">assi</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$x$&#39;</span><span class="p">)</span>
+<span class="n">assi</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$v$&#39;</span><span class="p">)</span>
+<span class="n">assi</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Traiettoria nel piano delle fasi&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/71219ea7d2724d6ddcf278aee61cfbdcfe6ef328edbd6b47243ce2aeaf90cb80.png" src="../_images/71219ea7d2724d6ddcf278aee61cfbdcfe6ef328edbd6b47243ce2aeaf90cb80.png" />
+</div>
+</div>
+<p><em>Costo e limiti del metodo</em></p>
+<p>Con <span class="math notranslate nohighlight">\(N\)</span> passi, Eulero richiede <span class="math notranslate nohighlight">\(N\)</span> valutazioni della funzione <span class="math notranslate nohighlight">\(f\)</span>, quindi il costo cresce linearmente con <span class="math notranslate nohighlight">\(N\)</span>. Il metodo è semplice e utile per comprendere i concetti fondamentali, ma presenta alcuni limiti:</p>
+<ul class="simple">
+<li><p>ha ordine di convergenza soltanto uno;</p></li>
+<li><p>può richiedere passi molto piccoli;</p></li>
+<li><p>può diventare instabile per problemi rigidi (<em>stiff</em>);</p></li>
+<li><p>non conserva necessariamente proprietà qualitative della soluzione, come positività o energia.</p></li>
+</ul>
+<p>Metodi più accurati, come Heun e Runge–Kutta, saranno costruiti a partire dalle stesse idee.</p>
+<p><strong>Esercizi</strong></p>
+<p><em>Esercizio 1</em> — Calcolo manuale*
+Per il problema <span class="math notranslate nohighlight">\(y'=y-t\)</span>, <span class="math notranslate nohighlight">\(y(0)=1\)</span>, calcolare a mano i primi tre passi di Eulero con <span class="math notranslate nohighlight">\(h=0.1\)</span>.</p>
+<p>*Esercizio 2 — <em>Confronto con la soluzione esatta</em>
+Applicare Eulero a <span class="math notranslate nohighlight">\(y'=3y\)</span>, <span class="math notranslate nohighlight">\(y(0)=2\)</span> nell’intervallo <span class="math notranslate nohighlight">\([0,1]\)</span>. Confrontare con <span class="math notranslate nohighlight">\(y(t)=2e^{3t}\)</span> usando <span class="math notranslate nohighlight">\(N=10,20,40\)</span>. Che cosa accade all’errore quando <span class="math notranslate nohighlight">\(N\)</span> raddoppia?</p>
+<p><em>Esercizio 3 — Stabilità</em>
+Per <span class="math notranslate nohighlight">\(y'=-20y\)</span>, determinare teoricamente l’intervallo di valori di <span class="math notranslate nohighlight">\(h\)</span> per cui Eulero è stabile. Verificare numericamente con due passi: uno interno e uno esterno all’intervallo.</p>
+<p><em>Esercizio 4 — Dati e modello logistico</em>
+Modificare <span class="math notranslate nohighlight">\(r\)</span>, <span class="math notranslate nohighlight">\(K\)</span> e <span class="math notranslate nohighlight">\(P_0\)</span> nell’esempio logistico. Descrivere separatamente l’effetto di ciascun parametro sulla curva.</p>
+<p><em>Esercizio 5 — Sistema</em>
+Nel modello dell’oscillatore, porre <span class="math notranslate nohighlight">\(\gamma=0\)</span>. Ripetere l’esperimento con diversi valori di <span class="math notranslate nohighlight">\(h\)</span> e osservare se l’ampiezza numerica rimane costante.</p>
+</section>
+</section>
+<section id="riepilogo">
+<h2>Riepilogo<a class="headerlink" href="#riepilogo" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Un problema di Cauchy combina un’ODE con un dato iniziale.</p></li>
+<li><p>Il metodo di Eulero sostituisce localmente la soluzione con la sua retta tangente.</p></li>
+<li><p>La ricorrenza è <span class="math notranslate nohighlight">\(y_{n+1}=y_n+h f(t_n,y_n)\)</span>.</p></li>
+<li><p>Eulero è un metodo di ordine uno: l’errore globale è proporzionale a <span class="math notranslate nohighlight">\(h\)</span>.</p></li>
+<li><p>La scelta del passo influenza sia l’accuratezza sia la stabilità.</p></li>
+<li><p>La formulazione si estende direttamente ai sistemi di ODE.</p></li>
+</ul>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -420,6 +873,33 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#obiettivi-didattici">Obiettivi didattici</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-studiare-le-equazioni-differenziali">Perché studiare le equazioni differenziali?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#equazioni-differenziali-ordinarie">Equazioni differenziali ordinarie</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#il-problema-di-cauchy">Il problema di Cauchy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dalla-soluzione-continua-ai-valori-numerici">Dalla soluzione continua ai valori numerici</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#il-metodo-di-eulero-esplicito">Il metodo di Eulero esplicito</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo">Algoritmo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#errore-e-convergenza">Errore e convergenza</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#il-passo-e-la-stabilita-numerica">Il passo e la stabilità numerica</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sistemi-di-equazioni-differenziali">Sistemi di equazioni differenziali</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#riepilogo">Riepilogo</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

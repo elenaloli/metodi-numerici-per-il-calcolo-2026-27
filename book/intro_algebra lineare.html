@@ -62,6 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'book/intro_algebra lineare';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Ottimizzazione numerica" href="Ottimizzazione.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -124,8 +125,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -181,9 +180,15 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="intro_mnpc.html">Introduzione al corso Metodi Numerici per il calcolo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="calcolo_multivariato.html">Calcolo multivariato</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Ottimizzazione.html">Ottimizzazione numerica</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Algebra lineare numerica: basics</a></li>
+
+
+
 
 </ul>
 
@@ -384,37 +389,33 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spazi-vettoriali">Spazi vettoriali</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combinazioni-e-indipendenza-lineare">Combinazioni e indipendenza lineare</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#insieme-generatore-base-dimensione-e-rango">Insieme generatore, base, dimensione e rango</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#applicazioni-lineari">Applicazioni lineari</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#applicazioni-lineari">Applicazioni lineari</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spazi-affini">Spazi affini</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#applicazioni-affini">Applicazioni affini</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#schema-riassuntivo">Schema riassuntivo</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#domande-rapide-di-autoverifica">Domande rapide di autoverifica</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#norme">Norme</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#norme">2. Norme</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prodotti-scalari">Prodotti scalari</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#angoli-e-ortogonalita">Angoli e ortogonalità</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrici-ortogonali">Matrici ortogonali</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proiezioni-ortogonali">Proiezioni ortogonali</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proiezione-su-una-retta">Proiezione su una retta</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proiezione-su-un-sottospazio">Proiezione su un sottospazio</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proiezione-su-uno-spazio-affine">Proiezione su uno spazio affine</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collegamenti-con-il-machine-learning">Collegamenti con il machine learning</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Schema riassuntivo</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Domande rapide di autoverifica</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#alcuni-esempi">Alcuni esempi</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-1-norma-manhattan-e-norma-euclidea">Esempio 1 — Norma Manhattan e norma euclidea</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-2-matrici-simmetriche-definite-positive">Esempio 2 — Matrici simmetriche definite positive</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-3-la-lunghezza-dipende-dal-prodotto-scalare">Esempio 3 — La lunghezza dipende dal prodotto scalare</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-4-angolo-tra-due-vettori">Esempio 4 — Angolo tra due vettori</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-5-come-verificare-se-due-vettori-sono-ortogonali">Esempio 5 — Come verificare se due vettori sono ortogonali</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-6-una-base-ortonormale-di-mathbb-r-2">Esempio 6 — Una base ortonormale di <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span></a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-6-proiezione-ortogonale-su-una-retta">Esempio 6 — Proiezione ortogonale su una retta</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#idee-da-ricordare">Idee da ricordare</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Schema riassuntivo</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#domande-rapide-di-autoverifica">Domande rapide di autoverifica</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#alcuni-esempi">3.  Alcuni esempi</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-1-norma-manhattan-e-norma-euclidea">Esempio 1 — Norma Manhattan e norma euclidea</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-2-matrici-simmetriche-definite-positive">Esempio 2 — Matrici simmetriche definite positive</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-3-come-verificare-se-due-vettori-sono-ortogonali">Esempio 3 — Come verificare se due vettori sono ortogonali</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-4-una-base-ortonormale-di-mathbb-r-2">Esempio 4 — Una base ortonormale di <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-5-proiezione-ortogonale-su-una-retta">Esempio 5 — Proiezione ortogonale su una retta</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#idee-da-ricordare">Idee da ricordare</a></li>
+</ul>
+</li>
 </ul>
 
             </nav>
@@ -628,9 +629,8 @@ La seconda riga è il doppio della prima: la matrice è a rango ridotto.
 </div>
 </div>
 </section>
-</section>
 <section id="applicazioni-lineari">
-<h1>Applicazioni lineari<a class="headerlink" href="#applicazioni-lineari" title="Link to this heading">#</a></h1>
+<h2>Applicazioni lineari<a class="headerlink" href="#applicazioni-lineari" title="Link to this heading">#</a></h2>
 <p>Una funzione <span class="math notranslate nohighlight">\(\Phi:V\rightarrow W\)</span> è un’<strong>applicazione lineare</strong> se conserva combinazioni lineari:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -749,90 +749,7 @@ verifica rango + nullità = 3
 </div>
 </div>
 </div>
-<section id="spazi-affini">
-<h2>Spazi affini<a class="headerlink" href="#spazi-affini" title="Link to this heading">#</a></h2>
-<p>Un <strong>sottospazio affine</strong> è la traslazione di un sottospazio vettoriale:</p>
-<div class="math notranslate nohighlight">
-\[
-L=\boldsymbol{x}_0+U
-=\{\boldsymbol{x}_0+\boldsymbol{u}:\boldsymbol{u}\in U\}.
-\]</div>
-<p>Qui <span class="math notranslate nohighlight">\(\boldsymbol{x}_0\)</span> è un punto di supporto e <span class="math notranslate nohighlight">\(U\)</span> è lo spazio delle direzioni. A differenza di un sottospazio vettoriale, uno spazio affine non deve passare per l’origine.</p>
-<p>Esempi:</p>
-<ul class="simple">
-<li><p>un punto è uno spazio affine di dimensione zero;</p></li>
-<li><p>una retta affine è <span class="math notranslate nohighlight">\(\boldsymbol{x}_0+\lambda\boldsymbol{b}\)</span>;</p></li>
-<li><p>un piano affine è <span class="math notranslate nohighlight">\(\boldsymbol{x}_0+\lambda_1\boldsymbol{b}_1+\lambda_2\boldsymbol{b}_2\)</span>;</p></li>
-<li><p>un iperpiano in <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span> ha dimensione <span class="math notranslate nohighlight">\(n-1\)</span>.</p></li>
-</ul>
-<p>Se il sistema <span class="math notranslate nohighlight">\(A\boldsymbol{x}=\boldsymbol{b}\)</span> è compatibile, il suo insieme di soluzioni è uno spazio affine di dimensione <span class="math notranslate nohighlight">\(n-\operatorname{rk}(A)\)</span>.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Confronto tra un sottospazio e una retta affine parallela.</span>
-<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-<span class="n">direzione</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">])</span>
-<span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">])</span>
-
-<span class="n">U</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">direzione</span><span class="p">)</span>
-<span class="n">L</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">+</span> <span class="n">U</span>
-
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">U</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">U</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$U$: sottospazio&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">L</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">L</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$L=x_0+U$: spazio affine&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">x0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;crimson&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$x_0$&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Uno spazio affine è un sottospazio traslato&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/297f62d72a539a1d0279ae3f9c1bfa54de29b467a30352430f6dc4cfe93ab9dd.png" src="../_images/297f62d72a539a1d0279ae3f9c1bfa54de29b467a30352430f6dc4cfe93ab9dd.png" />
-</div>
-</div>
 </section>
-</section>
-<section id="applicazioni-affini">
-<h1>Applicazioni affini<a class="headerlink" href="#applicazioni-affini" title="Link to this heading">#</a></h1>
-<p>Un’<strong>applicazione affine</strong> ha la forma</p>
-<div class="math notranslate nohighlight">
-\[
-\phi(\boldsymbol{x})
-=\boldsymbol{a}+\Phi(\boldsymbol{x}),
-\]</div>
-<p>dove <span class="math notranslate nohighlight">\(\Phi\)</span> è lineare e <span class="math notranslate nohighlight">\(\boldsymbol{a}\)</span> è un vettore di traslazione. In coordinate:</p>
-<div class="math notranslate nohighlight">
-\[
-\phi(\boldsymbol{x})=A\boldsymbol{x}+\boldsymbol{a}.
-\]</div>
-<p>Se <span class="math notranslate nohighlight">\(\boldsymbol{a}\neq\boldsymbol{0}\)</span>, l’applicazione non è lineare perché in generale <span class="math notranslate nohighlight">\(\phi(\boldsymbol{0})\neq\boldsymbol{0}\)</span>.</p>
-<p>Nella letteratura sul machine learning, modelli della forma <span class="math notranslate nohighlight">\(A\boldsymbol{x}+\boldsymbol{b}\)</span> vengono spesso chiamati “lineari”, anche se matematicamente sono affini. Il termine <span class="math notranslate nohighlight">\(\boldsymbol{b}\)</span> è il <strong>bias</strong> o intercetta.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
-              <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]])</span>
-<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">])</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">trasformazione_affine</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">A</span> <span class="o">@</span> <span class="n">x</span> <span class="o">+</span> <span class="n">b</span>
-
-<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;phi(x) =&quot;</span><span class="p">,</span> <span class="n">trasformazione_affine</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;phi(0) =&quot;</span><span class="p">,</span> <span class="n">trasformazione_affine</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Poiché phi(0) non è 0, la trasformazione è affine ma non lineare.&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>phi(x) = [5. 1.]
-phi(0) = [ 1. -1.]
-Poiché phi(0) non è 0, la trasformazione è affine ma non lineare.
-</pre></div>
-</div>
-</div>
-</div>
 </section>
 <section id="schema-riassuntivo">
 <h1>Schema riassuntivo<a class="headerlink" href="#schema-riassuntivo" title="Link to this heading">#</a></h1>
@@ -879,18 +796,10 @@ Poiché phi(0) non è 0, la trasformazione è affine ma non lineare.
 <tr class="row-odd"><td><p>Immagine</p></td>
 <td><p>Insieme dei risultati raggiungibili</p></td>
 </tr>
-<tr class="row-even"><td><p>Spazio affine</p></td>
-<td><p>Sottospazio vettoriale traslato</p></td>
-</tr>
-<tr class="row-odd"><td><p>Applicazione affine</p></td>
-<td><p>Trasformazione <span class="math notranslate nohighlight">\(A\boldsymbol{x}+\boldsymbol{b}\)</span></p></td>
-</tr>
 </tbody>
 </table>
 </div>
-</section>
-<section id="domande-rapide-di-autoverifica">
-<h1>Domande rapide di autoverifica<a class="headerlink" href="#domande-rapide-di-autoverifica" title="Link to this heading">#</a></h1>
+<p><em>Domande rapide di autoverifica</em></p>
 <ol class="arabic simple">
 <li><p>Perché una retta che non passa per l’origine non è un sottospazio vettoriale?</p></li>
 <li><p>Qual è la differenza tra un insieme generatore e una base?</p></li>
@@ -899,8 +808,9 @@ Poiché phi(0) non è 0, la trasformazione è affine ma non lineare.
 <li><p>Che cosa rappresentano geometricamente nucleo e immagine?</p></li>
 <li><p>Perché <span class="math notranslate nohighlight">\(A\boldsymbol{x}+\boldsymbol{b}\)</span> con <span class="math notranslate nohighlight">\(\boldsymbol{b}\neq0\)</span> è affine ma non lineare?</p></li>
 </ol>
+</section>
 <section id="norme">
-<h2>Norme<a class="headerlink" href="#norme" title="Link to this heading">#</a></h2>
+<h1>2. Norme<a class="headerlink" href="#norme" title="Link to this heading">#</a></h1>
 <p>Una <strong>norma</strong> assegna a ogni vettore <span class="math notranslate nohighlight">\(\boldsymbol{x}\in V\)</span> una lunghezza <span class="math notranslate nohighlight">\(\|\boldsymbol{x}\|\)</span>. Deve soddisfare:</p>
 <ol class="arabic simple">
 <li><p><strong>positività</strong>: <span class="math notranslate nohighlight">\(\|\boldsymbol{x}\|\geq 0\)</span> e <span class="math notranslate nohighlight">\(\|\boldsymbol{x}\|=0\)</span> solo per <span class="math notranslate nohighlight">\(\boldsymbol{x}=\boldsymbol{0}\)</span>;</p></li>
@@ -968,7 +878,6 @@ norma infinito = 4.0
 <img alt="../_images/d8c3e08f4630a4c9693133c4991ddb5e45573a27dab534f2bf2209db5d9c5f09.png" src="../_images/d8c3e08f4630a4c9693133c4991ddb5e45573a27dab534f2bf2209db5d9c5f09.png" />
 </div>
 </div>
-</section>
 <section id="prodotti-scalari">
 <h2>Prodotti scalari<a class="headerlink" href="#prodotti-scalari" title="Link to this heading">#</a></h2>
 <p>Un <strong>prodotto scalare</strong> è una funzione <span class="math notranslate nohighlight">\(\langle\cdot,\cdot\rangle:V\times V\to\mathbb{R}\)</span> bilineare, simmetrica e definita positiva.</p>
@@ -1256,16 +1165,6 @@ P=BB^T.
 \]</div>
 <p>Le proiezioni collegano direttamente la geometria ai <strong>minimi quadrati</strong>: quando <span class="math notranslate nohighlight">\(A\boldsymbol{x}=\boldsymbol{b}\)</span> non è risolvibile esattamente, si proietta <span class="math notranslate nohighlight">\(\boldsymbol{b}\)</span> sullo spazio generato dalle colonne di <span class="math notranslate nohighlight">\(A\)</span>.</p>
 </section>
-<section id="proiezione-su-uno-spazio-affine">
-<h2>Proiezione su uno spazio affine<a class="headerlink" href="#proiezione-su-uno-spazio-affine" title="Link to this heading">#</a></h2>
-<p>Se <span class="math notranslate nohighlight">\(L=\boldsymbol{x}_0+U\)</span> è uno spazio affine, si trasla prima il problema verso l’origine, si proietta su <span class="math notranslate nohighlight">\(U\)</span> e infine si torna indietro:</p>
-<div class="math notranslate nohighlight">
-\[
-\pi_L(\boldsymbol{x})
-=\boldsymbol{x}_0
-+\pi_U(\boldsymbol{x}-\boldsymbol{x}_0).
-\]</div>
-</section>
 <section id="collegamenti-con-il-machine-learning">
 <h2>Collegamenti con il machine learning<a class="headerlink" href="#collegamenti-con-il-machine-learning" title="Link to this heading">#</a></h2>
 <p>I concetti del capitolo ricompaiono in molti metodi:</p>
@@ -1314,9 +1213,8 @@ P=BB^T.
 </tbody>
 </table>
 </div>
-</section>
-<section id="id2">
-<h1>Domande rapide di autoverifica<a class="headerlink" href="#id2" title="Link to this heading">#</a></h1>
+<section id="domande-rapide-di-autoverifica">
+<h2>Domande rapide di autoverifica<a class="headerlink" href="#domande-rapide-di-autoverifica" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p>Quali proprietà deve soddisfare una norma?</p></li>
 <li><p>In che modo un prodotto scalare definisce una norma?</p></li>
@@ -1327,8 +1225,9 @@ P=BB^T.
 <li><p>Qual è il legame tra proiezioni e minimi quadrati?</p></li>
 </ol>
 </section>
+</section>
 <section id="alcuni-esempi">
-<h1>Alcuni esempi<a class="headerlink" href="#alcuni-esempi" title="Link to this heading">#</a></h1>
+<h1>3.  Alcuni esempi<a class="headerlink" href="#alcuni-esempi" title="Link to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -1339,9 +1238,8 @@ P=BB^T.
 </div>
 </div>
 </div>
-</section>
 <section id="esempio-1-norma-manhattan-e-norma-euclidea">
-<h1>Esempio 1 — Norma Manhattan e norma euclidea<a class="headerlink" href="#esempio-1-norma-manhattan-e-norma-euclidea" title="Link to this heading">#</a></h1>
+<h2>Esempio 1 — Norma Manhattan e norma euclidea<a class="headerlink" href="#esempio-1-norma-manhattan-e-norma-euclidea" title="Link to this heading">#</a></h2>
 <p>Le prime due tipologie di norma presentate nel capitolo sono</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1399,7 +1297,7 @@ Norma 2: 5.0
 </div>
 </section>
 <section id="esempio-2-matrici-simmetriche-definite-positive">
-<h1>Esempio 2 — Matrici simmetriche definite positive<a class="headerlink" href="#esempio-2-matrici-simmetriche-definite-positive" title="Link to this heading">#</a></h1>
+<h2>Esempio 2 — Matrici simmetriche definite positive<a class="headerlink" href="#esempio-2-matrici-simmetriche-definite-positive" title="Link to this heading">#</a></h2>
 <p>Il capitolo considera le matrici</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -1456,123 +1354,8 @@ Autovalori di A2: [-0.70820393 12.70820393]
 </div>
 <p>Una matrice simmetrica è definita positiva se e solo se tutti i suoi autovalori sono positivi. L’ultima verifica numerica anticipa quindi un risultato che verrà approfondito nel Capitolo 4.</p>
 </section>
-<section id="esempio-3-la-lunghezza-dipende-dal-prodotto-scalare">
-<h1>Esempio 3 — La lunghezza dipende dal prodotto scalare<a class="headerlink" href="#esempio-3-la-lunghezza-dipende-dal-prodotto-scalare" title="Link to this heading">#</a></h1>
-<p>Consideriamo il vettore</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\boldsymbol{x}=\begin{bmatrix}1\\1\end{bmatrix}.
-\end{split}\]</div>
-<p>Con il prodotto scalare standard:</p>
-<div class="math notranslate nohighlight">
-\[
-\|\boldsymbol{x}\|_2
-=\sqrt{\boldsymbol{x}^T\boldsymbol{x}}
-=\sqrt{2}.
-\]</div>
-<p>Consideriamo ora il prodotto scalare</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\langle\boldsymbol{x},\boldsymbol{y}\rangle_A
-=\boldsymbol{x}^TA\boldsymbol{y},
-\qquad
-A=
-\begin{bmatrix}
-1&amp;-\tfrac12\\
--\tfrac12&amp;1
-\end{bmatrix}.
-\end{split}\]</div>
-<p>La norma indotta è</p>
-<div class="math notranslate nohighlight">
-\[
-\|\boldsymbol{x}\|_A
-=\sqrt{\boldsymbol{x}^TA\boldsymbol{x}}
-=1.
-\]</div>
-<p>Lo stesso vettore possiede dunque lunghezze diverse in geometrie diverse.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
-<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">],</span>
-              <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]])</span>
-
-<span class="n">norma_standard</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span> <span class="o">@</span> <span class="n">x</span><span class="p">)</span>
-<span class="n">norma_A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span> <span class="o">@</span> <span class="n">A</span> <span class="o">@</span> <span class="n">x</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Norma euclidea:&quot;</span><span class="p">,</span> <span class="n">norma_standard</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Norma indotta da A:&quot;</span><span class="p">,</span> <span class="n">norma_A</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Norma euclidea: 1.4142135623730951
-Norma indotta da A: 1.0
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="esempio-4-angolo-tra-due-vettori">
-<h1>Esempio 4 — Angolo tra due vettori<a class="headerlink" href="#esempio-4-angolo-tra-due-vettori" title="Link to this heading">#</a></h1>
-<p>Siano</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\boldsymbol{x}=\begin{bmatrix}1\\1\end{bmatrix},
-\qquad
-\boldsymbol{y}=\begin{bmatrix}1\\2\end{bmatrix}.
-\end{split}\]</div>
-<p>Utilizzando il prodotto scalare standard,</p>
-<div class="math notranslate nohighlight">
-\[
-\cos\omega
-=\frac{\boldsymbol{x}^T\boldsymbol{y}}
-{\|\boldsymbol{x}\|_2\|\boldsymbol{y}\|_2}
-=\frac{3}{\sqrt{10}}.
-\]</div>
-<p>Quindi</p>
-<div class="math notranslate nohighlight">
-\[
-\omega=\arccos\left(\frac{3}{\sqrt{10}}\right)
-\approx 18.4^\circ.
-\]</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">])</span>
-
-<span class="n">cos_omega</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">@</span> <span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
-<span class="n">omega</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">cos_omega</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cos(omega) =&quot;</span><span class="p">,</span> <span class="n">cos_omega</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;omega in radianti =&quot;</span><span class="p">,</span> <span class="n">omega</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;omega in gradi =&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">omega</span><span class="p">))</span>
-
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">angles</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">,</span> <span class="n">scale_units</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-          <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$x=(1,1)^T$&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">y</span><span class="p">,</span> <span class="n">angles</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">,</span> <span class="n">scale_units</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-          <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:red&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$y=(1,2)^T$&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Angolo tra i vettori: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">°&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cos(omega) = 0.9486832980505138
-omega in radianti = 0.3217505543966423
-omega in gradi = 18.434948822922017
-</pre></div>
-</div>
-<img alt="../_images/7dbbc6ab02187127b7c31b07fce3811ab7e25b20bd253fc08cff4e01265fd8ee.png" src="../_images/7dbbc6ab02187127b7c31b07fce3811ab7e25b20bd253fc08cff4e01265fd8ee.png" />
-</div>
-</div>
-</section>
-<section id="esempio-5-come-verificare-se-due-vettori-sono-ortogonali">
-<h1>Esempio 5 — Come verificare se due vettori sono ortogonali<a class="headerlink" href="#esempio-5-come-verificare-se-due-vettori-sono-ortogonali" title="Link to this heading">#</a></h1>
+<section id="esempio-3-come-verificare-se-due-vettori-sono-ortogonali">
+<h2>Esempio 3 — Come verificare se due vettori sono ortogonali<a class="headerlink" href="#esempio-3-come-verificare-se-due-vettori-sono-ortogonali" title="Link to this heading">#</a></h2>
 <p>Due vettori sono ortogonali se il loro prodotto scalare è nullo.</p>
 <p>Consideriamo</p>
 <div class="math notranslate nohighlight">
@@ -1601,8 +1384,8 @@ omega in gradi = 18.434948822922017
 \]</div>
 <p>quindi <span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span> e <span class="math notranslate nohighlight">\(\boldsymbol{z}\)</span> non sono ortogonali.</p>
 </section>
-<section id="esempio-6-una-base-ortonormale-di-mathbb-r-2">
-<h1>Esempio 6 — Una base ortonormale di <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span><a class="headerlink" href="#esempio-6-una-base-ortonormale-di-mathbb-r-2" title="Link to this heading">#</a></h1>
+<section id="esempio-4-una-base-ortonormale-di-mathbb-r-2">
+<h2>Esempio 4 — Una base ortonormale di <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span><a class="headerlink" href="#esempio-4-una-base-ortonormale-di-mathbb-r-2" title="Link to this heading">#</a></h2>
 <p>Consideriamo</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -1648,8 +1431,8 @@ B.T @ B =
 </div>
 </div>
 </section>
-<section id="esempio-6-proiezione-ortogonale-su-una-retta">
-<h1>Esempio 6 — Proiezione ortogonale su una retta<a class="headerlink" href="#esempio-6-proiezione-ortogonale-su-una-retta" title="Link to this heading">#</a></h1>
+<section id="esempio-5-proiezione-ortogonale-su-una-retta">
+<h2>Esempio 5 — Proiezione ortogonale su una retta<a class="headerlink" href="#esempio-5-proiezione-ortogonale-su-una-retta" title="Link to this heading">#</a></h2>
 <p>Consideriamo la retta passante per l’origine generata da</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -1721,7 +1504,7 @@ P è simmetrica? True
 </ul>
 </section>
 <section id="idee-da-ricordare">
-<h1>Idee da ricordare<a class="headerlink" href="#idee-da-ricordare" title="Link to this heading">#</a></h1>
+<h2>Idee da ricordare<a class="headerlink" href="#idee-da-ricordare" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>La norma e il prodotto scalare scelti determinano la geometria dello spazio.</p></li>
 <li><p>Le matrici simmetriche definite positive definiscono prodotti scalari.</p></li>
@@ -1730,6 +1513,7 @@ P è simmetrica? True
 <li><p>Gram–Schmidt costruisce una base ortonormale mediante proiezioni successive.</p></li>
 <li><p>Le rotazioni sono trasformazioni ortogonali e non deformano la geometria.</p></li>
 </ul>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -1762,6 +1546,15 @@ P è simmetrica? True
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="Ottimizzazione.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Ottimizzazione numerica</p>
+      </div>
+    </a>
 </div>
                 </footer>
               
@@ -1782,37 +1575,33 @@ P è simmetrica? True
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spazi-vettoriali">Spazi vettoriali</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combinazioni-e-indipendenza-lineare">Combinazioni e indipendenza lineare</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#insieme-generatore-base-dimensione-e-rango">Insieme generatore, base, dimensione e rango</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#applicazioni-lineari">Applicazioni lineari</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#applicazioni-lineari">Applicazioni lineari</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spazi-affini">Spazi affini</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#applicazioni-affini">Applicazioni affini</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#schema-riassuntivo">Schema riassuntivo</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#domande-rapide-di-autoverifica">Domande rapide di autoverifica</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#norme">Norme</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#norme">2. Norme</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prodotti-scalari">Prodotti scalari</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#angoli-e-ortogonalita">Angoli e ortogonalità</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrici-ortogonali">Matrici ortogonali</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proiezioni-ortogonali">Proiezioni ortogonali</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proiezione-su-una-retta">Proiezione su una retta</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proiezione-su-un-sottospazio">Proiezione su un sottospazio</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proiezione-su-uno-spazio-affine">Proiezione su uno spazio affine</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collegamenti-con-il-machine-learning">Collegamenti con il machine learning</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Schema riassuntivo</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Domande rapide di autoverifica</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#alcuni-esempi">Alcuni esempi</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-1-norma-manhattan-e-norma-euclidea">Esempio 1 — Norma Manhattan e norma euclidea</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-2-matrici-simmetriche-definite-positive">Esempio 2 — Matrici simmetriche definite positive</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-3-la-lunghezza-dipende-dal-prodotto-scalare">Esempio 3 — La lunghezza dipende dal prodotto scalare</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-4-angolo-tra-due-vettori">Esempio 4 — Angolo tra due vettori</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-5-come-verificare-se-due-vettori-sono-ortogonali">Esempio 5 — Come verificare se due vettori sono ortogonali</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-6-una-base-ortonormale-di-mathbb-r-2">Esempio 6 — Una base ortonormale di <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span></a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-6-proiezione-ortogonale-su-una-retta">Esempio 6 — Proiezione ortogonale su una retta</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#idee-da-ricordare">Idee da ricordare</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Schema riassuntivo</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#domande-rapide-di-autoverifica">Domande rapide di autoverifica</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#alcuni-esempi">3.  Alcuni esempi</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-1-norma-manhattan-e-norma-euclidea">Esempio 1 — Norma Manhattan e norma euclidea</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-2-matrici-simmetriche-definite-positive">Esempio 2 — Matrici simmetriche definite positive</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-3-come-verificare-se-due-vettori-sono-ortogonali">Esempio 3 — Come verificare se due vettori sono ortogonali</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-4-una-base-ortonormale-di-mathbb-r-2">Esempio 4 — Una base ortonormale di <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-5-proiezione-ortogonale-su-una-retta">Esempio 5 — Proiezione ortogonale su una retta</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#idee-da-ricordare">Idee da ricordare</a></li>
+</ul>
+</li>
 </ul>
 
   </nav></div>

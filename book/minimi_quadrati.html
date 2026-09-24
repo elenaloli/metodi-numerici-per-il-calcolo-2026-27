@@ -1,0 +1,1214 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Il problema lineare dei minimi quadrati e i modelli predittivi &#8212; Metodi numerici per il calcolo</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'book/minimi_quadrati';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo_mnpc.png" class="logo__image only-light" alt="Metodi numerici per il calcolo - Home"/>
+    <script>document.write(`<img src="../_static/logo_mnpc.png" class="logo__image only-dark" alt="Metodi numerici per il calcolo - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Metodi numerici per il calcolo
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro_mnpc.html">Introduzione al corso Metodi Numerici per il calcolo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calcolo_multivariato.html">Calcolo multivariato</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Ottimizzazione.html">Ottimizzazione numerica</a></li>
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/elenaloli/metodi-numerici-per-il-calcolo-2026-27.git" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/elenaloli/metodi-numerici-per-il-calcolo-2026-27.git/issues/new?title=Issue%20on%20page%20%2Fbook/minimi_quadrati.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/book/minimi_quadrati.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Il problema lineare dei minimi quadrati e i modelli predittivi</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Il problema lineare dei minimi quadrati e i modelli predittivi</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#obiettivi">Obiettivi</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#da-dove-nasce-il-problema">7.1. Da dove nasce il problema?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-geometrica">7.2 Interpretazione geometrica</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#equazioni-normali">7.3 Equazioni normali</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#soluzione-mediante-svd">7.4 Soluzione mediante SVD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#il-problema-dei-minimi-quadrati-nell-approssimazione-dei-dati-i-modelli-predittivi">7.5 Il problema dei minimi quadrati nell’approssimazione dei dati. I modelli predittivi</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#famiglie-parametriche-di-funzioni">7.6 Famiglie parametriche di funzioni</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#il-calcolo-dei-parametri-come-problema-di-minimo">7.7 Il calcolo dei parametri come problema di minimo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regressione-e-perdita-quadratica">7.8 Regressione e perdita quadratica</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelli-polinomiali">Modelli polinomiali</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minimi-quadrati-pesati">7.9 Minimi quadrati pesati</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regolarizzazione-di-tikhonov-o-ridge">7.10 Regolarizzazione di Tikhonov o Ridge</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="il-problema-lineare-dei-minimi-quadrati-e-i-modelli-predittivi">
+<h1>Il problema lineare dei minimi quadrati e i modelli predittivi<a class="headerlink" href="#il-problema-lineare-dei-minimi-quadrati-e-i-modelli-predittivi" title="Link to this heading">#</a></h1>
+<p>I minimi quadrati permettono di trovare una soluzione <strong>approssimata</strong> quando un sistema lineare non ammette una soluzione esatta. Sono inoltre alla base della regressione lineare e di numerosi metodi di analisi dei dati.</p>
+<p>In questo notebook introdurremo gradualmente il problema, la sua interpretazione geometrica e i principali metodi numerici per risolverlo.</p>
+<section id="obiettivi">
+<h2>Obiettivi<a class="headerlink" href="#obiettivi" title="Link to this heading">#</a></h2>
+<p>Alla fine del notebook sapremo:</p>
+<ul class="simple">
+<li><p>riconoscere un problema lineare ai minimi quadrati;</p></li>
+<li><p>interpretare residuo e soluzione geometricamente;</p></li>
+<li><p>derivare le equazioni normali;</p></li>
+<li><p>risolvere il problema mediante equazioni normali e SVD;</p></li>
+<li><p>comprendere esistenza, unicità e soluzione di norma minima;</p></li>
+<li><p>collegare i minimi quadrati ai modelli predittivi (in particolare la regressione polinomiale)</p></li>
+</ul>
+<section id="da-dove-nasce-il-problema">
+<h3>7.1. Da dove nasce il problema?<a class="headerlink" href="#da-dove-nasce-il-problema" title="Link to this heading">#</a></h3>
+<p>Consideriamo un sistema lineare</p>
+<div class="math notranslate nohighlight">
+\[
+Ax=b, \qquad A\in\mathbb{R}^{m\times n},
+\quad x\in\mathbb{R}^n, \quad b\in\mathbb{R}^m.
+\]</div>
+<p>Se <span class="math notranslate nohighlight">\(m&gt;n\)</span>, ci sono più equazioni che incognite e il sistema si dice <strong>sovradeterminato</strong>. In presenza di dati reali, rumore o errori di misura, in generale non esiste un vettore <span class="math notranslate nohighlight">\(x\)</span> che soddisfi esattamente tutte le equazioni.</p>
+<p>Non vogliamo quindi risolvere esattamente <span class="math notranslate nohighlight">\(Ax=b\)</span>, ma trovare il vettore <span class="math notranslate nohighlight">\(x\)</span> per cui <span class="math notranslate nohighlight">\(Ax\)</span> è il più vicino possibile a <span class="math notranslate nohighlight">\(b\)</span>.</p>
+<p><em>Residuo e funzione obiettivo</em></p>
+<p>Per ogni possibile vettore <span class="math notranslate nohighlight">\(x\)</span> definiamo il <strong>residuo</strong></p>
+<div class="math notranslate nohighlight">
+\[
+r(x)=b-Ax.
+\]</div>
+<p>Il residuo misura la parte di <span class="math notranslate nohighlight">\(b\)</span> che il modello <span class="math notranslate nohighlight">\(Ax\)</span> non riesce a spiegare. Il problema lineare dei minimi quadrati è</p>
+<div class="math notranslate nohighlight">
+\[
+\boxed{x^*=\operatorname*{argmin}_{x\in\mathbb{R}^n}
+\|b-Ax\|_2^2}.
+\]</div>
+<p>Poiché</p>
+<div class="math notranslate nohighlight">
+\[
+\|r(x)\|_2^2=r_1(x)^2+\cdots+r_m(x)^2,
+\]</div>
+<p>stiamo minimizzando la <strong>somma dei quadrati degli errori</strong>.</p>
+<p><em>Perché si usano i quadrati?</em></p>
+<p>L’uso dei quadrati ha alcune proprietà convenienti:</p>
+<ul class="simple">
+<li><p>gli errori positivi e negativi non si cancellano;</p></li>
+<li><p>gli errori grandi vengono penalizzati maggiormente;</p></li>
+<li><p>la funzione obiettivo è continua e derivabile;</p></li>
+<li><p>nel caso lineare il problema conduce a strumenti di algebra lineare efficienti.</p></li>
+</ul>
+<p>Lo svantaggio è che un valore anomalo può avere un’influenza molto forte proprio perché il suo errore viene elevato al quadrato.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Quattro equazioni e due incognite</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">]])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">])</span>
+
+<span class="n">x_star</span><span class="p">,</span> <span class="n">residui</span><span class="p">,</span> <span class="n">rango</span><span class="p">,</span> <span class="n">valori_singolari</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">b_stimato</span> <span class="o">=</span> <span class="n">A</span> <span class="o">@</span> <span class="n">x_star</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">b</span><span class="o">-</span><span class="n">b_stimato</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Soluzione LSQ:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">x_star</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Ax*:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">b_stimato</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;b:  &#39;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Residuo b-Ax*:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Somma dei quadrati:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Soluzione LSQ: [0.9 0.9]
+Ax*: [0.9 1.8 2.7 3.6]
+b:   [1. 2. 2. 4.]
+Residuo b-Ax*: [ 0.1  0.2 -0.7  0.4]
+Somma dei quadrati: 0.6999999999999996
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="interpretazione-geometrica">
+<h3>7.2 Interpretazione geometrica<a class="headerlink" href="#interpretazione-geometrica" title="Link to this heading">#</a></h3>
+<p>Il vettore <span class="math notranslate nohighlight">\(Ax\)</span> è una combinazione lineare delle colonne di <span class="math notranslate nohighlight">\(A\)</span>. Perciò, al variare di <span class="math notranslate nohighlight">\(x\)</span>, il vettore <span class="math notranslate nohighlight">\(Ax\)</span> appartiene sempre allo spazio generato dalle colonne di <span class="math notranslate nohighlight">\(A\)</span>, indicato con</p>
+<div class="math notranslate nohighlight">
+\[
+\operatorname{Im}(A)=\operatorname{span}\{a_1,\ldots,a_n\}.
+\]</div>
+<p>Se <span class="math notranslate nohighlight">\(b\)</span> non appartiene a questo sottospazio, l’equazione <span class="math notranslate nohighlight">\(Ax=b\)</span> non ha soluzione. La soluzione ai minimi quadrati sceglie <span class="math notranslate nohighlight">\(Ax^*\)</span> come il punto di <span class="math notranslate nohighlight">\(\operatorname{Im}(A)\)</span> più vicino a <span class="math notranslate nohighlight">\(b\)</span>.</p>
+<p>Quindi <span class="math notranslate nohighlight">\(Ax^*\)</span> è la <strong>proiezione ortogonale</strong> di <span class="math notranslate nohighlight">\(b\)</span> sullo spazio delle colonne di <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="book/immagini_sorgente/fig_minimi_proiezione.png"><img alt="book/immagini_sorgente/fig_minimi_proiezione.png" src="book/immagini_sorgente/fig_minimi_proiezione.png" style="width: 100%;" />
+</a>
+</figure>
+<p align="center">
+  <img src="immagini_sorgente/fig_minimi_proiezione.png" width="700">
+</p><p><em>Ortogonalità del residuo</em></p>
+<p>Nel punto più vicino, il residuo</p>
+<div class="math notranslate nohighlight">
+\[
+r^*=b-Ax^*
+\]</div>
+<p>è ortogonale a tutte le colonne di <span class="math notranslate nohighlight">\(A\)</span>. Pertanto</p>
+<div class="math notranslate nohighlight">
+\[
+A^Tr^*=0.
+\]</div>
+<p>Sostituendo <span class="math notranslate nohighlight">\(r^*=b-Ax^*\)</span> si ottiene</p>
+<div class="math notranslate nohighlight">
+\[
+A^T(b-Ax^*)=0
+\quad\Longleftrightarrow\quad
+A^TAx^*=A^Tb.
+\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;A^T r =&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">r</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;||A^T r||_2 =&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">r</span><span class="p">))</span>
+
+<span class="c1"># La matrice di proiezione sullo spazio delle colonne di A</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">A</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">A</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;||Pb-Ax*||_2 =&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">P</span> <span class="o">@</span> <span class="n">b</span><span class="o">-</span><span class="n">b_stimato</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;||P^2-P||_2 =&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">P</span> <span class="o">@</span> <span class="n">P</span><span class="o">-</span><span class="n">P</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>A^T r = [0. 0.]
+||A^T r||_2 = 3.820199830714189e-15
+||Pb-Ax*||_2 = 1.4217791915866692e-15
+||P^2-P||_2 = 2.785946459622037e-16
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Esistenza e unicità</strong></p>
+<p>Il problema lineare ai minimi quadrati ammette sempre almeno una soluzione. L’unicità dipende dal rango di <span class="math notranslate nohighlight">\(A\)</span>:</p>
+<ul class="simple">
+<li><p>se <span class="math notranslate nohighlight">\(\operatorname{rank}(A)=n\)</span>, le colonne sono linearmente indipendenti e la soluzione è unica;</p></li>
+<li><p>se <span class="math notranslate nohighlight">\(\operatorname{rank}(A)&lt;n\)</span>, esistono infinite soluzioni che producono lo stesso vettore <span class="math notranslate nohighlight">\(Ax^*\)</span> e lo stesso residuo minimo.</p></li>
+</ul>
+<p>Nel secondo caso è possibile scegliere, tra tutte le soluzioni, quella con norma euclidea minima.</p>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="equazioni-normali">
+<h1>7.3 Equazioni normali<a class="headerlink" href="#equazioni-normali" title="Link to this heading">#</a></h1>
+<p>La stessa condizione può essere ottenuta minimizzando la funzione</p>
+<div class="math notranslate nohighlight">
+\[
+f(x)=\|b-Ax\|_2^2.
+\]</div>
+<p>Sviluppando il prodotto scalare:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x)=x^TA^TAx-2x^TA^Tb+b^Tb.
+\]</div>
+<p>Il gradiente è</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla f(x)=2A^T(Ax-b).
+\]</div>
+<p>La matrice Hessiana è <span class="math notranslate nohighlight">\(\nabla^2f(x)=2A^TA\)</span> ed è semidefinita positiva. La funzione è quindi convessa: ogni punto che annulla il gradiente è un minimo globale. Se <span class="math notranslate nohighlight">\(A\)</span> ha rango massimo per colonne, l’Hessiana è definita positiva e il minimo è unico.</p>
+<p>Imponendo <span class="math notranslate nohighlight">\(\nabla f(x)=0\)</span> otteniamo il sistema delle <strong>equazioni normali</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\boxed{A^TAx=A^Tb}.
+\]</div>
+<p>La figura seguente mostra la funzione obiettivo per il primo esempio. Le curve di livello sono ellissi concentriche e il loro centro coincide con la soluzione <span class="math notranslate nohighlight">\(x^*\)</span>.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/fig_funzione_obiettivo.png"><img alt="../_images/fig_funzione_obiettivo.png" src="../_images/fig_funzione_obiettivo.png" style="width: 100%;" />
+</a>
+</figure>
+<p align="center">
+  <img src="immagini_sorgente/fig_funzione_obiettivo.png" width="700">
+</p><p>La matrice <span class="math notranslate nohighlight">\(A^TA\)</span> è sempre simmetrica e semidefinita positiva, perché</p>
+<div class="math notranslate nohighlight">
+\[
+z^TA^TAz=\|Az\|_2^2\geq0.
+\]</div>
+<p>Se <span class="math notranslate nohighlight">\(A\)</span> ha rango massimo per colonne, allora <span class="math notranslate nohighlight">\(A^TA\)</span> è definita positiva e invertibile. Le equazioni normali hanno quindi un’unica soluzione.</p>
+<p>Poiché <span class="math notranslate nohighlight">\(A^TA\)</span> è simmetrica definita positiva, il sistema può essere risolto con la fattorizzazione di Cholesky</p>
+<div class="math notranslate nohighlight">
+\[
+A^TA=LL^T,
+\]</div>
+<p>risolvendo prima <span class="math notranslate nohighlight">\(Ly=A^Tb\)</span> e poi <span class="math notranslate nohighlight">\(L^Tx=y\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Soluzione mediante equazioni normali e Cholesky</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">A</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">b</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+<span class="n">x_normali</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;A^T A =</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">G</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Soluzione:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">x_normali</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Confronto con lstsq:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x_normali</span><span class="o">-</span><span class="n">x_star</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>A^T A =
+ [[ 4.  6.]
+ [ 6. 14.]]
+Soluzione: [0.9 0.9]
+Confronto con lstsq: 1.4812222630807097e-15
+</pre></div>
+</div>
+</div>
+</div>
+<section id="soluzione-mediante-svd">
+<h2>7.4 Soluzione mediante SVD<a class="headerlink" href="#soluzione-mediante-svd" title="Link to this heading">#</a></h2>
+<p>Sia</p>
+<div class="math notranslate nohighlight">
+\[
+A=U\Sigma V^T
+\]</div>
+<p>la decomposizione ai valori singolari e sia <span class="math notranslate nohighlight">\(r=\operatorname{rank}(A)\)</span>. La soluzione ai minimi quadrati di norma minima è</p>
+<div class="math notranslate nohighlight">
+\[
+\boxed{x^*=\sum_{i=1}^{r}\frac{u_i^Tb}{\sigma_i}v_i}.
+\]</div>
+<p>La formula mostra che le componenti di <span class="math notranslate nohighlight">\(b\)</span> lungo <span class="math notranslate nohighlight">\(u_i\)</span> vengono divise per il corrispondente valore singolare. Valori singolari molto piccoli possono quindi amplificare rumore ed errori numerici.</p>
+<p><strong>Pseudoinversa</strong></p>
+<p>Se</p>
+<div class="math notranslate nohighlight">
+\[
+A=U_r\Sigma_rV_r^T
+\]</div>
+<p>è la SVD compatta, si definisce la pseudoinversa di Moore-Penrose</p>
+<div class="math notranslate nohighlight">
+\[
+A^+=V_r\Sigma_r^{-1}U_r^T.
+\]</div>
+<p>La soluzione di norma minima si scrive quindi</p>
+<div class="math notranslate nohighlight">
+\[
+x^*=A^+b.
+\]</div>
+<p>I valori singolari nulli non vengono invertiti. In aritmetica finita si usa una tolleranza per decidere quali valori considerare numericamente nulli.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">U</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">VT</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">tol</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span> <span class="o">*</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">s_inv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="o">/</span><span class="n">sigma</span> <span class="k">if</span> <span class="n">sigma</span> <span class="o">&gt;</span> <span class="n">tol</span> <span class="k">else</span> <span class="mf">0.0</span> <span class="k">for</span> <span class="n">sigma</span> <span class="ow">in</span> <span class="n">s</span><span class="p">])</span>
+<span class="n">A_piu</span> <span class="o">=</span> <span class="n">VT</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">s_inv</span><span class="p">)</span> <span class="o">@</span> <span class="n">U</span><span class="o">.</span><span class="n">T</span>
+<span class="n">x_svd</span> <span class="o">=</span> <span class="n">A_piu</span> <span class="o">@</span> <span class="n">b</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Valori singolari:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Soluzione SVD:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">x_svd</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;||x_SVD-x_lstsq||_2 =&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x_svd</span><span class="o">-</span><span class="n">x_star</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Valori singolari: [4.10003  1.090757]
+Soluzione SVD: [0.9 0.9]
+||x_SVD-x_lstsq||_2 = 2.482534153247273e-16
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A_rd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">],</span>
+                 <span class="p">[</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">],</span>
+                 <span class="p">[</span><span class="mf">3.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">],</span>
+                 <span class="p">[</span><span class="mf">4.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">8.</span><span class="p">]])</span>
+<span class="n">b_rd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">])</span>
+<span class="n">x_min</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">rango_rd</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">A_rd</span><span class="p">,</span> <span class="n">b_rd</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">])</span>       <span class="c1"># appartiene al nucleo di A_rd</span>
+<span class="n">x_altra</span> <span class="o">=</span> <span class="n">x_min</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">z</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Rango:&#39;</span><span class="p">,</span> <span class="n">rango_rd</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;||A z||_2 =&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">A_rd</span> <span class="o">@</span> <span class="n">z</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Residuo della soluzione minima:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b_rd</span><span class="o">-</span><span class="n">A_rd</span> <span class="o">@</span> <span class="n">x_min</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Residuo di un altra soluzione: &#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b_rd</span><span class="o">-</span><span class="n">A_rd</span> <span class="o">@</span> <span class="n">x_altra</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Norma soluzione minima:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x_min</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Norma altra soluzione: &#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x_altra</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Rango: 1
+||A z||_2 = 0.0
+Residuo della soluzione minima: 0.8366600265340756
+Residuo di un altra soluzione:  0.836660026534075
+Norma soluzione minima: 0.36742346141747667
+Norma altra soluzione:  4.258520869973517
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Confronto tra i metodi</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Metodo</p></th>
+<th class="head text-left"><p>Vantaggi</p></th>
+<th class="head text-left"><p>Limiti</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Equazioni normali + Cholesky</p></td>
+<td class="text-left"><p>Semplice e rapido</p></td>
+<td class="text-left"><p>Forma <span class="math notranslate nohighlight">\(A^TA\)</span> e ne eleva al quadrato il condizionamento</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>SVD</p></td>
+<td class="text-left"><p>Molto robusta; identifica rango e soluzione di norma minima</p></td>
+<td class="text-left"><p>Più costosa</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="il-problema-dei-minimi-quadrati-nell-approssimazione-dei-dati-i-modelli-predittivi">
+<h2>7.5 Il problema dei minimi quadrati nell’approssimazione dei dati. I modelli predittivi<a class="headerlink" href="#il-problema-dei-minimi-quadrati-nell-approssimazione-dei-dati-i-modelli-predittivi" title="Link to this heading">#</a></h2>
+<p>Supponiamo di avere un insieme di dati</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{D}=\{(x_i,y_i)\}_{i=1}^{n},
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(x_i\)</span> è il dato in ingresso e <span class="math notranslate nohighlight">\(y_i\)</span> è il valore osservato.</p>
+<p>L’obiettivo è determinare una funzione che rappresenti nel modo migliore possibile la relazione tra <span class="math notranslate nohighlight">\(x\)</span> e <span class="math notranslate nohighlight">\(y\)</span> e che possa essere utilizzata per prevedere il valore corrispondente a un nuovo dato in ingresso.</p>
+<p><strong>La scelta del modello</strong></p>
+<p>Gli stessi dati possono essere rappresentati utilizzando famiglie di funzioni differenti. Per esempio, possiamo scegliere come modello una retta oppure una parabola.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/modelli_lineare_quadratico.png"><img alt="../_images/modelli_lineare_quadratico.png" src="../_images/modelli_lineare_quadratico.png" style="width: 100%;" />
+</a>
+</figure>
+<p align="center">
+  <img src="immagini_sorgente/modelli_lineare_quadratico.png" width="700">
+</p>
+<p>Nel primo caso il modello ha la forma</p>
+<div class="math notranslate nohighlight">
+\[
+f(x;\boldsymbol{\theta})=\theta_0+\theta_1x,
+\]</div>
+<p>mentre nel secondo caso ha la forma</p>
+<div class="math notranslate nohighlight">
+\[
+f(x;\boldsymbol{\theta})=\theta_0+\theta_1x+\theta_2x^2.
+\]</div>
+<p>La famiglia scelta non deve necessariamente essere quella dei polinomi. Per esempio, possiamo considerare una combinazione lineare di una funzione esponenziale e di una costante:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x;\boldsymbol{\theta})=\theta_0+\theta_1 e^{\alpha x}.
+\]</div>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/modello_esponenziale.png"><img alt="../_images/modello_esponenziale.png" src="../_images/modello_esponenziale.png" style="width: 100%;" />
+</a>
+</figure>
+<p align="center">
+  <img src="immagini_sorgente/modello_esponenziale.png" width="700">
+</p>
+<p>La scelta della famiglia di funzioni dipende dal fenomeno che vogliamo descrivere e dalle informazioni disponibili sui dati.</p>
+</section>
+<section id="famiglie-parametriche-di-funzioni">
+<h2>7.6 Famiglie parametriche di funzioni<a class="headerlink" href="#famiglie-parametriche-di-funzioni" title="Link to this heading">#</a></h2>
+<p>Scelta una famiglia di funzioni <span class="math notranslate nohighlight">\(f(x;\boldsymbol{\theta})\)</span>, occorre determinare i parametri</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{\theta}=(\theta_0,\theta_1,\ldots,\theta_{k-1})^T\in\mathbb{R}^{k}
+\]</div>
+<p>che identificano la particolare funzione della famiglia che meglio rappresenta i dati.</p>
+<p>Per esempio, scegliendo come famiglia le rette del piano, dobbiamo determinare</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{\theta}=(\theta_0,\theta_1)^T,
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(\theta_0\)</span> è l’intercetta e <span class="math notranslate nohighlight">\(\theta_1\)</span> è il coefficiente angolare. Il problema consiste quindi nel trovare la retta che meglio approssima i punti dati.</p>
+<p><strong>Come confrontare due modelli?</strong></p>
+<p>Per stabilire se una funzione rappresenta i dati meglio di un’altra dobbiamo introdurre una misura di vicinanza tra i valori previsti e quelli osservati.</p>
+<p>Questo viene fatto definendo una <strong>funzione di costo</strong>, detta anche <strong>funzione di perdita</strong> o <em>loss function</em>. Indicata con <span class="math notranslate nohighlight">\(h\)</span> la perdita relativa a una singola osservazione, definiamo</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(\boldsymbol{\theta})
+=\sum_{i=1}^{n}h\bigl(f(x_i;\boldsymbol{\theta}),y_i\bigr).
+\]</div>
+<p>La funzione di costo dipende dai parametri perché, al variare di <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span>, cambiano le previsioni del modello.</p>
+<section id="il-calcolo-dei-parametri-come-problema-di-minimo">
+<h3>7.7 Il calcolo dei parametri come problema di minimo<a class="headerlink" href="#il-calcolo-dei-parametri-come-problema-di-minimo" title="Link to this heading">#</a></h3>
+<p>I parametri ottimali sono quelli che rendono minima la funzione di costo:</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{\theta}^{*}
+=\operatorname*{argmin}_{\boldsymbol{\theta}\in\mathbb{R}^{k}}
+\mathcal{L}(\boldsymbol{\theta}).
+\]</div>
+<p>La funzione <span class="math notranslate nohighlight">\(f(x;\boldsymbol{\theta}^{*})\)</span>, i cui parametri sono stati stimati minimizzando la funzione di perdita, prende il nome di <strong>funzione di regressione</strong>.</p>
+<blockquote>
+<div><p>Il problema di costruire un modello predittivo viene così trasformato in un problema di ottimizzazione.</p>
+</div></blockquote>
+</section>
+<section id="regressione-e-perdita-quadratica">
+<h3>7.8 Regressione e perdita quadratica<a class="headerlink" href="#regressione-e-perdita-quadratica" title="Link to this heading">#</a></h3>
+<p>Nella regressione si utilizza frequentemente la perdita quadratica</p>
+<div class="math notranslate nohighlight">
+\[
+h\bigl(f(x_i;\boldsymbol{\theta}),y_i\bigr)
+=\bigl(f(x_i;\boldsymbol{\theta})-y_i\bigr)^2.
+\]</div>
+<p>La funzione di costo diventa quindi</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(\boldsymbol{\theta})
+=\sum_{i=1}^{n}\bigl(f(x_i;\boldsymbol{\theta})-y_i\bigr)^2.
+\]</div>
+<p>Ogni termine misura il quadrato del residuo relativo all’osservazione <span class="math notranslate nohighlight">\(i\)</span>. Gli errori di segno opposto non si cancellano e gli errori grandi vengono penalizzati maggiormente.</p>
+<p>Nel caso della <strong>regressione lineare</strong>, il polinomio è una retta:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x;\boldsymbol{\theta})=\theta_0+\theta_1x.
+\]</div>
+<p>Nel caso della <strong>regressione quadratica</strong>, il polinomio è una parabola:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x;\boldsymbol{\theta})=\theta_0+\theta_1x+\theta_2x^2.
+\]</div>
+<p>In generale, un polinomio di grado <span class="math notranslate nohighlight">\(k\)</span> dipende da <span class="math notranslate nohighlight">\(k+1\)</span> parametri:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x;\boldsymbol{\theta})
+=\theta_0+\theta_1x+\theta_2x^2+\cdots+\theta_kx^k.
+\]</div>
+<p><em>La funzione di perdita per la regressione polinomiale</em></p>
+<p>Sostituendo il modello polinomiale nella perdita quadratica otteniamo</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(\boldsymbol{\theta})
+=\sum_{i=1}^{n}
+\left(\theta_0+\theta_1x_i+\theta_2x_i^2+\cdots+\theta_kx_i^k-y_i\right)^2.
+\]</div>
+<p>Introduciamo i vettori</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{\theta}=(\theta_0,\theta_1,\ldots,\theta_k)^T,
+\qquad
+\mathbf{y}=(y_1,y_2,\ldots,y_n)^T,
+\]</div>
+<p>e la matrice</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\Phi=
+\begin{pmatrix}
+x_1^0 &amp; x_1^1 &amp; \cdots &amp; x_1^k\\
+x_2^0 &amp; x_2^1 &amp; \cdots &amp; x_2^k\\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots\\
+x_n^0 &amp; x_n^1 &amp; \cdots &amp; x_n^k
+\end{pmatrix}
+\in\mathbb{R}^{n\times(k+1)}.
+\end{split}\]</div>
+<p>La matrice <span class="math notranslate nohighlight">\(\Phi\)</span> viene spesso chiamata <strong>matrice del modello</strong> o <strong>design matrix</strong>.</p>
+<p><em>Formulazione matriciale</em></p>
+<p>Il vettore delle previsioni del modello sui punti osservati è</p>
+<div class="math notranslate nohighlight">
+\[
+\widehat{\mathbf{y}}=\Phi\boldsymbol{\theta}.
+\]</div>
+<p>Il vettore dei residui è quindi</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{r}=\Phi\boldsymbol{\theta}-\mathbf{y},
+\]</div>
+<p>e la funzione di perdita può essere scritta in forma compatta come</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(\boldsymbol{\theta})
+=\|\Phi\boldsymbol{\theta}-\mathbf{y}\|_2^2.
+\]</div>
+<p>La determinazione dei coefficienti del polinomio conduce quindi al problema dei minimi quadrati lineari.</p>
+<div class="math notranslate nohighlight">
+\[
+\min_{\boldsymbol{\theta}\in\mathbb{R}^{k+1}}
+\|\Phi\boldsymbol{\theta}-\mathbf{y}\|_2^2,
+\]</div>
+<p><em>Il problema</em></p>
+<p>Supponiamo di osservare coppie <span class="math notranslate nohighlight">\((t_i,y_i)\)</span> e di voler descrivere la relazione con una retta</p>
+<div class="math notranslate nohighlight">
+\[
+y_i\approx\beta_0+\beta_1t_i.
+\]</div>
+<p>Per tutte le osservazioni il modello diventa</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\underbrace{\begin{bmatrix}
+1&amp;t_1\\1&amp;t_2\\\vdots&amp;\vdots\\1&amp;t_m
+\end{bmatrix}}_{A}
+\underbrace{\begin{bmatrix}\theta_0\\\theta_1\end{bmatrix}}_{x}
+\approx
+\underbrace{\begin{bmatrix}y_1\\y_2\\\vdots\\y_m\end{bmatrix}}_{b}.
+\end{split}\]</div>
+<p>La prima colonna di uno permette di rappresentare l’intercetta <span class="math notranslate nohighlight">\(\beta_0\)</span>. Stimare la retta significa risolvere un problema lineare ai minimi quadrati.</p>
+<p><em>Esempio: spesa pubblicitaria e vendite</em></p>
+<p>Consideriamo un piccolo dataset in cui <span class="math notranslate nohighlight">\(t\)</span> rappresenta la spesa pubblicitaria e <span class="math notranslate nohighlight">\(y\)</span> le vendite. Cerchiamo la retta che descrive meglio la relazione media tra le due variabili.</p>
+<p>I segmenti verticali nel grafico rappresenteranno i residui <span class="math notranslate nohighlight">\(y_i-\widehat y_i\)</span>.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/fig_regressione_residui.png"><img alt="../_images/fig_regressione_residui.png" src="../_images/fig_regressione_residui.png" style="width: 100%;" />
+</a>
+</figure>
+<p align="center">
+  <img src="immagini_sorgente/fig_regressione_residui.png" width="700">
+</p><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pubblicita</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mf">18.</span><span class="p">])</span>
+<span class="n">vendite</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">15</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mf">42.</span><span class="p">])</span>
+<span class="n">A_reg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pubblicita</span><span class="p">)),</span> <span class="n">pubblicita</span><span class="p">))</span>
+<span class="n">theta</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">A_reg</span><span class="p">,</span> <span class="n">vendite</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">vendite_stimate</span> <span class="o">=</span> <span class="n">A_reg</span> <span class="o">@</span> <span class="n">beta</span>
+
+<span class="n">griglia</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">pubblicita</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">pubblicita</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">retta</span> <span class="o">=</span> <span class="n">theta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">bethetata</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">griglia</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">pubblicita</span><span class="p">,</span> <span class="n">vendite</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">55</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;dati osservati&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">griglia</span><span class="p">,</span> <span class="n">retta</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;tab:red&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">2.2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;retta LSQ&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">x_i</span><span class="p">,</span> <span class="n">y_i</span><span class="p">,</span> <span class="n">yh_i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pubblicita</span><span class="p">,</span> <span class="n">vendite</span><span class="p">,</span> <span class="n">vendite_stimate</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x_i</span><span class="p">,</span> <span class="n">x_i</span><span class="p">],</span> <span class="p">[</span><span class="n">yh_i</span><span class="p">,</span> <span class="n">y_i</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;0.55&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Spesa pubblicitaria&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Vendite&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Regressione lineare mediante minimi quadrati&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Intercetta beta_0 = </span><span class="si">{</span><span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Pendenza   beta_1 = </span><span class="si">{</span><span class="n">beta</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">A_reg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pubblicita</span><span class="p">)),</span> <span class="n">pubblicita</span><span class="p">))</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">theta</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">A_reg</span><span class="p">,</span> <span class="n">vendite</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">5</span> <span class="n">vendite_stimate</span> <span class="o">=</span> <span class="n">A_reg</span> <span class="o">@</span> <span class="n">beta</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">griglia</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">pubblicita</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">pubblicita</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">200</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">retta</span> <span class="o">=</span> <span class="n">theta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">bethetata</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">griglia</span>
+
+<span class="ne">NameError</span>: name &#39;beta&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Interpretazione dei coefficienti</em></p>
+<p>Nel modello</p>
+<div class="math notranslate nohighlight">
+\[
+\widehat y=\theta_0+\theta_1t,
+\]</div>
+<p>l’intercetta <span class="math notranslate nohighlight">\(\theta_0\)</span> è il valore previsto quando <span class="math notranslate nohighlight">\(t=0\)</span>, mentre la pendenza <span class="math notranslate nohighlight">\(\theta_1\)</span> è la variazione media prevista di <span class="math notranslate nohighlight">\(y\)</span> associata a un aumento unitario di <span class="math notranslate nohighlight">\(t\)</span>.</p>
+<p>Questa interpretazione deve essere fatta nel dominio osservato: estrapolare molto oltre i valori presenti nei dati può essere inaffidabile. Inoltre una relazione statistica non implica automaticamente un rapporto causale.</p>
+<p><em>Misure dell’errore</em></p>
+<p>Indicando con <span class="math notranslate nohighlight">\(e_i=y_i-\widehat y_i\)</span> i residui, sono comuni le seguenti quantità:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{SSE}=\sum_{i=1}^{m}e_i^2,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{MSE}=\frac1m\sum_{i=1}^{m}e_i^2,
+\qquad
+\mathrm{RMSE}=\sqrt{\mathrm{MSE}},
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+R^2=1-\frac{\sum_i(y_i-\widehat y_i)^2}
+{\sum_i(y_i-\overline y)^2}.
+\]</div>
+<p>L’RMSE ha la stessa unità di misura della variabile risposta. <span class="math notranslate nohighlight">\(R^2\)</span> misura la frazione di variabilità spiegata rispetto al semplice uso della media, ma non dimostra che il modello sia corretto.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">errori</span> <span class="o">=</span> <span class="n">vendite</span><span class="o">-</span><span class="n">vendite_stimate</span>
+<span class="n">SSE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">errori</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">MSE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">errori</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">RMSE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">MSE</span><span class="p">)</span>
+<span class="n">R2</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="n">SSE</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">vendite</span><span class="o">-</span><span class="n">vendite</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;SSE  = </span><span class="si">{</span><span class="n">SSE</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;MSE  = </span><span class="si">{</span><span class="n">MSE</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;RMSE = </span><span class="si">{</span><span class="n">RMSE</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;R^2  = </span><span class="si">{</span><span class="n">R2</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="modelli-polinomiali">
+<h2>Modelli polinomiali<a class="headerlink" href="#modelli-polinomiali" title="Link to this heading">#</a></h2>
+<p>Anche un modello come</p>
+<div class="math notranslate nohighlight">
+\[
+y\approx\theta_0+\theta_1t+\theta_2t^2
+\]</div>
+<p>è un problema lineare ai minimi quadrati, perché è lineare rispetto ai parametri <span class="math notranslate nohighlight">\(\theta_0,\theta_1,\theta_2\)</span>. Basta costruire la matrice</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A=\begin{bmatrix}
+1&amp;t_1&amp;t_1^2\\
+\vdots&amp;\vdots&amp;\vdots\\
+1&amp;t_m&amp;t_m^2
+\end{bmatrix}.
+\end{split}\]</div>
+<p>Un grado elevato può però produrre mal condizionamento e adattamento eccessivo ai dati.</p>
+<p><strong>Aspetti pratici nell’analisi dei dati</strong></p>
+<p><em>Intercetta</em>
+Per includere un termine costante bisogna aggiungere ad <span class="math notranslate nohighlight">\(A\)</span> una colonna di uno. Ometterla forza il modello a passare per l’origine.</p>
+<p><em>Scala delle variabili</em>
+Cambiare unità di misura non modifica le previsioni di un modello LSQ non regolarizzato, ma può peggiorare il condizionamento e rendere difficili i confronti tra coefficienti. Centrare e scalare le variabili può aiutare.</p>
+<p><em>Valori anomali</em>
+Poiché gli errori vengono elevati al quadrato, gli outlier (dati lontani dal centro della distribuzione) possono spostare sensibilmente la soluzione. È importante ispezionare dati e residui.</p>
+<section id="minimi-quadrati-pesati">
+<h3>7.9 Minimi quadrati pesati<a class="headerlink" href="#minimi-quadrati-pesati" title="Link to this heading">#</a></h3>
+<p>Se alcune osservazioni sono più affidabili di altre, possiamo assegnare pesi <span class="math notranslate nohighlight">\(w_i&gt;0\)</span> e risolvere</p>
+<div class="math notranslate nohighlight">
+\[
+\min_x\sum_{i=1}^{m}w_i(b_i-a_i^Tx)^2.
+\]</div>
+<p>In forma matriciale, con <span class="math notranslate nohighlight">\(W=\operatorname{diag}(w_1,\ldots,w_m)\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+\min_x\|W^{1/2}(b-Ax)\|_2^2.
+\]</div>
+<p>Si tratta ancora di un problema lineare ai minimi quadrati, applicato alla matrice <span class="math notranslate nohighlight">\(W^{1/2}A\)</span> e al vettore <span class="math notranslate nohighlight">\(W^{1/2}b\)</span>.</p>
+</section>
+<section id="regolarizzazione-di-tikhonov-o-ridge">
+<h3>7.10 Regolarizzazione di Tikhonov o Ridge<a class="headerlink" href="#regolarizzazione-di-tikhonov-o-ridge" title="Link to this heading">#</a></h3>
+<p>Quando il problema è mal condizionato o ha molte variabili, si può penalizzare la grandezza della soluzione:</p>
+<div class="math notranslate nohighlight">
+\[
+\min_x\bigl(\|b-Ax\|_2^2+\lambda\|x\|_2^2\bigr),
+\qquad \lambda&gt;0.
+\]</div>
+<p>Le corrispondenti equazioni sono</p>
+<div class="math notranslate nohighlight">
+\[
+(A^TA+\lambda I)x=A^Tb.
+\]</div>
+<p>Il parametro <span class="math notranslate nohighlight">\(\lambda\)</span> controlla il compromesso tra aderenza ai dati e stabilità: aumentando <span class="math notranslate nohighlight">\(\lambda\)</span> i coefficienti vengono ridotti, introducendo distorsione ma diminuendo la sensibilità al rumore.</p>
+<p><em>Addestramento e valutazione predittiva</em></p>
+<p>Un errore piccolo sui dati usati per stimare i coefficienti non garantisce buone previsioni su nuovi dati. In un’applicazione predittiva bisogna:</p>
+<ol class="arabic simple">
+<li><p>separare i dati in training set e test set;</p></li>
+<li><p>stimare i coefficienti usando soltanto il training set;</p></li>
+<li><p>applicare il modello al test set;</p></li>
+<li><p>calcolare RMSE o altre metriche sui dati non utilizzati nell’addestramento.</p></li>
+</ol>
+<p>Questa distinzione riguarda la capacità di generalizzazione del modello, non soltanto la soluzione numerica del problema LSQ.</p>
+<p><strong>Riepilogo</strong></p>
+<p>Il problema lineare ai minimi quadrati</p>
+<div class="math notranslate nohighlight">
+\[
+\min_x\|b-Ax\|_2^2
+\]</div>
+<p>cerca il vettore <span class="math notranslate nohighlight">\(Ax\)</span> più vicino a <span class="math notranslate nohighlight">\(b\)</span> nello spazio generato dalle colonne di <span class="math notranslate nohighlight">\(A\)</span>. Il residuo ottimo è ortogonale a tale spazio.</p>
+<p>Le equazioni normali sono semplici ma possono peggiorare il condizionamento. La SVD è più robusta e permette di trattare anche matrici di rango non massimo, producendo la soluzione di norma minima.</p>
+<p>Nell’analisi dei dati, la stessa struttura matematica permette di stimare i coefficienti della regressione lineare.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./book"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Il problema lineare dei minimi quadrati e i modelli predittivi</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#obiettivi">Obiettivi</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#da-dove-nasce-il-problema">7.1. Da dove nasce il problema?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-geometrica">7.2 Interpretazione geometrica</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#equazioni-normali">7.3 Equazioni normali</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#soluzione-mediante-svd">7.4 Soluzione mediante SVD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#il-problema-dei-minimi-quadrati-nell-approssimazione-dei-dati-i-modelli-predittivi">7.5 Il problema dei minimi quadrati nell’approssimazione dei dati. I modelli predittivi</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#famiglie-parametriche-di-funzioni">7.6 Famiglie parametriche di funzioni</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#il-calcolo-dei-parametri-come-problema-di-minimo">7.7 Il calcolo dei parametri come problema di minimo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regressione-e-perdita-quadratica">7.8 Regressione e perdita quadratica</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelli-polinomiali">Modelli polinomiali</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minimi-quadrati-pesati">7.9 Minimi quadrati pesati</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regolarizzazione-di-tikhonov-o-ridge">7.10 Regolarizzazione di Tikhonov o Ridge</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Elena Loli Piccolomini
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

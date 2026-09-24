@@ -1,0 +1,1800 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Analisi dati: classificazione e regressione &#8212; Metodi numerici per il calcolo</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'book/analisi_dati';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Algebra lineare numerica: basics" href="intro_algebra%20lineare.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo_mnpc.png" class="logo__image only-light" alt="Metodi numerici per il calcolo - Home"/>
+    <script>document.write(`<img src="../_static/logo_mnpc.png" class="logo__image only-dark" alt="Metodi numerici per il calcolo - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Metodi numerici per il calcolo
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro_mnpc.html">Introduzione al corso Metodi Numerici per il calcolo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calcolo_multivariato.html">Calcolo multivariato</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Ottimizzazione.html">Ottimizzazione numerica</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro_algebra%20lineare.html">Algebra lineare numerica: basics</a></li>
+
+
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Analisi dati: classificazione e regressione</a></li>
+
+
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/elenaloli/metodi-numerici-per-il-calcolo-2026-27.git" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/elenaloli/metodi-numerici-per-il-calcolo-2026-27.git/issues/new?title=Issue%20on%20page%20%2Fbook/analisi_dati.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/book/analisi_dati.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Analisi dati: classificazione e regressione</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Analisi dati: classificazione e regressione</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#obiettivi-della-lezione">Obiettivi della lezione</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#che-cos-e-l-analisi-dei-dati">1. Che cos’è l’analisi dei dati?</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-analisi-dei-dati-e-interdisciplinare">1.1 L’analisi dei dati è interdisciplinare</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#il-ciclo-di-vita-dell-analisi-dei-dati">1.2 Il ciclo di vita dell’analisi dei dati</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-qualita-dei-dati">1.3 La qualità dei dati</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-servono-i-metodi-numerici">1.4 Perché servono i metodi numerici?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#il-focus-del-corso-l-analisi-predittiva">1.3 Il focus del corso: l’analisi predittiva</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#un-primo-esempio">1.4 Un primo esempio</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dall-analisi-descrittiva-all-analisi-predittiva">2. Dall’analisi descrittiva all’analisi predittiva</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#che-cos-e-un-classificatore">2.1 Che cos’è un classificatore?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apprendimento-supervisionato">2.3 Apprendimento supervisionato</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#una-prima-idea-di-classificazione">2.4 Una prima idea di classificazione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apprendimento-e-valutazione">2.5 Apprendimento e valutazione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#domande-per-la-discussione">Domande per la discussione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-scelta-del-modello">2.6 La scelta del modello</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-modelli-famiglie-parametriche-di-funzioni">2.6 I modelli: famiglie parametriche di funzioni</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-approccio-del-machine-learning">2.7 L’approccio del Machine Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-obiettivo-generalizzare">2.8 L’obiettivo: generalizzare</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-l-algebra-lineare-e-fondamentale-nell-analisi-dei-dati">3. Perché l’algebra lineare è fondamentale nell’analisi dei dati?</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-algebra-lineare-permette-di-confrontare-gli-oggetti">L’algebra lineare permette di confrontare gli oggetti</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-modelli-diventano-operazioni-tra-matrici-e-vettori">I modelli diventano operazioni tra matrici e vettori</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ridurre-la-complessita-significa-trovare-nuove-direzioni">Ridurre la complessità significa trovare nuove direzioni</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anche-immagini-e-testi-diventano-vettori-e-matrici">Anche immagini e testi diventano vettori e matrici</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-gli-strumenti-devono-anche-essere-numericamente-affidabili">Perché gli strumenti devono anche essere numericamente affidabili?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#una-mappa-delle-idee">Una mappa delle idee</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="analisi-dati-classificazione-e-regressione">
+<h1>Analisi dati: classificazione e regressione<a class="headerlink" href="#analisi-dati-classificazione-e-regressione" title="Link to this heading">#</a></h1>
+<p>Viviamo in un mondo in cui una grande quantità di informazioni viene raccolta continuamente: immagini mediche, misure ambientali, transazioni economiche, dati provenienti dai social network, segnali acquisiti da sensori e risultati di esperimenti scientifici.</p>
+<p>Queste informazioni vengono rappresentate sotto forma di <strong>dati</strong>. Tuttavia, possedere molti dati non significa automaticamente possedere conoscenza. I dati possono essere incompleti, rumorosi, ridondanti o difficili da interpretare.</p>
+<p>L’obiettivo dell’<strong>analisi dei dati</strong> è estrarre dai dati informazioni significative, individuare regolarità e costruire modelli utili per descrivere o prevedere un fenomeno.</p>
+<p>Possiamo riassumere il processo nel seguente schema:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{dati grezzi}
+\longrightarrow
+\text{rappresentazione matematica}
+\longrightarrow
+\text{metodo numerico}
+\longrightarrow
+\text{informazione}.
+\]</div>
+<section id="obiettivi-della-lezione">
+<h2>Obiettivi della lezione<a class="headerlink" href="#obiettivi-della-lezione" title="Link to this heading">#</a></h2>
+<p>Al termine di questa introduzione dovremmo essere in grado di:</p>
+<ul class="simple">
+<li><p>spiegare che cosa si intende per analisi dei dati;</p></li>
+<li><p>distinguere osservazioni, variabili e caratteristiche;</p></li>
+<li><p>rappresentare un insieme di dati mediante vettori e matrici;</p></li>
+<li><p>riconoscere diversi tipi di analisi;</p></li>
+<li><p>effettuare una prima esplorazione numerica e grafica dei dati;</p></li>
+<li><p>comprendere il ruolo del rumore, dell’errore e dei metodi numerici.</p></li>
+</ul>
+</section>
+</section>
+<section id="che-cos-e-l-analisi-dei-dati">
+<h1>1. Che cos’è l’analisi dei dati?<a class="headerlink" href="#che-cos-e-l-analisi-dei-dati" title="Link to this heading">#</a></h1>
+<p>L’analisi dei dati comprende l’insieme delle tecniche utilizzate per:</p>
+<ol class="arabic simple">
+<li><p>raccogliere e organizzare i dati;</p></li>
+<li><p>controllarne qualità e coerenza;</p></li>
+<li><p>rappresentarli in una forma matematica;</p></li>
+<li><p>esplorarli mediante statistiche e visualizzazioni;</p></li>
+<li><p>individuare relazioni e strutture;</p></li>
+<li><p>costruire e valutare modelli;</p></li>
+<li><p>formulare previsioni o prendere decisioni.</p></li>
+</ol>
+<p>L’analisi dei dati non è quindi una singola tecnica, ma un <strong>processo</strong> nel quale matematica, statistica e informatica interagiscono.</p>
+<section id="l-analisi-dei-dati-e-interdisciplinare">
+<h2>1.1 L’analisi dei dati è interdisciplinare<a class="headerlink" href="#l-analisi-dei-dati-e-interdisciplinare" title="Link to this heading">#</a></h2>
+<p>L’analisi dei dati si trova all’intersezione di tre aree:</p>
+<ul class="simple">
+<li><p><strong>informatica</strong>, necessaria per rappresentare, elaborare e gestire i dati;</p></li>
+<li><p><strong>matematica e statistica</strong>, che forniscono modelli e strumenti per interpretarli;</p></li>
+<li><p><strong>conoscenza del dominio applicativo</strong>, indispensabile per formulare domande sensate e valutare i risultati.</p></li>
+</ul>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/an_dati1.png"><img alt="../_images/an_dati1.png" src="../_images/an_dati1.png" style="width: 60%;" />
+</a>
+</figure>
+<p align="center">
+  <img src="immagini_sorgente\an_dati1.png"  width="400">
+</p>
+</section>
+</section>
+<section id="il-ciclo-di-vita-dell-analisi-dei-dati">
+<h1>1.2 Il ciclo di vita dell’analisi dei dati<a class="headerlink" href="#il-ciclo-di-vita-dell-analisi-dei-dati" title="Link to this heading">#</a></h1>
+<p>Un progetto di analisi dei dati non coincide con la sola costruzione di un modello. È un processo iterativo: si formula il problema, si raccolgono e preparano i dati, si esplorano le informazioni disponibili, si costruisce il modello e se ne valuta l’efficacia.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/an_dati2.png"><img alt="../_images/an_dati2.png" src="../_images/an_dati2.png" style="width: 60%;" />
+</a>
+</figure>
+<p align="center">
+  <img src="immagini_sorgente\an_dati2.png"  width="400">
+</p>
+<p>I risultati ottenuti possono suggerire di modificare il modello, raccogliere nuovi dati o persino riformulare la domanda iniziale.</p>
+<p><em>Analisi descrittiva</em></p>
+<p>Risponde alla domanda: <strong>che cosa mostrano i dati?</strong></p>
+<p>Comprende, per esempio, il calcolo di media, mediana, varianza e quantili, oltre alla costruzione di tabelle e grafici.</p>
+<p><em>Analisi esplorativa</em></p>
+<p>Cerca strutture non note in anticipo, come gruppi di osservazioni simili, variabili associate, dati anomali e direzioni principali di variabilità.</p>
+<p><em>Analisi predittiva</em></p>
+<p>Utilizza i dati disponibili per prevedere quantità non ancora osservate. Alcuni esempi sono prevedere il prezzo di un’abitazione, classificare un messaggio come spam o riconoscere un oggetto in un’immagine.## Dati, informazione e conoscenza</p>
+<p>È utile distinguere tre concetti:</p>
+<ul class="simple">
+<li><p>i <strong>dati</strong> sono le osservazioni raccolte;</p></li>
+<li><p>l’<strong>informazione</strong> nasce dall’organizzazione e dall’interpretazione dei dati;</p></li>
+<li><p>la <strong>conoscenza</strong> permette di utilizzare l’informazione per comprendere un fenomeno o prendere decisioni.</p></li>
+</ul>
+<p>Un algoritmo può individuare una struttura nei dati, ma il risultato deve essere interpretato nel contesto del problema. Un’associazione tra due variabili, per esempio, non implica necessariamente una relazione di causa ed effetto.</p>
+<section id="la-qualita-dei-dati">
+<h2>1.3 La qualità dei dati<a class="headerlink" href="#la-qualita-dei-dati" title="Link to this heading">#</a></h2>
+<p>Prima di applicare qualsiasi metodo è necessario esaminare la qualità dei dati. I problemi più comuni sono:</p>
+<ul class="simple">
+<li><p><strong>valori mancanti</strong>, dovuti a misure non effettuate o informazioni non disponibili;</p></li>
+<li><p><strong>valori anomali</strong> (<em>outlier</em>), molto lontani dalla maggior parte delle osservazioni;</p></li>
+<li><p><strong>errori di acquisizione o trascrizione</strong>;</p></li>
+<li><p><strong>unità di misura differenti</strong>;</p></li>
+<li><p><strong>duplicati</strong>;</p></li>
+<li><p><strong>campioni non rappresentativi</strong> della popolazione che vogliamo studiare.</p></li>
+</ul>
+<p>La pulizia dei dati non è un passaggio secondario: risultati numericamente corretti possono essere privi di significato se i dati di partenza sono inaffidabili.</p>
+<p><strong>Un piccolo esempio contenente un valore mancante e un valore sospetto</strong></p>
+<p>dati_problematici = studenti.copy()
+dati_problematici.loc[2, ‘Frequenza’] = np.nan
+dati_problematici.loc[6, ‘Ore_studio’] = 280</p>
+<p>display(dati_problematici)
+print(‘\nValori mancanti per colonna:’)
+display(dati_problematici.isna().sum())</p>
+<p><em>DOMANDE</em></p>
+<ol class="arabic simple">
+<li><p>Il valore <code class="docutils literal notranslate"><span class="pre">280</span></code> è necessariamente errato?</p></li>
+<li><p>Come potremmo verificare se si tratta di un errore?</p></li>
+<li><p>È sempre corretto eliminare una riga contenente un valore mancante?</p></li>
+<li><p>Che cosa accade alla media delle ore di studio in presenza del valore sospetto?</p></li>
+</ol>
+<p>Non esiste una risposta automatica valida in ogni situazione: le scelte dipendono dal significato dei dati e dallo scopo dell’analisi.</p>
+<p><em>Il ruolo dell’errore e del rumore</em></p>
+<p>L’errore è inevitabile nell’analisi dei dati. Può derivare da errori di misura, dati mancanti, rumore, approssimazioni del modello, errori di arrotondamento o interruzione anticipata di un algoritmo iterativo.</p>
+<p>Possiamo rappresentare una misura mediante</p>
+<div class="math notranslate nohighlight">
+\[
+y^\delta = y + \eta,
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(y\)</span> è il valore ideale, <span class="math notranslate nohighlight">\(\eta\)</span> rappresenta il rumore e <span class="math notranslate nohighlight">\(y^\delta\)</span> è il dato effettivamente osservato.</p>
+<p>Un algoritmo affidabile deve estrarre l’informazione utile senza interpretare il rumore come una caratteristica significativa del fenomeno.</p>
+<p><em>Segnale ideale e misure rumorose</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span> 
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">120</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">eta</span> <span class="o">=</span> <span class="mf">0.18</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+<span class="n">y_delta</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">eta</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Segnale ideale $y$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_delta</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.65</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;Dati osservati $y^\delta$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$x$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;valore&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Effetto del rumore sui dati&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/f86406a95f7733d6accaf90ed1a0871f6046414a2968f9e78a760fe08d87f438.png" src="../_images/f86406a95f7733d6accaf90ed1a0871f6046414a2968f9e78a760fe08d87f438.png" />
+</div>
+</div>
+</section>
+<section id="perche-servono-i-metodi-numerici">
+<h2>1.4 Perché servono i metodi numerici?<a class="headerlink" href="#perche-servono-i-metodi-numerici" title="Link to this heading">#</a></h2>
+<p>Nei problemi reali raramente è possibile ottenere una soluzione esatta mediante una formula. I dati possono essere numerosi, rumorosi o mal condizionati, e il modello può essere troppo complesso per essere trattato analiticamente.</p>
+<p>I metodi numerici consentono di calcolare una soluzione approssimata utilizzando un calcolatore. È però necessario porsi alcune domande fondamentali:</p>
+<ul class="simple">
+<li><p>L’algoritmo produce una soluzione sufficientemente accurata?</p></li>
+<li><p>Quanto è grande l’errore?</p></li>
+<li><p>La soluzione cambia molto se i dati sono perturbati?</p></li>
+<li><p>Quanto tempo e quanta memoria sono necessari?</p></li>
+<li><p>L’algoritmo converge?</p></li>
+<li><p>Il risultato descrive davvero il fenomeno oppure riproduce anche il rumore?</p></li>
+</ul>
+<p>Un metodo numerico non deve quindi essere soltanto implementabile: deve anche essere <strong>accurato, stabile ed efficiente</strong>.</p>
+<p><strong>La pipeline dell’analisi dei dati</strong></p>
+<p>Nel corso utilizzeremo ripetutamente la seguente sequenza concettuale:</p>
+<div class="math notranslate nohighlight">
+\[
+\boxed{
+\text{problema}
+\rightarrow
+\text{dati}
+\rightarrow
+\text{modello}
+\rightarrow
+\text{algoritmo}
+\rightarrow
+\text{valutazione}
+}
+\]</div>
+<p>Il messaggio centrale è:</p>
+<blockquote>
+<div><p>L’analisi dei dati non consiste semplicemente nell’applicare un algoritmo. Consiste nel formulare correttamente una domanda, rappresentare i dati, scegliere un modello, calcolare una soluzione e valutarne criticamente l’affidabilità.</p>
+</div></blockquote>
+</section>
+<section id="il-focus-del-corso-l-analisi-predittiva">
+<h2>1.3 Il focus del corso: l’analisi predittiva<a class="headerlink" href="#il-focus-del-corso-l-analisi-predittiva" title="Link to this heading">#</a></h2>
+<p>In questo corso ci concentreremo soprattutto sull’<strong>analisi predittiva</strong>. A partire da esempi per i quali conosciamo già la risposta, cercheremo di costruire una funzione capace di fornire una previsione su nuove osservazioni.</p>
+<p>In forma schematica:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{dati di esempio}
+\longrightarrow
+\text{apprendimento di un modello}
+\longrightarrow
+\text{previsione su nuovi dati}.
+\]</div>
+<p>Due problemi predittivi fondamentali sono:</p>
+<ul class="simple">
+<li><p>la <strong>classificazione</strong>, quando la risposta è una categoria;</p></li>
+<li><p>la <strong>regressione</strong>, quando la risposta è una quantità numerica.</p></li>
+</ul>
+<p>Cominciamo dall’idea di classificazione.</p>
+</section>
+<section id="un-primo-esempio">
+<h2>1.4 Un primo esempio<a class="headerlink" href="#un-primo-esempio" title="Link to this heading">#</a></h2>
+<p>Supponiamo di conoscere, per un insieme di studenti:</p>
+<ul class="simple">
+<li><p>il numero di ore dedicate allo studio;</p></li>
+<li><p>la percentuale di lezioni frequentate;</p></li>
+<li><p>il voto ottenuto all’esame.</p></li>
+</ul>
+<p>A partire da questi dati possiamo formulare diverse domande:</p>
+<ul class="simple">
+<li><p>Qual è il voto medio?</p></li>
+<li><p>Quanto sono variabili i risultati?</p></li>
+<li><p>Esiste una relazione tra ore di studio e voto?</p></li>
+<li><p>Sono presenti studenti con un comportamento anomalo?</p></li>
+<li><p>Possiamo dividere gli studenti in gruppi con caratteristiche simili?</p></li>
+</ul>
+<p>Prima di scegliere un algoritmo dobbiamo quindi chiarire <strong>quale domanda vogliamo porre ai dati</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">studenti</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;Studente&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Anna&#39;</span><span class="p">,</span> <span class="s1">&#39;Bruno&#39;</span><span class="p">,</span> <span class="s1">&#39;Carla&#39;</span><span class="p">,</span> <span class="s1">&#39;Davide&#39;</span><span class="p">,</span> <span class="s1">&#39;Elena&#39;</span><span class="p">,</span> <span class="s1">&#39;Fabio&#39;</span><span class="p">,</span> <span class="s1">&#39;Giulia&#39;</span><span class="p">,</span> <span class="s1">&#39;Luca&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;Ore_studio&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+    <span class="s1">&#39;Frequenza&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">70</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">95</span><span class="p">,</span> <span class="mi">65</span><span class="p">],</span>
+    <span class="s1">&#39;Voto&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">21</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">20</span><span class="p">]</span>
+<span class="p">})</span>
+
+<span class="n">studenti</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Studente</th>
+      <th>Ore_studio</th>
+      <th>Frequenza</th>
+      <th>Voto</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Anna</td>
+      <td>12</td>
+      <td>70</td>
+      <td>21</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Bruno</td>
+      <td>25</td>
+      <td>90</td>
+      <td>28</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Carla</td>
+      <td>18</td>
+      <td>80</td>
+      <td>25</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Davide</td>
+      <td>8</td>
+      <td>60</td>
+      <td>19</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Elena</td>
+      <td>22</td>
+      <td>85</td>
+      <td>27</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Fabio</td>
+      <td>15</td>
+      <td>75</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Giulia</td>
+      <td>28</td>
+      <td>95</td>
+      <td>30</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Luca</td>
+      <td>10</td>
+      <td>65</td>
+      <td>20</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Nella tabella precedente:</p>
+<ul class="simple">
+<li><p>ogni <strong>riga</strong> corrisponde a un’osservazione, cioè a uno studente;</p></li>
+<li><p>ogni <strong>colonna</strong> corrisponde a una variabile;</p></li>
+<li><p>le variabili numeriche possono essere utilizzate nei calcoli;</p></li>
+<li><p>il nome dello studente è invece una variabile identificativa.</p></li>
+</ul>
+<p><strong>Per riflettere</strong></p>
+<p>Consideriamo un’applicazione che deve analizzare automaticamente immagini mediche.</p>
+<ol class="arabic simple">
+<li><p>Che cosa rappresentano le osservazioni?</p></li>
+<li><p>Quali potrebbero essere le variabili o feature?</p></li>
+<li><p>Da quali sorgenti potrebbe provenire il rumore?</p></li>
+<li><p>Quali conseguenze potrebbe avere un errore dell’algoritmo?</p></li>
+<li><p>L’accuratezza numerica è l’unico criterio con cui valutarlo?</p></li>
+</ol>
+<p>Queste domande mostrano perché l’analisi dei dati richiede sia strumenti matematici e computazionali sia una conoscenza del contesto applicativo.</p>
+</section>
+</section>
+<section id="dall-analisi-descrittiva-all-analisi-predittiva">
+<h1>2. Dall’analisi descrittiva all’analisi predittiva<a class="headerlink" href="#dall-analisi-descrittiva-all-analisi-predittiva" title="Link to this heading">#</a></h1>
+<p>Descrivere i dati disponibili è soltanto una parte dell’analisi dei dati. Molto spesso vogliamo utilizzare ciò che abbiamo osservato per formulare una <strong>previsione su nuovi dati</strong>.</p>
+<p>Esempi di domande predittive sono:</p>
+<ul class="simple">
+<li><p>un messaggio di posta elettronica è <em>spam</em> oppure <em>non spam</em>?</p></li>
+<li><p>un’immagine contiene un gatto, un cane oppure un altro animale?</p></li>
+<li><p>una transazione bancaria è regolare oppure fraudolenta?</p></li>
+<li><p>un’immagine medica mostra un tessuto sano oppure patologico?</p></li>
+</ul>
+<p>Quando il risultato da prevedere appartiene a un insieme finito di categorie, abbiamo un problema di <strong>classificazione</strong>.</p>
+<p><strong>Due problemi predittivi fondamentali</strong></p>
+<p>Nell’apprendimento supervisionato distinguiamo soprattutto:</p>
+<ul class="simple">
+<li><p><strong>classificazione</strong>, se <span class="math notranslate nohighlight">\(y\)</span> è una categoria;</p></li>
+<li><p><strong>regressione</strong>, se <span class="math notranslate nohighlight">\(y\)</span> è una quantità numerica.</p></li>
+</ul>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/classificazione_regressione.png"><img alt="../_images/classificazione_regressione.png" src="../_images/classificazione_regressione.png" style="width: 100%;" />
+</a>
+</figure>
+<p align="center">
+  <img src="immagini_sorgente/classificazione_regressione.png" width="700">
+</p>
+<p>In entrambi i casi il modello deve individuare una relazione tra gli input e gli output osservati, per poi applicarla a nuovi dati. Cambiano il tipo di risposta e le misure utilizzate per valutare l’errore.</p>
+<section id="che-cos-e-un-classificatore">
+<h2>2.1 Che cos’è un classificatore?<a class="headerlink" href="#che-cos-e-un-classificatore" title="Link to this heading">#</a></h2>
+<p>Ogni oggetto viene descritto mediante un insieme di caratteristiche numeriche, dette <strong>feature</strong>. Queste caratteristiche formano un vettore</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{x}=(x_1,x_2,\ldots,x_n)\in\mathbb{R}^n.
+\]</div>
+<p>Un classificatore riceve il vettore <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> e gli assegna una classe:</p>
+<div class="math notranslate nohighlight">
+\[
+f:\mathbb{R}^n\longrightarrow\{C_1,C_2,\ldots,C_K\}.
+\]</div>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/schema_classificazione.png"><img alt="../_images/schema_classificazione.png" src="../_images/schema_classificazione.png" style="width: 100%;" />
+</a>
+</figure>
+<p align="center">
+  <img src="immagini_sorgente/schema_classificazione.png" width="700">
+</p></section>
+<section id="apprendimento-supervisionato">
+<h2>2.3 Apprendimento supervisionato<a class="headerlink" href="#apprendimento-supervisionato" title="Link to this heading">#</a></h2>
+<p>Come possiamo costruire la funzione <span class="math notranslate nohighlight">\(f\)</span>? Disponiamo di un insieme di esempi per i quali la classe corretta è già nota:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{D}=\{(\mathbf{x}_i,y_i)\}_{i=1}^m,
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(\mathbf{x}_i\)</span> contiene le caratteristiche dell’osservazione <span class="math notranslate nohighlight">\(i\)</span> e <span class="math notranslate nohighlight">\(y_i\)</span> è la sua <strong>etichetta</strong>, o <em>label</em>.</p>
+<p>Si parla di <strong>apprendimento supervisionato</strong> perché durante l’apprendimento il metodo conosce sia i dati in ingresso sia le risposte corrette.</p>
+<p><em>Un piccolo dataset a due classi</em></p>
+<p>Consideriamo dodici oggetti. Ogni oggetto è descritto da due caratteristiche, <span class="math notranslate nohighlight">\(x_1\)</span> e <span class="math notranslate nohighlight">\(x_2\)</span>, ed è associato alla <strong>classe A</strong> oppure alla <strong>classe B</strong>. Poiché ci sono soltanto due possibili etichette, questo è un problema di <strong>classificazione binaria</strong>.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/dati_due_classi.png"><img alt="../_images/dati_due_classi.png" src="../_images/dati_due_classi.png" style="width: 100%;" />
+</a>
+</figure>
+<p align="center">
+  <img src="immagini_sorgente/dati_due_classi.png" width="700">
+</p>
+<p>Ogni punto rappresenta un’osservazione. La sua posizione dipende dalle caratteristiche, mentre il colore e la forma indicano la classe nota.</p>
+<p>Se le possibili etichette fossero più di due, per esempio gatto, cane e cavallo, parleremmo invece di <strong>classificazione multiclasse</strong>.</p>
+<p>Il classificatore suddivide lo spazio delle caratteristiche in regioni associate alle diverse classi. Il confine tra queste regioni prende il nome di <strong>frontiera di decisione</strong>.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/frontiera_classificazione.png"><img alt="../_images/frontiera_classificazione.png" src="../_images/frontiera_classificazione.png" style="width: 100%;" />
+</a>
+</figure>
+<p align="center">
+  <img src="immagini_sorgente/frontiera_classificazione.png" width="700">
+</p>
+<p>Una volta costruita la frontiera, una nuova osservazione viene classificata in base alla regione in cui si trova.</p>
+<blockquote>
+<div><p>La frontiera mostrata nella figura serve soltanto a illustrare il concetto: nei problemi reali deve essere appresa dai dati.</p>
+</div></blockquote>
+</section>
+<section id="una-prima-idea-di-classificazione">
+<h2>2.4 Una prima idea di classificazione<a class="headerlink" href="#una-prima-idea-di-classificazione" title="Link to this heading">#</a></h2>
+<p>Consideriamo un insieme di fiori descritti mediante due caratteristiche:</p>
+<ul class="simple">
+<li><p>la lunghezza del petalo;</p></li>
+<li><p>la larghezza del petalo.</p></li>
+</ul>
+<p>Per ogni fiore conosciamo inoltre la specie, che può essere <strong>Setosa</strong> oppure <strong>Versicolor</strong>. La specie è la <strong>classe</strong> o <strong>etichetta</strong> (<em>label</em>) che vogliamo prevedere.</p>
+<p>Il nostro obiettivo è usare gli esempi disponibili per assegnare una classe a un nuovo fiore.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Un piccolo dataset ispirato al dataset Iris</span>
+<span class="n">fiori</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;Lunghezza_petalo&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span>
+                         <span class="mf">4.7</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">,</span> <span class="mf">4.9</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">4.6</span><span class="p">,</span> <span class="mf">4.4</span><span class="p">],</span>
+    <span class="s1">&#39;Larghezza_petalo&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span>
+                         <span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">],</span>
+    <span class="s1">&#39;Specie&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Setosa&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">6</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;Versicolor&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">6</span>
+<span class="p">})</span>
+
+<span class="n">fiori</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Lunghezza_petalo</th>
+      <th>Larghezza_petalo</th>
+      <th>Specie</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.4</td>
+      <td>0.2</td>
+      <td>Setosa</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.3</td>
+      <td>0.2</td>
+      <td>Setosa</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.5</td>
+      <td>0.2</td>
+      <td>Setosa</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.7</td>
+      <td>0.4</td>
+      <td>Setosa</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.4</td>
+      <td>0.3</td>
+      <td>Setosa</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1.6</td>
+      <td>0.2</td>
+      <td>Setosa</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>4.7</td>
+      <td>1.4</td>
+      <td>Versicolor</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>4.5</td>
+      <td>1.5</td>
+      <td>Versicolor</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>4.9</td>
+      <td>1.5</td>
+      <td>Versicolor</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>4.0</td>
+      <td>1.3</td>
+      <td>Versicolor</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>4.6</td>
+      <td>1.5</td>
+      <td>Versicolor</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>4.4</td>
+      <td>1.3</td>
+      <td>Versicolor</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>In un problema di apprendimento supervisionato ogni osservazione è formata da:</p>
+<div class="math notranslate nohighlight">
+\[
+(\mathbf{x}_i,y_i), \qquad i=1,\ldots,m,
+\]</div>
+<p>dove</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathbf{x}_i=
+\begin{bmatrix}
+\text{lunghezza del petalo}\\
+\text{larghezza del petalo}
+\end{bmatrix}
+\in\mathbb{R}^2
+\end{split}\]</div>
+<p>è il vettore delle caratteristiche e <span class="math notranslate nohighlight">\(y_i\)</span> è l’etichetta associata al fiore.</p>
+<p>In questo esempio cerchiamo quindi una funzione</p>
+<div class="math notranslate nohighlight">
+\[
+f:\mathbb{R}^2\longrightarrow\{\text{Setosa},\text{Versicolor}\}.
+\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">colori</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Setosa&#39;</span><span class="p">:</span> <span class="s1">&#39;royalblue&#39;</span><span class="p">,</span> <span class="s1">&#39;Versicolor&#39;</span><span class="p">:</span> <span class="s1">&#39;darkorange&#39;</span><span class="p">}</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">specie</span><span class="p">,</span> <span class="n">gruppo</span> <span class="ow">in</span> <span class="n">fiori</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Specie&#39;</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">gruppo</span><span class="p">[</span><span class="s1">&#39;Lunghezza_petalo&#39;</span><span class="p">],</span> <span class="n">gruppo</span><span class="p">[</span><span class="s1">&#39;Larghezza_petalo&#39;</span><span class="p">],</span>
+                <span class="n">s</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colori</span><span class="p">[</span><span class="n">specie</span><span class="p">],</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">specie</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Lunghezza del petalo (cm)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Larghezza del petalo (cm)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Due classi nello spazio delle caratteristiche&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/fb50b2fffdf04136a9a30eab5bd47f129ac5e358e095f83f4a58b01ebc457e27.png" src="../_images/fb50b2fffdf04136a9a30eab5bd47f129ac5e358e095f83f4a58b01ebc457e27.png" />
+</div>
+</div>
+<p>Nel grafico ogni punto rappresenta un fiore. La posizione dipende dalle sue caratteristiche, mentre il colore indica la classe nota.</p>
+<p>Osserviamo che le due specie occupano regioni differenti dello spazio. Un metodo di classificazione cerca di ricavare dai dati una <strong>regola di decisione</strong> che separi tali regioni.</p>
+<p>Per un nuovo fiore con caratteristiche</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathbf{x}_{\mathrm{new}}=
+\begin{bmatrix}
+4.2\\1.4
+\end{bmatrix},
+\end{split}\]</div>
+<p>quale classe assegneremmo osservando il grafico?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nuovo_fiore</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.2</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">specie</span><span class="p">,</span> <span class="n">gruppo</span> <span class="ow">in</span> <span class="n">fiori</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Specie&#39;</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">gruppo</span><span class="p">[</span><span class="s1">&#39;Lunghezza_petalo&#39;</span><span class="p">],</span> <span class="n">gruppo</span><span class="p">[</span><span class="s1">&#39;Larghezza_petalo&#39;</span><span class="p">],</span>
+                <span class="n">s</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colori</span><span class="p">[</span><span class="n">specie</span><span class="p">],</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">specie</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">nuovo_fiore</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nuovo_fiore</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">260</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s1">&#39;crimson&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Nuovo fiore&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Lunghezza del petalo (cm)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Larghezza del petalo (cm)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Classificare una nuova osservazione&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/a3ef453e59e22596da7403b0d70b8def8a82f9410f1f9ece368f81d130689ec0.png" src="../_images/a3ef453e59e22596da7403b0d70b8def8a82f9410f1f9ece368f81d130689ec0.png" />
+</div>
+</div>
+</section>
+<section id="apprendimento-e-valutazione">
+<h2>2.5 Apprendimento e valutazione<a class="headerlink" href="#apprendimento-e-valutazione" title="Link to this heading">#</a></h2>
+<p>I dati usati per costruire la regola di classificazione costituiscono il <strong>training set</strong>. Valutare il modello sugli stessi esempi, però, non ci dice quanto sarà efficace su dati mai osservati.</p>
+<p>Per questo si separano normalmente i dati in:</p>
+<ul class="simple">
+<li><p><strong>training set</strong>, utilizzato per apprendere il modello;</p></li>
+<li><p><strong>test set</strong>, utilizzato per valutarne la capacità predittiva su nuovi dati.</p></li>
+</ul>
+<p>Una prima misura di prestazione è l’<strong>accuratezza</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\operatorname{accuracy}=
+\frac{\text{numero di classificazioni corrette}}
+{\text{numero totale di esempi nel test set}}.
+\]</div>
+<p>Nei problemi reali l’accuratezza non è sempre sufficiente: il significato e il costo dei diversi tipi di errore possono essere molto differenti.</p>
+</section>
+<section id="domande-per-la-discussione">
+<h2>Domande per la discussione<a class="headerlink" href="#domande-per-la-discussione" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Quali informazioni costituiscono l’input del classificatore?</p></li>
+<li><p>Qual è l’output?</p></li>
+<li><p>Il problema è binario o multiclasse?</p></li>
+<li><p>Che cosa accadrebbe se le due nuvole di punti si sovrapponessero?</p></li>
+<li><p>È possibile ottenere un’accuratezza perfetta sul training set ma commettere errori sui nuovi dati?</p></li>
+<li><p>In una diagnosi medica, tutti gli errori di classificazione avrebbero lo stesso costo?</p></li>
+</ol>
+</section>
+<section id="la-scelta-del-modello">
+<h2>2.6 La scelta del modello<a class="headerlink" href="#la-scelta-del-modello" title="Link to this heading">#</a></h2>
+<p>Gli stessi dati possono essere rappresentati utilizzando <em>modelli</em> differenti. Per esempio, possiamo scegliere come modello una retta oppure una parabola.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/modelli_lineare_quadratico.png"><img alt="../_images/modelli_lineare_quadratico.png" src="../_images/modelli_lineare_quadratico.png" style="width: 100%;" />
+</a>
+</figure>
+<p align="center">
+  <img src="immagini_sorgente/modelli_lineare_quadratico.png" width="700">
+</p>
+<p>Nel primo caso il modello ha la forma</p>
+<div class="math notranslate nohighlight">
+\[
+f(x;\boldsymbol{\theta})=\theta_0+\theta_1x,
+\]</div>
+<p>mentre nel secondo caso ha la forma</p>
+<div class="math notranslate nohighlight">
+\[
+f(x;\boldsymbol{\theta})=\theta_0+\theta_1x+\theta_2x^2.
+\]</div>
+<p>La famiglia scelta non deve necessariamente essere quella dei polinomi. Per esempio, possiamo considerare una combinazione lineare di una funzione esponenziale e di una costante:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x;\boldsymbol{\theta})=\theta_0+\theta_1 e^{\alpha x}.
+\]</div>
+<figure class="align-center">
+<a class="reference internal image-reference" href="book/immagini_sorgente/modello_esponenziale.png"><img alt="book/immagini_sorgente/modello_esponenziale.png" src="book/immagini_sorgente/modello_esponenziale.png" style="width: 100%;" />
+</a>
+</figure>
+<p align="center">
+  <img src="immagini_sorgente/modello_esponenziale.png" width="700">
+</p>
+<p>La scelta della famiglia di funzioni dipende dal fenomeno che vogliamo descrivere e dalle informazioni disponibili sui dati.</p>
+</section>
+<section id="i-modelli-famiglie-parametriche-di-funzioni">
+<h2>2.6 I modelli: famiglie parametriche di funzioni<a class="headerlink" href="#i-modelli-famiglie-parametriche-di-funzioni" title="Link to this heading">#</a></h2>
+<p>Scelta una famiglia di funzioni <span class="math notranslate nohighlight">\(f(x;\boldsymbol{\theta})\)</span>, occorre determinare i parametri</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{\theta}=(\theta_0,\theta_1,\ldots,\theta_{k-1})^T\in\mathbb{R}^{k}
+\]</div>
+<p>che identificano la particolare funzione della famiglia che meglio rappresenta i dati.</p>
+<p>Per esempio, scegliendo come famiglia le rette del piano, dobbiamo determinare</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{\theta}=(\theta_0,\theta_1)^T,
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(\theta_0\)</span> è l’intercetta e <span class="math notranslate nohighlight">\(\theta_1\)</span> è il coefficiente angolare. Il problema consiste quindi nel trovare la retta che meglio approssima i punti dati.</p>
+<p><strong>Come confrontare due modelli?</strong></p>
+<p>Per stabilire se una funzione rappresenta i dati meglio di un’altra dobbiamo introdurre una misura di vicinanza tra i valori previsti e quelli osservati.</p>
+<p>Questo viene fatto definendo una <strong>funzione di costo</strong>, detta anche <strong>funzione di perdita</strong> o <em>loss function</em>. Indicata con <span class="math notranslate nohighlight">\(h\)</span> la perdita relativa a una singola osservazione, definiamo</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(\boldsymbol{\theta})
+=\sum_{i=1}^{n}h\bigl(f(x_i;\boldsymbol{\theta}),y_i\bigr).
+\]</div>
+<p>La funzione di costo dipende dai parametri perché, al variare di <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span>, cambiano le previsioni del modello.</p>
+<p><em>Il calcolo dei parametri come problema di minimo</em></p>
+<p>I parametri ottimali sono quelli che rendono minima la funzione di costo:</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{\theta}^{*}
+=\operatorname*{argmin}_{\boldsymbol{\theta}\in\mathbb{R}^{k}}
+\mathcal{L}(\boldsymbol{\theta}).
+\]</div>
+<p>La funzione <span class="math notranslate nohighlight">\(f(x;\boldsymbol{\theta}^{*})\)</span>, i cui parametri sono stati stimati minimizzando la funzione di perdita, prende il nome di <strong>funzione di regressione</strong>.</p>
+<blockquote>
+<div><p>Il problema di costruire un modello predittivo viene così trasformato in un problema di ottimizzazione.</p>
+</div></blockquote>
+</section>
+<section id="l-approccio-del-machine-learning">
+<h2>2.7 L’approccio del Machine Learning<a class="headerlink" href="#l-approccio-del-machine-learning" title="Link to this heading">#</a></h2>
+<p>Nella programmazione tradizionale il programmatore specifica esplicitamente le regole che trasformano i dati in risultati. Questo approccio diventa difficile quando le regole sono troppo numerose, complesse o impossibili da descrivere in modo preciso.</p>
+<p>Nel <strong>Machine Learning</strong> non scriviamo direttamente tutte le regole: forniamo esempi a un algoritmo, che cerca nei dati le regolarità utili per costruire un modello predittivo.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/tradizionale_vs_ml.png"><img alt="../_images/tradizionale_vs_ml.png" src="../_images/tradizionale_vs_ml.png" style="width: 100%;" />
+</a>
+</figure>
+<p align="center">
+  <img src="immagini_sorgente/tradizionale_vs_ml.png" width="700">
+</p>
+<blockquote>
+<div><p>Un sistema di Machine Learning apprende dai dati una regola che non è stata programmata esplicitamente.</p>
+</div></blockquote>
+<p><em>Imparare dagli esempi</em></p>
+<p>L’apprendimento automatico può essere paragonato allo studio di uno studente:</p>
+<ul class="simple">
+<li><p>durante il <strong>training</strong>, lo studente studia esempi ed esercizi già svolti;</p></li>
+<li><p>durante il <strong>test</strong>, affronta domande nuove;</p></li>
+<li><p>la <strong>valutazione</strong> misura quanto ciò che ha appreso sia trasferibile a situazioni mai viste.</p></li>
+</ul>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/studying_training_evaluation.png"><img alt="../_images/studying_training_evaluation.png" src="../_images/studying_training_evaluation.png" style="width: 100%;" />
+</a>
+</figure>
+<p align="center">
+  <img src="immagini_sorgente/studying_training_evaluation.png" width="700">
+</p>
+<p>Se le domande dell’esame fossero identiche agli esercizi studiati, non potremmo capire se lo studente ha davvero imparato. Analogamente, un modello deve essere valutato su dati non utilizzati durante il training.</p>
+<p>Nell’<strong>apprendimento supervisionato</strong> disponiamo di un insieme di esempi</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{D}_{\mathrm{train}}=\{(\mathbf{x}_i,y_i)\}_{i=1}^{m},
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(\mathbf{x}_i\)</span> contiene le caratteristiche dell’osservazione e <span class="math notranslate nohighlight">\(y_i\)</span> è la risposta corretta.</p>
+<p>L’<strong>algoritmo di apprendimento</strong> usa il training set per determinare un modello <span class="math notranslate nohighlight">\(f_{\boldsymbol{\theta}}\)</span>. Una volta costruito, il modello riceve un nuovo input e produce una previsione:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{x}_{\mathrm{new}}
+\longrightarrow
+f_{\boldsymbol{\theta}}(\mathbf{x}_{\mathrm{new}})
+=\widehat{y}_{\mathrm{new}}.
+\]</div>
+<p>È importante distinguere:</p>
+<ul class="simple">
+<li><p>l’<strong>algoritmo</strong>, cioè la procedura che apprende;</p></li>
+<li><p>il <strong>modello</strong>, cioè la funzione ottenuta al termine dell’apprendimento;</p></li>
+<li><p>la <strong>predizione</strong>, cioè l’output del modello per un nuovo dato.</p></li>
+</ul>
+</section>
+<section id="l-obiettivo-generalizzare">
+<h2>2.8 L’obiettivo: generalizzare<a class="headerlink" href="#l-obiettivo-generalizzare" title="Link to this heading">#</a></h2>
+<p>Lo scopo non è riprodurre perfettamente gli esempi già osservati, ma ottenere buone previsioni su dati nuovi. Questa capacità prende il nome di <strong>generalizzazione</strong>.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/training_validation_test.png"><img alt="../_images/training_validation_test.png" src="../_images/training_validation_test.png" style="width: 100%;" />
+</a>
+</figure>
+<p align="center">
+  <img src="immagini_sorgente/training_validation_test.png" width="700">
+</p>
+<ul class="simple">
+<li><p>Il <strong>training set</strong> serve ad apprendere i parametri del modello.</p></li>
+<li><p>Il <strong>validation set</strong> serve a confrontare scelte e configurazioni.</p></li>
+<li><p>Il <strong>test set</strong> deve essere usato soltanto per la valutazione finale.</p></li>
+</ul>
+<p>Un modello troppo semplice può non cogliere la struttura dei dati (<strong>underfitting</strong>); un modello che si adatta anche al rumore del training set può invece non funzionare su nuovi dati (<strong>overfitting</strong>).</p>
+<blockquote>
+<div><p>La qualità di un modello si misura sulla sua capacità di prevedere, non sulla sua capacità di ricordare.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="perche-l-algebra-lineare-e-fondamentale-nell-analisi-dei-dati">
+<h1>3. Perché l’algebra lineare è fondamentale nell’analisi dei dati?<a class="headerlink" href="#perche-l-algebra-lineare-e-fondamentale-nell-analisi-dei-dati" title="Link to this heading">#</a></h1>
+<p><em>Partiamo da un problema concreto</em></p>
+<p>Un’azienda raccoglie alcune informazioni sui propri clienti:</p>
+<ul class="simple">
+<li><p>numero di visite al sito nell’ultimo mese;</p></li>
+<li><p>tempo medio trascorso sul sito;</p></li>
+<li><p>spesa mensile;</p></li>
+<li><p>numero di acquisti.</p></li>
+</ul>
+<p>Ogni cliente è descritto da più numeri. Possiamo organizzare questi dati in una tabella.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;seaborn-v0_8-whitegrid&quot;</span><span class="p">)</span>
+
+<span class="n">clienti</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;visite&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+    <span class="s2">&quot;tempo_medio_min&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.1</span><span class="p">,</span> <span class="mf">5.4</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">,</span> <span class="mf">8.1</span><span class="p">,</span> <span class="mf">6.7</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">],</span>
+    <span class="s2">&quot;spesa_euro&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">210</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">18</span><span class="p">],</span>
+    <span class="s2">&quot;acquisti&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="p">},</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Cliente A&quot;</span><span class="p">,</span> <span class="s2">&quot;Cliente B&quot;</span><span class="p">,</span> <span class="s2">&quot;Cliente C&quot;</span><span class="p">,</span> <span class="s2">&quot;Cliente D&quot;</span><span class="p">,</span> <span class="s2">&quot;Cliente E&quot;</span><span class="p">,</span> <span class="s2">&quot;Cliente F&quot;</span><span class="p">])</span>
+
+<span class="n">clienti</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>visite</th>
+      <th>tempo_medio_min</th>
+      <th>spesa_euro</th>
+      <th>acquisti</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Cliente A</th>
+      <td>5</td>
+      <td>2.1</td>
+      <td>25</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Cliente B</th>
+      <td>12</td>
+      <td>5.4</td>
+      <td>110</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>Cliente C</th>
+      <td>8</td>
+      <td>3.2</td>
+      <td>55</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>Cliente D</th>
+      <td>20</td>
+      <td>8.1</td>
+      <td>210</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>Cliente E</th>
+      <td>16</td>
+      <td>6.7</td>
+      <td>160</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>Cliente F</th>
+      <td>4</td>
+      <td>1.8</td>
+      <td>18</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Un dataset è una matrice</strong></p>
+<p>La tabella precedente può essere vista come una matrice <span class="math notranslate nohighlight">\(X\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+X = \begin{bmatrix}
+5 &amp; 2.1 &amp; 25 &amp; 1\\
+12 &amp; 5.4 &amp; 110 &amp; 4\\
+\vdots &amp; \vdots &amp; \vdots &amp; \vdots
+\end{bmatrix}.
+\end{split}\]</div>
+<ul class="simple">
+<li><p>ogni <strong>riga</strong> rappresenta un cliente;</p></li>
+<li><p>ogni <strong>colonna</strong> rappresenta una caratteristica;</p></li>
+<li><p>ogni cliente è quindi anche un <strong>vettore</strong> di numeri.</p></li>
+</ul>
+<p>Questa semplice osservazione è già una prima risposta:</p>
+<blockquote>
+<div><p>Per analizzare un dataset dobbiamo saper lavorare con vettori e matrici.</p>
+</div></blockquote>
+<p>La stessa rappresentazione si usa per dati economici, questionari, sensori, testi, immagini e moltissimi altri tipi di informazione.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">clienti</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dimensione della matrice:&quot;</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Numero di clienti:&quot;</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Numero di caratteristiche per cliente:&quot;</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dimensione della matrice: (6, 4)
+Numero di clienti: 6
+Numero di caratteristiche per cliente: 4
+</pre></div>
+</div>
+</div>
+</div>
+<section id="l-algebra-lineare-permette-di-confrontare-gli-oggetti">
+<h2>L’algebra lineare permette di confrontare gli oggetti<a class="headerlink" href="#l-algebra-lineare-permette-di-confrontare-gli-oggetti" title="Link to this heading">#</a></h2>
+<p>Molte domande dell’analisi dei dati hanno una natura geometrica:</p>
+<ul class="simple">
+<li><p>quali clienti hanno comportamenti simili?</p></li>
+<li><p>quali prodotti vengono acquistati insieme?</p></li>
+<li><p>quali documenti trattano argomenti vicini?</p></li>
+<li><p>quali osservazioni sono anomale?</p></li>
+</ul>
+<p>Se ogni cliente è un vettore, la <strong>distanza tra vettori</strong> misura quanto due clienti sono diversi. Il prodotto scalare e l’angolo tra vettori permettono invece di misurare la loro similarità.</p>
+<p>Nel grafico seguente consideriamo solo due caratteristiche per poter visualizzare i clienti come punti nel piano.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">clienti</span><span class="p">[</span><span class="s2">&quot;visite&quot;</span><span class="p">],</span> <span class="n">clienti</span><span class="p">[</span><span class="s2">&quot;spesa_euro&quot;</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#2563eb&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">nome</span><span class="p">,</span> <span class="n">riga</span> <span class="ow">in</span> <span class="n">clienti</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">nome</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="n">riga</span><span class="p">[</span><span class="s2">&quot;visite&quot;</span><span class="p">],</span> <span class="n">riga</span><span class="p">[</span><span class="s2">&quot;spesa_euro&quot;</span><span class="p">]),</span>
+                <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">textcoords</span><span class="o">=</span><span class="s2">&quot;offset points&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Visite al sito&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Spesa mensile (€)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;I clienti diventano punti: la similarità diventa geometria&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/b3ddb181e883c8e0b6d38d45ffbcd99b14ae8235d0c2a58a27fd86cc0cdb4259.png" src="../_images/b3ddb181e883c8e0b6d38d45ffbcd99b14ae8235d0c2a58a27fd86cc0cdb4259.png" />
+</div>
+</div>
+<p>Nel grafico si vede, per esempio, che i clienti <strong>D</strong> ed <strong>E</strong> sono relativamente vicini, mentre <strong>D</strong> ed <strong>F</strong> sono molto lontani.</p>
+<p>L’algebra lineare trasforma quindi un’idea qualitativa — <em>questi clienti si assomigliano</em> — in una quantità che un algoritmo può calcolare.</p>
+<p>Questa idea è alla base di:</p>
+<ul class="simple">
+<li><p>segmentazione della clientela;</p></li>
+<li><p>sistemi di raccomandazione;</p></li>
+<li><p>ricerca di contenuti simili;</p></li>
+<li><p>algoritmi di clustering e classificazione.</p></li>
+</ul>
+</section>
+<section id="i-modelli-diventano-operazioni-tra-matrici-e-vettori">
+<h2>I modelli diventano operazioni tra matrici e vettori<a class="headerlink" href="#i-modelli-diventano-operazioni-tra-matrici-e-vettori" title="Link to this heading">#</a></h2>
+<p>Supponiamo di voler prevedere la spesa di un cliente usando alcune sue caratteristiche. Un modello lineare assegna un peso a ogni caratteristica:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{spesa prevista}
+= w_0 + w_1\,\text{visite} + w_2\,\text{tempo} + w_3\,\text{acquisti}.
+\]</div>
+<p>Per un solo cliente è una somma pesata. Per tutti i clienti contemporaneamente diventa un prodotto matrice-vettore:</p>
+<div class="math notranslate nohighlight">
+\[
+\widehat{\boldsymbol y}=X\boldsymbol w.
+\]</div>
+<p>Con una sola operazione possiamo quindi produrre migliaia o milioni di previsioni.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Un semplice modello dimostrativo: i coefficienti sono fissati solo per mostrare</span>
+<span class="c1"># come un prodotto matrice-vettore produca tutte le previsioni insieme.</span>
+<span class="n">caratteristiche</span> <span class="o">=</span> <span class="n">clienti</span><span class="p">[[</span><span class="s2">&quot;visite&quot;</span><span class="p">,</span> <span class="s2">&quot;tempo_medio_min&quot;</span><span class="p">,</span> <span class="s2">&quot;acquisti&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">X_modello</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">clienti</span><span class="p">)),</span> <span class="n">caratteristiche</span><span class="p">])</span>
+<span class="n">pesi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">])</span>
+
+<span class="n">spesa_prevista</span> <span class="o">=</span> <span class="n">X_modello</span> <span class="o">@</span> <span class="n">pesi</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;spesa_reale&quot;</span><span class="p">:</span> <span class="n">clienti</span><span class="p">[</span><span class="s2">&quot;spesa_euro&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;spesa_prevista&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">spesa_prevista</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>spesa_reale</th>
+      <th>spesa_prevista</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Cliente A</th>
+      <td>25</td>
+      <td>36.3</td>
+    </tr>
+    <tr>
+      <th>Cliente B</th>
+      <td>110</td>
+      <td>120.6</td>
+    </tr>
+    <tr>
+      <th>Cliente C</th>
+      <td>55</td>
+      <td>65.2</td>
+    </tr>
+    <tr>
+      <th>Cliente D</th>
+      <td>210</td>
+      <td>204.3</td>
+    </tr>
+    <tr>
+      <th>Cliente E</th>
+      <td>160</td>
+      <td>151.3</td>
+    </tr>
+    <tr>
+      <th>Cliente F</th>
+      <td>18</td>
+      <td>34.2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Non è importante, per ora, sapere come scegliere i pesi migliori: ciò che conta è osservare che <strong>il modello è espresso nel linguaggio dell’algebra lineare</strong>.</p>
+<p>La regressione lineare conduce poi a un problema di <strong>minimi quadrati</strong>. Anche modelli molto più complessi, comprese le reti neurali, eseguono continuamente prodotti tra matrici e vettori.</p>
+</section>
+<section id="ridurre-la-complessita-significa-trovare-nuove-direzioni">
+<h2>Ridurre la complessità significa trovare nuove direzioni<a class="headerlink" href="#ridurre-la-complessita-significa-trovare-nuove-direzioni" title="Link to this heading">#</a></h2>
+<p>I dataset reali possono avere centinaia o migliaia di caratteristiche. Alcune sono ridondanti, altre contengono poco segnale.</p>
+<p>La <strong>riduzione dimensionale</strong> cerca poche nuove variabili che conservino la parte più importante dell’informazione. La PCA, per esempio, individua direzioni lungo le quali i dati variano maggiormente e proietta i dati su queste direzioni.</p>
+<p>Geometricamente, significa sostituire molte coordinate con poche coordinate più informative.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+<span class="n">dati</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>
+
+<span class="c1"># Prima direzione principale, calcolata qui solo per visualizzarne il significato.</span>
+<span class="n">dati_centrati</span> <span class="o">=</span> <span class="n">dati</span> <span class="o">-</span> <span class="n">dati</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">Vt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">dati_centrati</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">direzione</span> <span class="o">=</span> <span class="n">Vt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">retta</span> <span class="o">=</span> <span class="n">dati</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">direzione</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">dati</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dati</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.65</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#0f766e&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">retta</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">retta</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#dc2626&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;direzione che riassume meglio i dati&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;caratteristica 1&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;caratteristica 2&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Ridurre la dimensione: cercare le direzioni importanti&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">,</span> <span class="n">adjustable</span><span class="o">=</span><span class="s2">&quot;box&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/970e5069a1ecab953023daaca7456b7e251c3d3f96acce9288c2b524a990c619.png" src="../_images/970e5069a1ecab953023daaca7456b7e251c3d3f96acce9288c2b524a990c619.png" />
+</div>
+</div>
+<p>I punti del grafico hanno due coordinate, ma sono distribuiti soprattutto lungo una direzione. Proiettandoli sulla linea rossa possiamo descriverli quasi completamente con <strong>un solo numero</strong>.</p>
+<p>Autovalori, autovettori e decomposizione ai valori singolari (SVD) non sono quindi calcoli fini a sé stessi: aiutano a</p>
+<ul class="simple">
+<li><p>visualizzare dati con molte variabili;</p></li>
+<li><p>comprimere l’informazione;</p></li>
+<li><p>eliminare rumore e ridondanza;</p></li>
+<li><p>rendere più veloci gli algoritmi successivi.</p></li>
+</ul>
+</section>
+<section id="anche-immagini-e-testi-diventano-vettori-e-matrici">
+<h2>Anche immagini e testi diventano vettori e matrici<a class="headerlink" href="#anche-immagini-e-testi-diventano-vettori-e-matrici" title="Link to this heading">#</a></h2>
+<p>Un’immagine in scala di grigi è una matrice: ogni elemento contiene l’intensità di un pixel. Un’immagine a colori può essere rappresentata mediante tre matrici, una per ciascun canale RGB.</p>
+<p>Per questo motivo, elaborare un’immagine significa spesso eseguire operazioni su matrici.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Una piccola immagine artificiale 12 x 12.</span>
+<span class="n">immagine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="n">immagine</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">9</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.35</span>
+<span class="n">immagine</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">immagine</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">immagine</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Immagine&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">immagine</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;La stessa immagine come matrice di numeri&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">immagine</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">immagine</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">immagine</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/42076bdbd7921b58460b66feeca771a5451f323ca10335188b47dc840faa3ec8.png" src="../_images/42076bdbd7921b58460b66feeca771a5451f323ca10335188b47dc840faa3ec8.png" />
+</div>
+</div>
+<p>Anche oggetti non immediatamente numerici vengono trasformati in vettori:</p>
+<ul class="simple">
+<li><p>un testo può essere rappresentato da un vettore di frequenze o da un <em>embedding</em>;</p></li>
+<li><p>un utente da un vettore di preferenze;</p></li>
+<li><p>un prodotto da un vettore di caratteristiche;</p></li>
+<li><p>una serie temporale da una sequenza di vettori.</p></li>
+</ul>
+<p>Una volta ottenuta questa rappresentazione, possiamo applicare gli stessi strumenti matematici a dati molto diversi.</p>
+</section>
+<section id="perche-gli-strumenti-devono-anche-essere-numericamente-affidabili">
+<h2>Perché gli strumenti devono anche essere numericamente affidabili?<a class="headerlink" href="#perche-gli-strumenti-devono-anche-essere-numericamente-affidabili" title="Link to this heading">#</a></h2>
+<p>In teoria possiamo scrivere una formula corretta; in pratica il computer lavora con precisione finita e dataset molto grandi. Alcuni problemi amplificano piccoli errori o piccole perturbazioni nei dati.</p>
+<p>Studiare l’algebra lineare in un corso di <strong>metodi numerici</strong> serve anche a capire:</p>
+<ul class="simple">
+<li><p>quale algoritmo usare;</p></li>
+<li><p>quanto costa in tempo e memoria;</p></li>
+<li><p>se il risultato è sensibile agli errori nei dati;</p></li>
+<li><p>quando una soluzione calcolata è davvero affidabile.</p></li>
+</ul>
+<p>Non basta quindi sapere che una soluzione esiste: bisogna saperla calcolare in modo efficiente e stabile.</p>
+</section>
+<section id="una-mappa-delle-idee">
+<h2>Una mappa delle idee<a class="headerlink" href="#una-mappa-delle-idee" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Domanda sui dati</p></th>
+<th class="head"><p>Idea di algebra lineare</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Come rappresento molte osservazioni e caratteristiche?</p></td>
+<td><p>Vettori e matrici</p></td>
+</tr>
+<tr class="row-odd"><td><p>Quali oggetti si assomigliano?</p></td>
+<td><p>Distanze, norme, prodotto scalare</p></td>
+</tr>
+<tr class="row-even"><td><p>Come trasformo simultaneamente tutti i dati?</p></td>
+<td><p>Prodotto matrice-vettore</p></td>
+</tr>
+<tr class="row-odd"><td><p>Come costruisco una previsione?</p></td>
+<td><p>Sistemi lineari e minimi quadrati</p></td>
+</tr>
+<tr class="row-even"><td><p>Ci sono caratteristiche ridondanti?</p></td>
+<td><p>Rango e dipendenza lineare</p></td>
+</tr>
+<tr class="row-odd"><td><p>Come riassumo dati ad alta dimensione?</p></td>
+<td><p>Autovettori, SVD e PCA</p></td>
+</tr>
+<tr class="row-even"><td><p>Come elaboro immagini, testi e segnali?</p></td>
+<td><p>Operazioni tra vettori e matrici</p></td>
+</tr>
+<tr class="row-odd"><td><p>Posso fidarmi del risultato numerico?</p></td>
+<td><p>Condizionamento e stabilità</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>L’algebra lineare è importante nell’analisi dei dati perché consente di:</p>
+<ol class="arabic simple">
+<li><p><strong>rappresentare</strong> i dati in una forma utilizzabile dal computer;</p></li>
+<li><p><strong>interpretare geometricamente</strong> relazioni, distanze e similarità;</p></li>
+<li><p><strong>costruire modelli</strong> e calcolare molte previsioni contemporaneamente;</p></li>
+<li><p><strong>ridurre e comprimere</strong> grandi quantità di informazione;</p></li>
+<li><p><strong>progettare algoritmi</strong> efficienti e numericamente affidabili.</p></li>
+</ol>
+<blockquote>
+<div><p>Studiare l’algebra lineare non significa soltanto imparare a fare calcoli con le matrici. Significa imparare il linguaggio che permette di trasformare i dati in informazione.</p>
+</div></blockquote>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./book"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro_algebra%20lineare.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Algebra lineare numerica: basics</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Analisi dati: classificazione e regressione</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#obiettivi-della-lezione">Obiettivi della lezione</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#che-cos-e-l-analisi-dei-dati">1. Che cos’è l’analisi dei dati?</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-analisi-dei-dati-e-interdisciplinare">1.1 L’analisi dei dati è interdisciplinare</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#il-ciclo-di-vita-dell-analisi-dei-dati">1.2 Il ciclo di vita dell’analisi dei dati</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-qualita-dei-dati">1.3 La qualità dei dati</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-servono-i-metodi-numerici">1.4 Perché servono i metodi numerici?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#il-focus-del-corso-l-analisi-predittiva">1.3 Il focus del corso: l’analisi predittiva</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#un-primo-esempio">1.4 Un primo esempio</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dall-analisi-descrittiva-all-analisi-predittiva">2. Dall’analisi descrittiva all’analisi predittiva</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#che-cos-e-un-classificatore">2.1 Che cos’è un classificatore?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apprendimento-supervisionato">2.3 Apprendimento supervisionato</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#una-prima-idea-di-classificazione">2.4 Una prima idea di classificazione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apprendimento-e-valutazione">2.5 Apprendimento e valutazione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#domande-per-la-discussione">Domande per la discussione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-scelta-del-modello">2.6 La scelta del modello</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-modelli-famiglie-parametriche-di-funzioni">2.6 I modelli: famiglie parametriche di funzioni</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-approccio-del-machine-learning">2.7 L’approccio del Machine Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-obiettivo-generalizzare">2.8 L’obiettivo: generalizzare</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-l-algebra-lineare-e-fondamentale-nell-analisi-dei-dati">3. Perché l’algebra lineare è fondamentale nell’analisi dei dati?</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-algebra-lineare-permette-di-confrontare-gli-oggetti">L’algebra lineare permette di confrontare gli oggetti</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-modelli-diventano-operazioni-tra-matrici-e-vettori">I modelli diventano operazioni tra matrici e vettori</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ridurre-la-complessita-significa-trovare-nuove-direzioni">Ridurre la complessità significa trovare nuove direzioni</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anche-immagini-e-testi-diventano-vettori-e-matrici">Anche immagini e testi diventano vettori e matrici</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-gli-strumenti-devono-anche-essere-numericamente-affidabili">Perché gli strumenti devono anche essere numericamente affidabili?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#una-mappa-delle-idee">Una mappa delle idee</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Elena Loli Piccolomini
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

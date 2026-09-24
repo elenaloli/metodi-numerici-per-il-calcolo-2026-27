@@ -185,6 +185,7 @@
 <li class="toctree-l1"><a class="reference internal" href="calcolo_multivariato.html">Calcolo multivariato</a></li>
 
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Ottimizzazione numerica</a></li>
+
 </ul>
 
     </div>
@@ -380,54 +381,22 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduzione">Introduzione</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definizioni-punti-di-minimo">Definizioni: punti di minimo</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempi-di-minimi">Esempi di minimi</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimi-locali-e-globali">Minimi locali e globali</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condizioni-di-ottimalita">Condizioni di ottimalità</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#significato-delle-condizioni-di-ottimalita">Significato delle condizioni di ottimalità</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#condizione-necessaria-del-primo-ordine">Condizione necessaria del primo ordine</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrici-definite-positive">Matrici definite positive</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#caratterizzazione-mediante-gli-autovalori">Caratterizzazione mediante gli autovalori</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#condizioni-necessarie-del-secondo-ordine">Condizioni necessarie del secondo ordine</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#condizioni-sufficienti-del-secondo-ordine">Condizioni sufficienti del secondo ordine</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#osservazioni">Osservazioni</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tipi-di-punti-stazionari">Tipi di punti stazionari</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Ottimizzazione numerica</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduzione">9.1 Introduzione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definizioni-punti-di-minimo">9.2 Definizioni: punti di minimo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condizioni-di-ottimalita">9.3  Condizioni di ottimalità</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tipi-di-punti-stazionari">9.3 Tipi di punti stazionari</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#il-caso-convesso">9.4 Il caso convesso</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#il-caso-convesso">Il caso convesso</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#funzioni-obiettivo-convesse">Funzioni obiettivo convesse</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#condizioni-di-ottimalita-nel-caso-convesso">Condizioni di ottimalità nel caso convesso</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#funzioni-quadratiche-convesse">Funzioni quadratiche convesse</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmi-metodi-iterativi">Algoritmi: metodi iterativi</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tool-matematico-le-norme-per-misurare-distanze-fra-vettori">Tool matematico: le norme per misurare distanze fra vettori</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodi-di-discesa-per-il-calcolo-del-minimo-di-una-funzione">9.5 Metodi di discesa per il calcolo del minimo di una funzione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodo-del-gradiente">9.6 Metodo del gradiente</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizi">Esercizi</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio-1">Esercizio 1</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio-2">Esercizio 2</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio-3">Esercizio 3</a></li>
 </ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodi-di-discesa-per-il-calcolo-del-minimo-di-una-funzione">Metodi di discesa per il calcolo del minimo di una funzione</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direzione-di-discesa">Direzione di discesa</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#caratterizzazione-di-una-direzione-di-discesa">Caratterizzazione di una direzione di discesa</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-1">Esempio 1</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-2">Esempio 2</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-geometrica">Interpretazione geometrica</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direzione-di-ricerca-e-gradiente">Direzione di ricerca e gradiente</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodo-del-gradiente">Metodo del gradiente</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-la-sola-discesa-non-garantisce-la-convergenza">Esempio: la sola discesa non garantisce la convergenza</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scelta-della-lunghezza-del-passo-learning-rate">Scelta della lunghezza del passo (learning rate)</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ricerca-in-linea-inesatta">Ricerca in linea inesatta</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condizione-di-armijo-e-backtracking">Condizione di Armijo e backtracking</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scelta-dell-iterato-iniziale">Scelta dell’iterato iniziale</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#criteri-di-arresto-e-fallimenti">Criteri di arresto e fallimenti</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio">Esercizio</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generalita-sugli-algoritmi">Generalità sugli algoritmi</a></li>
-</ul>
+
             </nav>
         </div>
     </div>
@@ -441,7 +410,7 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="ottimizzazione-numerica">
 <h1>Ottimizzazione numerica<a class="headerlink" href="#ottimizzazione-numerica" title="Link to this heading">#</a></h1>
 <section id="introduzione">
-<h2>Introduzione<a class="headerlink" href="#introduzione" title="Link to this heading">#</a></h2>
+<h2>9.1 Introduzione<a class="headerlink" href="#introduzione" title="Link to this heading">#</a></h2>
 <p>L’ottimizzazione è il settore della matematica che studia come individuare la soluzione migliore tra tutte quelle possibili. In termini matematici, questo significa spesso determinare il punto in cui una funzione assume il suo valore minimo o massimo. I problemi di minimo sono particolarmente importanti perché molte situazioni reali possono essere descritte come la ricerca della configurazione che riduce al minimo un costo, un errore, un consumo di risorse o una distanza rispetto a un obiettivo.</p>
 <p>Esempi di problemi di ottimizzazione compaiono in moltissimi ambiti. Nell’ingegneria si cerca di progettare strutture efficienti e resistenti utilizzando la minore quantità possibile di materiale. Nella logistica si vogliono ridurre i tempi e i costi di trasporto. Nell’elaborazione delle immagini si cerca una ricostruzione che sia allo stesso tempo fedele ai dati osservati e priva di rumore. In economia si ottimizzano profitti, investimenti e allocazione delle risorse.</p>
 <p>L’ottimizzazione riveste un ruolo centrale anche nell’analisi dei dati, nel machine learning e nelle reti neurali. In questi contesti si introduce generalmente una funzione di costo, o funzione di perdita, che misura quanto le previsioni del modello siano lontane dai valori desiderati. Addestrare un modello significa quindi trovare i valori dei suoi parametri che rendono questa funzione il più piccola possibile.</p>
@@ -499,7 +468,7 @@ del problema deve sottostare per essere dichiarata accettabile.</p>
 <p>Spesso si omette l’indice 2.</p>
 </section>
 <section id="definizioni-punti-di-minimo">
-<h2>Definizioni: punti di minimo<a class="headerlink" href="#definizioni-punti-di-minimo" title="Link to this heading">#</a></h2>
+<h2>9.2 Definizioni: punti di minimo<a class="headerlink" href="#definizioni-punti-di-minimo" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(x^*\)</span> è un punto di <strong>minimo locale</strong> di <span class="math notranslate nohighlight">\(f(x)\)</span> se
 esiste un <span class="math notranslate nohighlight">\(\epsilon&gt;0\)</span> tale</p></li>
@@ -525,12 +494,10 @@ stretto</strong> di <span class="math notranslate nohighlight">\(f(x)\)</span> s
 </ul>
 <div class="math notranslate nohighlight">
 \[f(x^*) &lt; f(x) \quad \text{per ogni } x \in {R}^n, \quad x\neq x^*\]</div>
-</section>
-<section id="esempi-di-minimi">
-<h2>Esempi di minimi<a class="headerlink" href="#esempi-di-minimi" title="Link to this heading">#</a></h2>
+<p><em>Esempi di minimi</em></p>
 <p>Una funzione <span class="math notranslate nohighlight">\(f\)</span> può avere un punto di minimo locale e tuttavia non avere un punto di minimo globale. Può inoltre non avere né minimi locali né globali, oppure avere sia minimi locali sia minimi globali.</p>
 <figure class="align-center">
-<a class="reference internal image-reference" href="../_images/ott1.png"><img alt="../_images/ott1.png" src="../_images/ott1.png" style="width: 70%;" />
+<a class="reference internal image-reference" href="../_images/ott1.png"><img alt="../_images/ott1.png" src="../_images/ott1.png" style="width: 90%;" />
 </a>
 </figure>
 <p align="center">
@@ -540,9 +507,6 @@ stretto</strong> di <span class="math notranslate nohighlight">\(f(x)\)</span> s
 <li><p><span class="math notranslate nohighlight">\(y=-2\cos(x-x^*)\)</span>: molti punti di minimo globale;</p></li>
 <li><p><span class="math notranslate nohighlight">\(y=0.015(x-x^*)^2-2\cos(x-x^*)\)</span>: un punto di minimo globale e molti punti di minimo locale.</p></li>
 </ul>
-</section>
-<section id="minimi-locali-e-globali">
-<h2>Minimi locali e globali<a class="headerlink" href="#minimi-locali-e-globali" title="Link to this heading">#</a></h2>
 <p>La figura seguente distingue graficamente minimi locali, minimi locali stretti e un minimo globale stretto.</p>
 <figure class="align-center">
 <a class="reference internal image-reference" href="../_images/fig4m.png"><img alt="../_images/fig4m.png" src="../_images/fig4m.png" style="width: 70%;" />
@@ -551,9 +515,6 @@ stretto</strong> di <span class="math notranslate nohighlight">\(f(x)\)</span> s
 <p align="center">
   <img src="immagini_sorgente\fig4m.png"  width="700">
 <p>I punti di massimo locale e globale di <span class="math notranslate nohighlight">\(f\)</span> sono definiti in maniera analoga ai punti di minimo.</p>
-</section>
-<section id="condizioni-di-ottimalita">
-<h2>Condizioni di ottimalità<a class="headerlink" href="#condizioni-di-ottimalita" title="Link to this heading">#</a></h2>
 <p><strong>Funzione differenziabile</strong></p>
 <p>Una funzione <span class="math notranslate nohighlight">\(f:\mathbb{R}^n\to\mathbb{R}\)</span> si dice <strong>differenziabile</strong> in un punto <span class="math notranslate nohighlight">\(\mathbf{x}^*\in\mathbb{R}^n\)</span> se esiste un’applicazione lineare <span class="math notranslate nohighlight">\(L:\mathbb{R}^n\to\mathbb{R}\)</span> tale che</p>
 <div class="math notranslate nohighlight">
@@ -569,17 +530,16 @@ stretto</strong> di <span class="math notranslate nohighlight">\(f(x)\)</span> s
 <li><p>Se <span class="math notranslate nohighlight">\(f\)</span> è differenziabile in <span class="math notranslate nohighlight">\(\mathbf{x}^*\)</span>, tutte le derivate parziali di <span class="math notranslate nohighlight">\(f\)</span> in <span class="math notranslate nohighlight">\(\mathbf{x}^*\)</span> esistono.</p></li>
 <li><p>Se <span class="math notranslate nohighlight">\(f\)</span> è differenziabile in <span class="math notranslate nohighlight">\(\mathbf{x}^*\)</span>, allora <span class="math notranslate nohighlight">\(f\)</span> è continua in <span class="math notranslate nohighlight">\(\mathbf{x}^*\)</span>.</p></li>
 </ul>
-<section id="significato-delle-condizioni-di-ottimalita">
-<h3>Significato delle condizioni di ottimalità<a class="headerlink" href="#significato-delle-condizioni-di-ottimalita" title="Link to this heading">#</a></h3>
+</section>
+<section id="condizioni-di-ottimalita">
+<h2>9.3  Condizioni di ottimalità<a class="headerlink" href="#condizioni-di-ottimalita" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>Una <strong>condizione di ottimalità</strong> è una condizione affinché un punto <span class="math notranslate nohighlight">\(\mathbf{x}^*\)</span> risulti una soluzione ottima, locale o globale, del problema.</p></li>
 <li><p>Una condizione di ottimalità è significativa se è più semplice da verificare della definizione stessa.</p></li>
 <li><p>Le condizioni di ottimalità si esprimono tipicamente mediante sistemi di equazioni, disequazioni oppure condizioni sugli autovalori di matrici opportune.</p></li>
 </ul>
 <p>Lo studio delle condizioni di ottimalità è interessante sia dal punto di vista teorico sia da quello algoritmico.</p>
-</section>
-<section id="condizione-necessaria-del-primo-ordine">
-<h3>Condizione necessaria del primo ordine<a class="headerlink" href="#condizione-necessaria-del-primo-ordine" title="Link to this heading">#</a></h3>
+<p><strong>Condizione necessaria del primo ordine</strong></p>
 <p><strong>Teorema.</strong> Se <span class="math notranslate nohighlight">\(\mathbf{x}^*\)</span> è un punto di minimo locale e <span class="math notranslate nohighlight">\(f\)</span> è differenziabile con continuità in un intorno aperto di <span class="math notranslate nohighlight">\(\mathbf{x}^*\)</span>, allora</p>
 <div class="math notranslate nohighlight">
 \[
@@ -600,9 +560,7 @@ stretto</strong> di <span class="math notranslate nohighlight">\(f(x)\)</span> s
 <p align="center">
   <img src="immagini_sorgente\fig7m.png"  width="900">
 </p>
-</section>
-<section id="matrici-definite-positive">
-<h3>Matrici definite positive<a class="headerlink" href="#matrici-definite-positive" title="Link to this heading">#</a></h3>
+<p><em>Matrici definite positive</em></p>
 <p>Una matrice simmetrica <span class="math notranslate nohighlight">\(A\in\mathbb{R}^{n\times n}\)</span> si dice:</p>
 <ul>
 <li><p><strong>definita positiva</strong> se</p>
@@ -642,9 +600,7 @@ stretto</strong> di <span class="math notranslate nohighlight">\(f(x)\)</span> s
   \]</div>
 </li>
 </ul>
-</section>
-<section id="caratterizzazione-mediante-gli-autovalori">
-<h3>Caratterizzazione mediante gli autovalori<a class="headerlink" href="#caratterizzazione-mediante-gli-autovalori" title="Link to this heading">#</a></h3>
+<p><em>Caratterizzazione mediante gli autovalori</em></p>
 <p>Per una matrice simmetrica valgono le seguenti proprietà equivalenti:</p>
 <ul class="simple">
 <li><p>una matrice definita positiva ha tutti gli autovalori positivi;</p></li>
@@ -653,9 +609,7 @@ stretto</strong> di <span class="math notranslate nohighlight">\(f(x)\)</span> s
 <li><p>una matrice semidefinita negativa ha tutti gli autovalori non positivi;</p></li>
 <li><p>una matrice indefinita ha alcuni autovalori positivi e altri negativi.</p></li>
 </ul>
-</section>
-<section id="condizioni-necessarie-del-secondo-ordine">
-<h3>Condizioni necessarie del secondo ordine<a class="headerlink" href="#condizioni-necessarie-del-secondo-ordine" title="Link to this heading">#</a></h3>
+<p><strong>Condizioni necessarie del secondo ordine</strong></p>
 <p><strong>Teorema.</strong> Se <span class="math notranslate nohighlight">\(\mathbf{x}^*\)</span> è un punto di minimo locale di <span class="math notranslate nohighlight">\(f\)</span> e <span class="math notranslate nohighlight">\(f\)</span> è due volte differenziabile con continuità in un intorno aperto di <span class="math notranslate nohighlight">\(\mathbf{x}^*\)</span>, allora</p>
 <div class="math notranslate nohighlight">
 \[
@@ -673,9 +627,7 @@ stretto</strong> di <span class="math notranslate nohighlight">\(f(x)\)</span> s
 \nabla^2 f(\mathbf{x}^*)\text{ è semidefinita positiva}.
 \end{cases}
 \end{split}\]</div>
-</section>
-<section id="condizioni-sufficienti-del-secondo-ordine">
-<h3>Condizioni sufficienti del secondo ordine<a class="headerlink" href="#condizioni-sufficienti-del-secondo-ordine" title="Link to this heading">#</a></h3>
+<p><strong>Condizioni sufficienti del secondo ordine</strong></p>
 <p><strong>Teorema.</strong> Sia <span class="math notranslate nohighlight">\(f\)</span> due volte differenziabile con continuità in un intorno aperto di <span class="math notranslate nohighlight">\(\mathbf{x}^*\)</span> e supponiamo che <span class="math notranslate nohighlight">\(\nabla f(\mathbf{x}^*)=\mathbf{0}\)</span>.</p>
 <ul class="simple">
 <li><p>Se <span class="math notranslate nohighlight">\(\nabla^2f(\mathbf{x}^*)\)</span> è definita positiva, allora <span class="math notranslate nohighlight">\(\mathbf{x}^*\)</span> è un punto di minimo locale in senso stretto.</p></li>
@@ -694,9 +646,7 @@ stretto</strong> di <span class="math notranslate nohighlight">\(f(x)\)</span> s
 \quad\Longrightarrow\quad
 \mathbf{x}^*\text{ è un minimo locale stretto}.
 \end{split}\]</div>
-</section>
-<section id="osservazioni">
-<h3>Osservazioni<a class="headerlink" href="#osservazioni" title="Link to this heading">#</a></h3>
+<p><em>Osservazioni</em></p>
 <ul>
 <li><p>Le condizioni sufficienti del secondo ordine garantiscono qualcosa di più forte delle condizioni necessarie: garantiscono che <span class="math notranslate nohighlight">\(\mathbf{x}^*\)</span> è un punto di minimo locale <strong>stretto</strong>.</p></li>
 <li><p>Le condizioni sufficienti del secondo ordine non sono necessarie.</p></li>
@@ -713,7 +663,7 @@ stretto</strong> di <span class="math notranslate nohighlight">\(f(x)\)</span> s
 <p>Le funzioni <span class="math notranslate nohighlight">\(x^2\)</span>, <span class="math notranslate nohighlight">\(x^3\)</span> e <span class="math notranslate nohighlight">\(-x^4\)</span> mostrano come un Hessiano nullo nel punto stazionario non sia sufficiente per classificare il punto.</p>
 </section>
 <section id="tipi-di-punti-stazionari">
-<h3>Tipi di punti stazionari<a class="headerlink" href="#tipi-di-punti-stazionari" title="Link to this heading">#</a></h3>
+<h2>9.3 Tipi di punti stazionari<a class="headerlink" href="#tipi-di-punti-stazionari" title="Link to this heading">#</a></h2>
 <p>La forma locale della superficie dipende dalla definitezza dell’Hessiano:</p>
 <ul class="simple">
 <li><p>Hessiano definito positivo: funzione localmente convessa, minimo;</p></li>
@@ -728,11 +678,8 @@ stretto</strong> di <span class="math notranslate nohighlight">\(f(x)\)</span> s
 </a>
 </figure>
 </section>
-</section>
 <section id="il-caso-convesso">
-<h2>Il caso convesso<a class="headerlink" href="#il-caso-convesso" title="Link to this heading">#</a></h2>
-<section id="funzioni-obiettivo-convesse">
-<h3>Funzioni obiettivo convesse<a class="headerlink" href="#funzioni-obiettivo-convesse" title="Link to this heading">#</a></h3>
+<h2>9.4 Il caso convesso<a class="headerlink" href="#il-caso-convesso" title="Link to this heading">#</a></h2>
 <p>Una funzione <span class="math notranslate nohighlight">\(f\)</span> è <strong>convessa</strong> in <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span> se</p>
 <div class="math notranslate nohighlight">
 \[
@@ -749,18 +696,14 @@ f\bigl(\alpha\mathbf{x}+(1-\alpha)\mathbf{y}\bigr)
 \alpha f(\mathbf{x})+(1-\alpha)f(\mathbf{y})
 \]</div>
 <p>per ogni <span class="math notranslate nohighlight">\(\alpha\in(0,1)\)</span> e per ogni <span class="math notranslate nohighlight">\(\mathbf{x}\neq\mathbf{y}\)</span>.</p>
-</section>
-<section id="condizioni-di-ottimalita-nel-caso-convesso">
-<h3>Condizioni di ottimalità nel caso convesso<a class="headerlink" href="#condizioni-di-ottimalita-nel-caso-convesso" title="Link to this heading">#</a></h3>
+<p><strong>Condizioni di ottimalità nel caso convesso</strong></p>
 <p><strong>Teorema.</strong></p>
 <ul class="simple">
 <li><p>Se <span class="math notranslate nohighlight">\(f\)</span> è convessa, ogni punto di minimo locale <span class="math notranslate nohighlight">\(\mathbf{x}^*\)</span> è anche un punto di minimo globale.</p></li>
 <li><p>Se <span class="math notranslate nohighlight">\(f\)</span> è strettamente convessa, può esistere al più un punto di minimo globale; se il minimo esiste, è unico.</p></li>
 <li><p>Se <span class="math notranslate nohighlight">\(f\)</span> è convessa e differenziabile, ogni punto stazionario <span class="math notranslate nohighlight">\(\mathbf{x}^*\)</span> è un punto di minimo globale.</p></li>
 </ul>
-</section>
-<section id="funzioni-quadratiche-convesse">
-<h3>Funzioni quadratiche convesse<a class="headerlink" href="#funzioni-quadratiche-convesse" title="Link to this heading">#</a></h3>
+<p><em>Funzioni quadratiche convesse</em></p>
 <p>Una funzione quadratica ha la forma</p>
 <div class="math notranslate nohighlight">
 \[
@@ -777,28 +720,19 @@ q(\mathbf{x})=
 \nabla^2 q(\mathbf{x})=Q.
 \]</div>
 <p>La funzione <span class="math notranslate nohighlight">\(q\)</span> è convessa se e solo se <span class="math notranslate nohighlight">\(Q\)</span> è semidefinita positiva; è strettamente convessa se e solo se <span class="math notranslate nohighlight">\(Q\)</span> è definita positiva.</p>
-</section>
-</section>
-<section id="esercizi">
-<h2>Esercizi<a class="headerlink" href="#esercizi" title="Link to this heading">#</a></h2>
-<section id="esercizio-1">
-<h3>Esercizio 1<a class="headerlink" href="#esercizio-1" title="Link to this heading">#</a></h3>
+<p><em>Esercizio 1</em></p>
 <p>Data la funzione su <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span></p>
 <div class="math notranslate nohighlight">
 \[f(x_1,x_2)=\left(x_1^2+x_2^2-1\right)^2+\left(x_2^2-1 \right)^2,\]</div>
 <p>determinarne tutti i punti stazionari e classificarli.</p>
-</section>
-<section id="esercizio-2">
-<h3>Esercizio 2<a class="headerlink" href="#esercizio-2" title="Link to this heading">#</a></h3>
+<p><em>Esercizio 2</em></p>
 <p>Data la funzione su <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span></p>
 <div class="math notranslate nohighlight">
 \[
 f(x_1,x_2)=-2x_1^2+x_1x_2^2+4x_1^4,
 \]</div>
 <p>determinarne tutti i punti stazionari e classificarli.</p>
-</section>
-<section id="esercizio-3">
-<h3>Esercizio 3<a class="headerlink" href="#esercizio-3" title="Link to this heading">#</a></h3>
+<p><em>Esercizio 3</em></p>
 <p>Determinare e classificare i punti stazionari delle funzioni</p>
 <div class="math notranslate nohighlight">
 \[
@@ -814,9 +748,220 @@ f_3(x,y)=-x^2-y^2.
 \]</div>
 </section>
 </section>
+<section class="tex2jax_ignore mathjax_ignore" id="algoritmi-metodi-iterativi">
+<h1>Algoritmi: metodi iterativi<a class="headerlink" href="#algoritmi-metodi-iterativi" title="Link to this heading">#</a></h1>
+<p>Molti problemi numerici non vengono risolti mediante una formula esplicita, ma attraverso una <strong>successione di approssimazioni</strong> che, idealmente, si avvicinano alla soluzione cercata.</p>
+<p>L’idea di base di un metodo iterativo è semplice:</p>
+<ol class="arabic simple">
+<li><p>si sceglie una prima approssimazione <span class="math notranslate nohighlight">\(x^{(0)}\)</span>;</p></li>
+<li><p>si costruisce una nuova approssimazione <span class="math notranslate nohighlight">\(x^{(1)}\)</span>;</p></li>
+<li><p>a partire da <span class="math notranslate nohighlight">\(x^{(1)}\)</span> si costruisce <span class="math notranslate nohighlight">\(x^{(2)}\)</span>;</p></li>
+<li><p>si continua fino a quando l’approssimazione ottenuta è considerata sufficientemente accurata.</p></li>
+</ol>
+<p>Un metodo iterativo genera quindi una successione</p>
+<div class="math notranslate nohighlight">
+\[
+x^{(0)},\;x^{(1)},\;x^{(2)},\ldots
+\]</div>
+<p>che dovrebbe convergere verso la soluzione esatta <span class="math notranslate nohighlight">\(x^\ast\)</span> del problema:</p>
+<div class="math notranslate nohighlight">
+\[
+x^{(k)} \longrightarrow x^\ast
+\qquad \text{per } k\to\infty.
+\]</div>
+<p>I metodi iterativi sono fondamentali nell’analisi numerica e compaiono, per esempio, nel calcolo degli zeri di funzione, nella soluzione di sistemi lineari e non lineari, nei problemi di ottimizzazione e negli algoritmi di machine learning.</p>
+<p><strong>Forma generale di un metodo iterativo</strong></p>
+<p>In molti casi un metodo iterativo può essere scritto nella forma</p>
+<div class="math notranslate nohighlight">
+\[
+x^{(k+1)} = \Phi\left(x^{(k)}\right),
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(\Phi\)</span> è una funzione che permette di calcolare una nuova approssimazione a partire da quella precedente.</p>
+<p>Nel caso vettoriale,</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{x}^{(k+1)}=\Phi\left(\mathbf{x}^{(k)}\right),
+\]</div>
+<p>con <span class="math notranslate nohighlight">\(\mathbf{x}^{(k)}\in\mathbb{R}^n\)</span>.</p>
+<p>Lo stesso schema compare in molti algoritmi.</p>
+<p>L’algoritmo non calcola direttamente la soluzione finale: costruisce invece una sequenza di approssimazioni progressivamente migliori.</p>
+<p><em>Convergenza</em></p>
+<p>Dire che un metodo iterativo <strong>converge</strong> significa che la successione delle approssimazioni tende alla soluzione esatta:</p>
+<div class="math notranslate nohighlight">
+\[
+\lim_{k\to\infty}x^{(k)}=x^\ast.
+\]</div>
+<p>Non tutti i metodi iterativi convergono per qualunque problema e per qualunque punto iniziale.</p>
+<p>La convergenza può dipendere da diversi fattori:</p>
+<ul class="simple">
+<li><p>dalla scelta dell’approssimazione iniziale <span class="math notranslate nohighlight">\(x^{(0)}\)</span>;</p></li>
+<li><p>dalle proprietà del problema;</p></li>
+<li><p>dai parametri utilizzati dall’algoritmo;</p></li>
+<li><p>dalla velocità con cui l’errore diminuisce da un’iterazione alla successiva.</p></li>
+</ul>
+<p>In pratica, un algoritmo numerico deve non soltanto convergere, ma farlo in un numero ragionevole di iterazioni.</p>
+<p><strong>Errore di iterazione ed errore di troncamento</strong></p>
+<p>Supponiamo di conoscere, almeno teoricamente, la soluzione esatta <span class="math notranslate nohighlight">\(x^\ast\)</span>.</p>
+<p>Alla <span class="math notranslate nohighlight">\(k\)</span>-esima iterazione possiamo definire l’errore assoluto</p>
+<div class="math notranslate nohighlight">
+\[
+e_k = |x^\ast-x^{(k)}|.
+\]</div>
+<p>Nel caso vettoriale:</p>
+<div class="math notranslate nohighlight">
+\[
+e_k=\|\mathbf{x}^\ast-\mathbf{x}^{(k)}\|.
+\]</div>
+<p>Se il metodo converge, allora</p>
+<div class="math notranslate nohighlight">
+\[
+e_k\longrightarrow 0.
+\]</div>
+<p>Un procedimento iterativo è idealmente infinito, mentre su un computer deve essere interrotto dopo un numero finito di passi. L’errore che rimane quando si interrompe il procedimento può essere interpretato come un <strong>errore di troncamento dell’iterazione</strong>.</p>
+<p>Dopo <span class="math notranslate nohighlight">\(k\)</span> iterazioni, la quantità</p>
+<div class="math notranslate nohighlight">
+\[
+|x^\ast-x^{(k)}|
+\]</div>
+<p>misura quanto siamo ancora lontani dalla soluzione.</p>
+<p>Nella pratica, però, <span class="math notranslate nohighlight">\(x^\ast\)</span> è proprio la quantità che stiamo cercando e quindi questo errore non è direttamente calcolabile.</p>
+<p><strong>Criteri di arresto</strong></p>
+<p>Un <strong>criterio di arresto</strong> stabilisce quando interrompere le iterazioni.</p>
+<p>Il criterio deve cercare di garantire che la soluzione ottenuta sia sufficientemente accurata, evitando allo stesso tempo di eseguire iterazioni inutili.</p>
+<p><em>1. Differenza tra due iterazioni successive</em></p>
+<p>Un criterio molto semplice consiste nel fermarsi quando</p>
+<div class="math notranslate nohighlight">
+\[
+|x^{(k+1)}-x^{(k)}|&lt;\varepsilon,
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(\varepsilon&gt;0\)</span> è una tolleranza prefissata.</p>
+<p>Nel caso vettoriale:</p>
+<div class="math notranslate nohighlight">
+\[
+\|\mathbf{x}^{(k+1)}-\mathbf{x}^{(k)}\|&lt;\varepsilon.
+\]</div>
+<p>Una versione relativa è</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\|\mathbf{x}^{(k+1)}-\mathbf{x}^{(k)}\|}{\|\mathbf{x}^{(k+1)}\|}&lt;\varepsilon.
+\]</div>
+<p>Questo criterio è spesso preferibile quando le grandezze in gioco possono avere ordini di grandezza molto diversi.</p>
+<p><em>2. Criteri specifici del problema che si sta risolvendo</em></p>
+<p>Criteri che dipendono dalla condizioni sulla soluzione del particolare problema che si sta risolvendo.</p>
+<p><em>3. Numero massimo di iterazioni</em></p>
+<p>È sempre buona pratica imporre anche un numero massimo di iterazioni:</p>
+<div class="math notranslate nohighlight">
+\[
+k\leq k_{\max}.
+\]</div>
+<p>Questo controllo evita che l’algoritmo continui indefinitamente nel caso in cui:</p>
+<ul class="simple">
+<li><p>il metodo non converga;</p></li>
+<li><p>la convergenza sia troppo lenta;</p></li>
+<li><p>il criterio di arresto scelto non venga mai soddisfatto.</p></li>
+</ul>
+<p>In pratica si combinano spesso più criteri contemporaneamente.</p>
+<p><strong>Schema algoritmico generale</strong></p>
+<p>Un metodo iterativo può essere descritto mediante il seguente schema.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Dati:
+    punto iniziale x0
+    tolleranza eps
+    numero massimo di iterazioni kmax
+
+Inizializzazione:
+    x = x0
+    k = 0
+
+Ripeti:
+
+    calcola una nuova approssimazione
+        x_new = Phi(x)
+
+    calcola un indicatore di errore
+        err = |x_new - x|
+
+    se err &lt; eps:
+        termina
+
+    aggiorna
+        x = x_new
+        k = k + 1
+
+finché k &lt; kmax
+
+Restituisci x_new
+</pre></div>
+</div>
+<p>Nel caso vettoriale si usa una norma:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{err}
+=
+\|\mathbf{x}^{(k+1)}-\mathbf{x}^{(k)}\|.
+\]</div>
+<p><strong>Schema in pseudocodice matematico</strong></p>
+<ol class="arabic">
+<li><p>scegliere <span class="math notranslate nohighlight">\(\mathbf{x}^{(0)}\)</span>;</p></li>
+<li><p>porre <span class="math notranslate nohighlight">\(k=0\)</span>;</p></li>
+<li><p>calcolare</p>
+<div class="math notranslate nohighlight">
+\[
+   \mathbf{x}^{(k+1)}=\Phi\left(\mathbf{x}^{(k)}\right);
+   \]</div>
+</li>
+<li><p>calcolare</p>
+<div class="math notranslate nohighlight">
+\[
+   e_k=\|\mathbf{x}^{(k+1)}-\mathbf{x}^{(k)}\|;
+   \]</div>
+</li>
+<li><p>se <span class="math notranslate nohighlight">\(e_k&lt;\varepsilon\)</span>, arrestare il procedimento;</p></li>
+<li><p>altrimenti porre <span class="math notranslate nohighlight">\(k\leftarrow k+1\)</span> e tornare al punto 3;</p></li>
+<li><p>arrestare comunque il procedimento se <span class="math notranslate nohighlight">\(k\geq k_{\max}\)</span>.</p></li>
+</ol>
+<p>Questo schema generale può essere adattato a moltissimi metodi numerici.</p>
+<p><strong>Precisione richiesta e costo computazionale</strong></p>
+<p>La scelta della tolleranza <span class="math notranslate nohighlight">\(\varepsilon\)</span> influenza direttamente il numero di iterazioni.</p>
+<p>Una tolleranza più piccola, per esempio</p>
+<div class="math notranslate nohighlight">
+\[
+\varepsilon=10^{-10},
+\]</div>
+<p>richiede in genere più iterazioni rispetto a</p>
+<div class="math notranslate nohighlight">
+\[
+\varepsilon=10^{-4}.
+\]</div>
+<p>Esiste quindi un compromesso tra:</p>
+<ul class="simple">
+<li><p>accuratezza della soluzione;</p></li>
+<li><p>tempo di calcolo;</p></li>
+<li><p>numero di iterazioni.</p></li>
+</ul>
+<p>Non è sempre utile richiedere una precisione estremamente elevata: la tolleranza dovrebbe essere scelta in funzione del problema e della qualità dei dati disponibili.</p>
+<section id="tool-matematico-le-norme-per-misurare-distanze-fra-vettori">
+<h2>Tool matematico: le norme per misurare distanze fra vettori<a class="headerlink" href="#tool-matematico-le-norme-per-misurare-distanze-fra-vettori" title="Link to this heading">#</a></h2>
+<p>Una <strong>norma</strong> assegna a ogni vettore <span class="math notranslate nohighlight">\(\boldsymbol{x}\in V\)</span> una lunghezza <span class="math notranslate nohighlight">\(\|\boldsymbol{x}\|\)</span>. Deve soddisfare:</p>
+<ol class="arabic simple">
+<li><p><strong>positività</strong>: <span class="math notranslate nohighlight">\(\|\boldsymbol{x}\|\geq 0\)</span> e <span class="math notranslate nohighlight">\(\|\boldsymbol{x}\|=0\)</span> solo per <span class="math notranslate nohighlight">\(\boldsymbol{x}=\boldsymbol{0}\)</span>;</p></li>
+<li><p><strong>omogeneità</strong>: <span class="math notranslate nohighlight">\(\|\lambda\boldsymbol{x}\|=|\lambda|\,\|\boldsymbol{x}\|\)</span>;</p></li>
+<li><p><strong>disuguaglianza triangolare</strong>: <span class="math notranslate nohighlight">\(\|\boldsymbol{x}+\boldsymbol{y}\|\leq\|\boldsymbol{x}\|+\|\boldsymbol{y}\|\)</span>.</p></li>
+</ol>
+<p>Le norme più comuni in <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span> sono</p>
+<div class="math notranslate nohighlight">
+\[
+\|\boldsymbol{x}\|_1=\sum_{i=1}^n |x_i|,
+\qquad
+\|\boldsymbol{x}\|_2=\sqrt{\sum_{i=1}^n x_i^2},
+\qquad
+\|\boldsymbol{x}\|_\infty=\max_i |x_i|.
+\]</div>
+<p>La norma euclidea <span class="math notranslate nohighlight">\(\|\cdot\|_2\)</span> è quella usata per default nel libro.</p>
+</section>
 <section id="metodi-di-discesa-per-il-calcolo-del-minimo-di-una-funzione">
-<h2>Metodi di discesa per il calcolo del minimo di una funzione<a class="headerlink" href="#metodi-di-discesa-per-il-calcolo-del-minimo-di-una-funzione" title="Link to this heading">#</a></h2>
+<h2>9.5 Metodi di discesa per il calcolo del minimo di una funzione<a class="headerlink" href="#metodi-di-discesa-per-il-calcolo-del-minimo-di-una-funzione" title="Link to this heading">#</a></h2>
 <p>Una funzione non convessa può possedere più punti stazionari e più minimi locali. Un metodo iterativo può convergere verso punti diversi a seconda dell’iterato iniziale e della strategia adottata.</p>
+<p><img alt="Direzione del gradiente" src="../_images/fig8m.png" /></p>
 <figure class="align-center">
 <a class="reference internal image-reference" href="../_images/fig8m.png"><img alt="../_images/fig8m.png" src="../_images/fig8m.png" style="width: 100%;" />
 </a>
@@ -845,9 +990,7 @@ x_{k+1}=x_k+\alpha_k p_k. \tag{1}
 \[
 f(x_{k+1})&lt;f(x_k),\qquad k=0,1,\ldots
 \]</div>
-</section>
-<section id="direzione-di-discesa">
-<h2>Direzione di discesa<a class="headerlink" href="#direzione-di-discesa" title="Link to this heading">#</a></h2>
+<p><strong>Direzione di discesa</strong></p>
 <p>Definiamo le direzioni di discesa come direzioni (vettori) di interesse per la ricerca del minimo. Si chiamano <em>di discesa</em> perchè posso vedere il punto di minimo come il punto più basso di una conca e quindi mi avvicino al putno di minimo <em>scendendo</em> nell valle.</p>
 <p><strong>Definizione.</strong> Il vettore <span class="math notranslate nohighlight">\(p\)</span> è una direzione di discesa di <span class="math notranslate nohighlight">\(f\)</span> in <span class="math notranslate nohighlight">\(x\)</span> se esiste <span class="math notranslate nohighlight">\(\bar\alpha&gt;0\)</span> tale che</p>
 <div class="math notranslate nohighlight">
@@ -861,9 +1004,6 @@ f(x_{k+1})&lt;f(x_k),\qquad k=0,1,\ldots
 <p align="center">
   <img src="immagini_sorgente\fig9m.png"  width="700">
 </p>
-</section>
-<section id="caratterizzazione-di-una-direzione-di-discesa">
-<h2>Caratterizzazione di una direzione di discesa<a class="headerlink" href="#caratterizzazione-di-una-direzione-di-discesa" title="Link to this heading">#</a></h2>
 <blockquote>
 <div><p><strong>Proposizione.</strong> Sia <span class="math notranslate nohighlight">\(f:\mathbb{R}^n\to\mathbb{R}\)</span> continuamente differenziabile nell’intorno di un punto <span class="math notranslate nohighlight">\(x\in\mathbb{R}^n\)</span> e sia <span class="math notranslate nohighlight">\(p\in\mathbb{R}^n\)</span> un vettore non nullo. Se</p>
 <div class="math notranslate nohighlight">
@@ -872,9 +1012,7 @@ f(x_{k+1})&lt;f(x_k),\qquad k=0,1,\ldots
 &gt; \]</div>
 <p>allora <span class="math notranslate nohighlight">\(p\)</span> è una direzione di discesa per <span class="math notranslate nohighlight">\(f\)</span> in <span class="math notranslate nohighlight">\(x\)</span>.</p>
 </div></blockquote>
-</section>
-<section id="esempio-1">
-<h2>Esempio 1<a class="headerlink" href="#esempio-1" title="Link to this heading">#</a></h2>
+<p><em>Esempio 1</em></p>
 <p>Consideriamo</p>
 <div class="math notranslate nohighlight">
 \[
@@ -903,9 +1041,7 @@ f(x+td)=(-1-t)^3-3(-1-t)=-t^3-3t^2+2.
 -t^3-3t^2+2&lt;2=f(x)\qquad \text{per ogni }t&gt;0,
 \]</div>
 <p><span class="math notranslate nohighlight">\(d\)</span> è una direzione di discesa, benché <span class="math notranslate nohighlight">\(d^T\nabla f(x)=0\)</span>.</p>
-</section>
-<section id="esempio-2">
-<h2>Esempio 2<a class="headerlink" href="#esempio-2" title="Link to this heading">#</a></h2>
+<p><em>Esempio 2</em></p>
 <p>Consideriamo ora <span class="math notranslate nohighlight">\(\widetilde{x}=(1,0)^T\)</span> e la stessa direzione <span class="math notranslate nohighlight">\(d=(-1,0)^T\)</span>. Si ha</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -923,9 +1059,7 @@ f(\widetilde{x}+td)=(1-t)^3-3(1-t)=-t^3+3t^2-2.
 -t^3+3t^2-2&lt;-2=f(\widetilde{x})
 \]</div>
 <p>è verificata soltanto per <span class="math notranslate nohighlight">\(t&gt;3\)</span>. Quindi <span class="math notranslate nohighlight">\(d\)</span> <strong>non</strong> è una direzione di discesa in <span class="math notranslate nohighlight">\(\widetilde{x}\)</span>, perché la disuguaglianza non vale per tutti i valori positivi sufficientemente piccoli di <span class="math notranslate nohighlight">\(t\)</span>.</p>
-</section>
-<section id="interpretazione-geometrica">
-<h2>Interpretazione geometrica<a class="headerlink" href="#interpretazione-geometrica" title="Link to this heading">#</a></h2>
+<p><em>Interpretazione geometrica</em></p>
 <p>Per due vettori non nulli <span class="math notranslate nohighlight">\(x,y\in\mathbb{R}^n\)</span>, l’angolo <span class="math notranslate nohighlight">\(\theta\)</span> è definito mediante</p>
 <div class="math notranslate nohighlight">
 \[
@@ -937,9 +1071,7 @@ f(\widetilde{x}+td)=(1-t)^3-3(1-t)=-t^3+3t^2-2.
 <li><p><strong>acuto</strong> se <span class="math notranslate nohighlight">\(p^T\nabla f(x)&gt;0\)</span>.</p></li>
 </ul>
 <p>I vettori <span class="math notranslate nohighlight">\(p\)</span> e <span class="math notranslate nohighlight">\(\nabla f(x)\)</span> sono ortogonali se <span class="math notranslate nohighlight">\(p^T\nabla f(x)=0\)</span>.</p>
-</section>
-<section id="direzione-di-ricerca-e-gradiente">
-<h2>Direzione di ricerca e gradiente<a class="headerlink" href="#direzione-di-ricerca-e-gradiente" title="Link to this heading">#</a></h2>
+<p><em>Direzione di ricerca e gradiente</em></p>
 <p>La retta</p>
 <div class="math notranslate nohighlight">
 \[
@@ -980,7 +1112,7 @@ p^T\nabla f(x)=-\lVert\nabla f(x)\rVert^2&lt;0.
 \]</div>
 </section>
 <section id="metodo-del-gradiente">
-<h2>Metodo del gradiente<a class="headerlink" href="#metodo-del-gradiente" title="Link to this heading">#</a></h2>
+<h2>9.6 Metodo del gradiente<a class="headerlink" href="#metodo-del-gradiente" title="Link to this heading">#</a></h2>
 <p>La direzione di ricerca è</p>
 <div class="math notranslate nohighlight">
 \[
@@ -991,9 +1123,7 @@ p_k=-\nabla f(x_k),\qquad k=0,1,\ldots
 <li><p>La lunghezza del passo è determinata con una tecnica di ricerca in linea inesatta.</p></li>
 <li><p>Il teorema di Zoutendijk fornisce, sotto opportune ipotesi, un risultato di convergenza globale verso la stazionarietà.</p></li>
 </ul>
-</section>
-<section id="esempio-la-sola-discesa-non-garantisce-la-convergenza">
-<h2>Esempio: la sola discesa non garantisce la convergenza<a class="headerlink" href="#esempio-la-sola-discesa-non-garantisce-la-convergenza" title="Link to this heading">#</a></h2>
+<p><em>Esempio: la sola discesa non garantisce la convergenza</em></p>
 <p>Consideriamo</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1020,8 +1150,7 @@ p_k^T\nabla f(x_k)=1\cdot 2x_k=-2(1+2^{1-k})&lt;0.
 \lim_{k\to\infty}x_k=-1,\qquad f'(-1)=-2\neq 0,
 \]</div>
 <p>quindi la successione non converge alla soluzione <span class="math notranslate nohighlight">\(x^*=0\)</span>.</p>
-<section id="scelta-della-lunghezza-del-passo-learning-rate">
-<h3>Scelta della lunghezza del passo (learning rate)<a class="headerlink" href="#scelta-della-lunghezza-del-passo-learning-rate" title="Link to this heading">#</a></h3>
+<p><strong>Scelta della lunghezza del passo (learning rate)</strong></p>
 <p>La scelta di <span class="math notranslate nohighlight">\(\alpha_k\)</span> influisce sulla convergenza del metodo.</p>
 <ul class="simple">
 <li><p><strong>Passo constante</strong>: dato un valore di <span class="math notranslate nohighlight">\(\alpha\)</span>, si può settare <span class="math notranslate nohighlight">\(\forall k = 1, \dots, \texttt{maxit}\)</span>. E’ una scelta semplice ma dipendente dalla scala dei valori del problema. In particolare:</p>
@@ -1033,17 +1162,14 @@ p_k^T\nabla f(x_k)=1\cdot 2x_k=-2(1+2^{1-k})&lt;0.
 </li>
 </ul>
 <figure class="align-center">
-<a class="reference internal image-reference" href="../_images/right_alpha.png"><img alt="../_images/right_alpha.png" src="../_images/right_alpha.png" style="width: 70%;" />
+<a class="reference internal image-reference" href="../_images/right_alpha.png"><img alt="../_images/right_alpha.png" src="../_images/right_alpha.png" style="width: 90%;" />
 </a>
 </figure>
-<p><img alt="" src="../_images/right_alpha.png" /></p>
+<p align="center">
+  <img src="immagini_sorgente\right_alpha.png"  width="800">
 <ul class="simple">
 <li><p><strong>ricerca  in linea inesatta</strong>: è il metodo in generale più efficiente anche se computazionalmente più costoso.</p></li>
 </ul>
-</section>
-</section>
-<section id="ricerca-in-linea-inesatta">
-<h2>Ricerca in linea inesatta<a class="headerlink" href="#ricerca-in-linea-inesatta" title="Link to this heading">#</a></h2>
 <p>I metodi di ricerca inesatta unidimensionale per i quali è possibile stabilire risultati di convergenza individuano un intervallo di valori accettabili per <span class="math notranslate nohighlight">\(\alpha_k\)</span>.</p>
 <p>Tale intervallo deve assicurare:</p>
 <ul class="simple">
@@ -1067,9 +1193,7 @@ f(x_k+\alpha_kp_k)
 <li><p>La prima disuguaglianza è la <strong>condizione di Armijo</strong> (<em>sufficient decrease condition</em>) e assicura una decrescita sufficiente di <span class="math notranslate nohighlight">\(f\)</span> lungo <span class="math notranslate nohighlight">\(p_k\)</span>.</p></li>
 <li><p>La seconda è la <strong>condizione della curvatura</strong> (<em>curvature condition</em>) e impedisce che <span class="math notranslate nohighlight">\(\alpha_k\)</span> diventi troppo piccolo.</p></li>
 </ul>
-</section>
-<section id="condizione-di-armijo-e-backtracking">
-<h2>Condizione di Armijo e backtracking<a class="headerlink" href="#condizione-di-armijo-e-backtracking" title="Link to this heading">#</a></h2>
+<p><em>Condizione di Armijo e backtracking</em></p>
 <p>La condizione di Armijo, da sola, non garantisce che la lunghezza del passo non sia troppo piccola. Se però il passo viene scelto con una tecnica di <strong>backtracking</strong>, la condizione di Armijo è sufficiente per garantire la convergenza nelle ipotesi previste.</p>
 <p>Nell’algoritmo di backtracking:</p>
 <ol class="arabic simple">
@@ -1129,14 +1253,11 @@ x_{k+1}=x_k+\alpha_kp_k.
 \)</span>$</p></li>
 </ol>
 </div></blockquote>
-<section id="scelta-dell-iterato-iniziale">
-<h3>Scelta dell’iterato iniziale<a class="headerlink" href="#scelta-dell-iterato-iniziale" title="Link to this heading">#</a></h3>
+<p><strong>Scelta dell’iterato iniziale</strong></p>
 <p>IL’algoritmo di discesa del gradiente (GD) chiede in inout un iterqto iniziale <span class="math notranslate nohighlight">\(x_0 \in  \mathbb{R}^n\)</span>.Se le condizioni di convergenza sonio soddisfatte, poichè sono condizioni di converegenza <em>globali</em> per ogni iterato iniziale <span class="math notranslate nohighlight">\(x_0\)</span> il metodo converge a un <strong>punto stazionario</strong> di of <span class="math notranslate nohighlight">\(\mathcal{fx}()\)</span>, i.e.a un punto tale che  <span class="math notranslate nohighlight">\(\nabla_x \mathcal{f}(x) = 0\)</span>.</p>
 <p>Se <span class="math notranslate nohighlight">\(f(x)\)</span> è convessa, allora il punto di cinvergenza è di mininmo locale.
 Questo implica che la scelta di <span class="math notranslate nohighlight">\(x_0\)</span> non è importante e possiamo settare per esempio <span class="math notranslate nohighlight">\(x_0=0\)</span>. D’altra parte, quando <span class="math notranslate nohighlight">\(f(x)\)</span> non è convessa, dobbiamo scegliere <span class="math notranslate nohighlight">\(x_0\)</span> il più vicino possibile al <em>giusto</em> punto stazionario per umentare la probabilità di calcolare il punto di interesse (cioè il minimo globale).</p>
-</section>
-<section id="criteri-di-arresto-e-fallimenti">
-<h3>Criteri di arresto e fallimenti<a class="headerlink" href="#criteri-di-arresto-e-fallimenti" title="Link to this heading">#</a></h3>
+<p><strong>Criteri di arresto e fallimenti</strong></p>
 <ul>
 <li><p>Negli algoritmi di ottimizzazione esistono diversi criteri per terminare le iterazioni; essi possono indicare il raggiungimento di una soluzione oppure il fallimento dell’algoritmo.</p></li>
 <li><p>Nell’ottimizzazione non vincolata, il criterio di arresto dovrebbe segnalare il raggiungimento di un punto stazionario con la tolleranza specificata dall’utente.</p></li>
@@ -1163,10 +1284,7 @@ $<span class="math notranslate nohighlight">\(
 </li>
 <li><p>il <strong>massimo numero di iterazioni</strong> <span class="math notranslate nohighlight">\(\texttt{maxit}\)</span> è stato raggiunto.</p></li>
 </ul>
-</section>
-</section>
-<section id="esercizio">
-<h2>Esercizio<a class="headerlink" href="#esercizio" title="Link to this heading">#</a></h2>
+<p><em>Esercizio</em></p>
 <p>Scrivere le prime due iterazioni del metodo del gradiente applicato alla funzione</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1183,9 +1301,7 @@ x_0=(1,1)^T,
 \[
 \tau=10^{-4}.
 \]</div>
-</section>
-<section id="generalita-sugli-algoritmi">
-<h2>Generalità sugli algoritmi<a class="headerlink" href="#generalita-sugli-algoritmi" title="Link to this heading">#</a></h2>
+<p><em>Generalità sugli algoritmi</em></p>
 <ul class="simple">
 <li><p>Gli algoritmi di ottimizzazione considerati garantiscono, in generale, la determinazione di punti che soddisfano <strong>condizioni necessarie di ottimo</strong>.</p></li>
 <li><p>Tutti i metodi considerati consentono di determinare <strong>punti stazionari</strong> di <span class="math notranslate nohighlight">\(f\)</span>.</p></li>
@@ -1249,54 +1365,22 @@ x_0=(1,1)^T,
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduzione">Introduzione</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definizioni-punti-di-minimo">Definizioni: punti di minimo</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempi-di-minimi">Esempi di minimi</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimi-locali-e-globali">Minimi locali e globali</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condizioni-di-ottimalita">Condizioni di ottimalità</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#significato-delle-condizioni-di-ottimalita">Significato delle condizioni di ottimalità</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#condizione-necessaria-del-primo-ordine">Condizione necessaria del primo ordine</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrici-definite-positive">Matrici definite positive</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#caratterizzazione-mediante-gli-autovalori">Caratterizzazione mediante gli autovalori</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#condizioni-necessarie-del-secondo-ordine">Condizioni necessarie del secondo ordine</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#condizioni-sufficienti-del-secondo-ordine">Condizioni sufficienti del secondo ordine</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#osservazioni">Osservazioni</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tipi-di-punti-stazionari">Tipi di punti stazionari</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Ottimizzazione numerica</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduzione">9.1 Introduzione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definizioni-punti-di-minimo">9.2 Definizioni: punti di minimo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condizioni-di-ottimalita">9.3  Condizioni di ottimalità</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tipi-di-punti-stazionari">9.3 Tipi di punti stazionari</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#il-caso-convesso">9.4 Il caso convesso</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#il-caso-convesso">Il caso convesso</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#funzioni-obiettivo-convesse">Funzioni obiettivo convesse</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#condizioni-di-ottimalita-nel-caso-convesso">Condizioni di ottimalità nel caso convesso</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#funzioni-quadratiche-convesse">Funzioni quadratiche convesse</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmi-metodi-iterativi">Algoritmi: metodi iterativi</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tool-matematico-le-norme-per-misurare-distanze-fra-vettori">Tool matematico: le norme per misurare distanze fra vettori</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodi-di-discesa-per-il-calcolo-del-minimo-di-una-funzione">9.5 Metodi di discesa per il calcolo del minimo di una funzione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodo-del-gradiente">9.6 Metodo del gradiente</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizi">Esercizi</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio-1">Esercizio 1</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio-2">Esercizio 2</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio-3">Esercizio 3</a></li>
 </ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodi-di-discesa-per-il-calcolo-del-minimo-di-una-funzione">Metodi di discesa per il calcolo del minimo di una funzione</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direzione-di-discesa">Direzione di discesa</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#caratterizzazione-di-una-direzione-di-discesa">Caratterizzazione di una direzione di discesa</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-1">Esempio 1</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-2">Esempio 2</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-geometrica">Interpretazione geometrica</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direzione-di-ricerca-e-gradiente">Direzione di ricerca e gradiente</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodo-del-gradiente">Metodo del gradiente</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-la-sola-discesa-non-garantisce-la-convergenza">Esempio: la sola discesa non garantisce la convergenza</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scelta-della-lunghezza-del-passo-learning-rate">Scelta della lunghezza del passo (learning rate)</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ricerca-in-linea-inesatta">Ricerca in linea inesatta</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condizione-di-armijo-e-backtracking">Condizione di Armijo e backtracking</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scelta-dell-iterato-iniziale">Scelta dell’iterato iniziale</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#criteri-di-arresto-e-fallimenti">Criteri di arresto e fallimenti</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizio">Esercizio</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generalita-sugli-algoritmi">Generalità sugli algoritmi</a></li>
-</ul>
+
   </nav></div>
 
 </div></div>

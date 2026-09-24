@@ -57,6 +57,8 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'book/SVD_eigs';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -182,6 +184,8 @@
         <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="intro_mnpc.html">Introduzione al corso Metodi Numerici per il calcolo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="calcolo_multivariato.html">Calcolo multivariato</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Ottimizzazione.html">Ottimizzazione numerica</a></li>
 
 </ul>
 
@@ -355,7 +359,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -371,6 +377,33 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Fattorizzazioni che diagonalizzano: autovalori e valori singolari</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fattorizzazione-agli-autovalori-teoria-e-numpy">1.   Fattorizzazione agli autovalori: teoria e NumPy</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#decomposizione-ai-valori-singolari-svd">2. Decomposizione ai valori singolari (SVD)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#richiamo-ortogonalita">2.1 Richiamo: ortogonalità</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#teorema-di-esistenza-della-svd">2.2 Teorema di esistenza della SVD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relazione-con-autovalori-e-autovettori">2.3 Relazione con autovalori e autovettori</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rango-immagine-e-nucleo">2.4 Rango, immagine e nucleo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#una-applicazione-decomposizione-diadica">2.5 Una applicazione:  decomposizione diadica</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pseudoinversa-mediante-svd">2.6 Pseudoinversa mediante SVD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aspetti-numerici">2.7 Aspetti numerici</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#approximazione-mediante-diadi">2.8 Approximazione mediante diadi</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-come-compressione">2.9 Interpretazione come compressione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#una-applicazione-pca-mediante-svd">5.11 Una applicazione:  PCA mediante SVD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-il-dataset-iris">5.12 Esempio: il dataset Iris</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ricostruzione-con-un-numero-ridotto-di-componenti">Ricostruzione con un numero ridotto di componenti</a></li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -382,6 +415,804 @@ document.write(`
                   
   <section id="fattorizzazioni-che-diagonalizzano-autovalori-e-valori-singolari">
 <h1>Fattorizzazioni che diagonalizzano: autovalori e valori singolari<a class="headerlink" href="#fattorizzazioni-che-diagonalizzano-autovalori-e-valori-singolari" title="Link to this heading">#</a></h1>
+<section id="fattorizzazione-agli-autovalori-teoria-e-numpy">
+<h2>1.   Fattorizzazione agli autovalori: teoria e NumPy<a class="headerlink" href="#fattorizzazione-agli-autovalori-teoria-e-numpy" title="Link to this heading">#</a></h2>
+<p>Questo notebook introduce la teoria essenziale e applica la decomposizione alla matrice dell’esempio.</p>
+<p><em>Autovalori e autovettori</em></p>
+<p>Dato un operatore lineare rappresentato da una matrice quadrata <span class="math notranslate nohighlight">\(A\in\mathbb{R}^{n\times n}\)</span>, un numero <span class="math notranslate nohighlight">\(\lambda\)</span> è un <strong>autovalore</strong> se esiste un vettore non nullo <span class="math notranslate nohighlight">\(v\)</span> tale che</p>
+<div class="math notranslate nohighlight">
+\[Av=\lambda v. \]</div>
+<p>Il vettore <span class="math notranslate nohighlight">\(v\)</span> è l’<strong>autovettore</strong> associato a <span class="math notranslate nohighlight">\(\lambda\)</span>. La trasformazione <span class="math notranslate nohighlight">\(A\)</span> non cambia la direzione di <span class="math notranslate nohighlight">\(v\)</span>: lo moltiplica soltanto per il fattore <span class="math notranslate nohighlight">\(\lambda\)</span>.</p>
+<p>Riscrivendo l’equazione come <span class="math notranslate nohighlight">\((A-\lambda I)v=0\)</span>, esiste una soluzione non nulla soltanto se <span class="math notranslate nohighlight">\(A-\lambda I\)</span> è singolare. Pertanto gli autovalori sono le radici del <strong>polinomio caratteristico</strong></p>
+<div class="math notranslate nohighlight">
+\[p_A(\lambda)=\det(\lambda I-A)=0. \]</div>
+<p>Per ogni autovalore, gli autovettori si ottengono risolvendo <span class="math notranslate nohighlight">\((A-\lambda I)v=0\)</span>.</p>
+<p><em>Diagonalizzazione</em></p>
+<p>Se <span class="math notranslate nohighlight">\(A\)</span> possiede <span class="math notranslate nohighlight">\(n\)</span> autovettori linearmente indipendenti, è <strong>diagonalizzabile</strong>. Ponendo</p>
+<div class="math notranslate nohighlight">
+\[V=[v_1\;v_2\;\dots\;v_n], \qquad \Lambda=\operatorname{diag}(\lambda_1,\dots,\lambda_n),\]</div>
+<p>si ha <span class="math notranslate nohighlight">\(AV=V\Lambda\)</span> e quindi</p>
+<div class="math notranslate nohighlight">
+\[A=V\Lambda V^{-1}. \]</div>
+<p>Una matrice con autovalori tutti distinti è diagonalizzabile. La diagonalizzabilità può comunque verificarsi anche con autovalori ripetuti, purché esistano abbastanza autovettori indipendenti.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">2.</span><span class="p">,</span>  <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span>
+              <span class="p">[</span> <span class="mf">4.</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+              <span class="p">[</span><span class="o">-</span><span class="mf">2.</span><span class="p">,</span>  <span class="mf">7.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">]])</span>
+<span class="n">A</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 2.,  1.,  1.],
+       [ 4., -6.,  0.],
+       [-2.,  7.,  2.]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Per questa matrice il polinomio caratteristico è <span class="math notranslate nohighlight">\(p_A(\lambda)=\lambda^3+2\lambda^2-22\lambda+16\)</span>. NumPy può calcolarne i coefficienti e le radici numeriche:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">coefficienti</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">poly</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Coefficienti del polinomio caratteristico:&quot;</span><span class="p">,</span> <span class="n">coefficienti</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Radici:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">roots</span><span class="p">(</span><span class="n">coefficienti</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Coefficienti del polinomio caratteristico: [  1.   2. -22.  16.]
+Radici: [-6.06347233  3.25206391  0.81140842]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Calcolo numerico con NumPy</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">np.linalg.eig(A)</span></code> restituisce gli autovalori e una matrice <code class="docutils literal notranslate"><span class="pre">V</span></code> le cui <strong>colonne</strong> sono gli autovettori corrispondenti. L’ordine degli autovalori non è prestabilito; anche il segno o la fase di un autovettore possono cambiare senza modificarne il significato.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">autovalori</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="n">Lambda</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">autovalori</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Autovalori:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">autovalori</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Autovettori (in colonna):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Autovalori:
+ [-6.06347233  3.25206391  0.81140842]
+
+Autovettori (in colonna):
+ [[-0.01195857  0.73345874 -0.47148436]
+ [ 0.75362427  0.3171006  -0.27687922]
+ [-0.65719666  0.60123663  0.83728155]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A_ricostruita</span> <span class="o">=</span> <span class="n">V</span> <span class="o">@</span> <span class="n">Lambda</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A ricostruita:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">real_if_close</span><span class="p">(</span><span class="n">A_ricostruita</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Verifica A = V @ Lambda @ inv(V):&quot;</span><span class="p">,</span>
+      <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">A_ricostruita</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Verifica A @ V = V @ Lambda:&quot;</span><span class="p">,</span>
+      <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">A</span> <span class="o">@</span> <span class="n">V</span><span class="p">,</span> <span class="n">V</span> <span class="o">@</span> <span class="n">Lambda</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>A ricostruita:
+ [[ 2.00000000e+00  1.00000000e+00  1.00000000e+00]
+ [ 4.00000000e+00 -6.00000000e+00  4.58049147e-16]
+ [-2.00000000e+00  7.00000000e+00  2.00000000e+00]]
+
+Verifica A = V @ Lambda @ inv(V): True
+Verifica A @ V = V @ Lambda: True
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Caso delle matrici simmetriche</strong></p>
+<p>Se <span class="math notranslate nohighlight">\(A\)</span> è reale e simmetrica, il teorema spettrale garantisce autovalori reali e una base ortonormale di autovettori. È preferibile usare <code class="docutils literal notranslate"><span class="pre">np.linalg.eigh(A)</span></code> e si ottiene <span class="math notranslate nohighlight">\(A=V\Lambda V^T\)</span>, perché <span class="math notranslate nohighlight">\(V^{-1}=V^T\)</span>. Per una matrice generale, invece, gli autovalori e gli autovettori possono essere complessi.</p>
+</section>
+</section>
+<section id="decomposizione-ai-valori-singolari-svd">
+<h1>2. Decomposizione ai valori singolari (SVD)<a class="headerlink" href="#decomposizione-ai-valori-singolari-svd" title="Link to this heading">#</a></h1>
+<p>La <strong>Decomposizione in Valori Singolari (Singular Value Decomposition o SVD)</strong> è una delle fattorizzazioni più importanti dell’algebra lineare numerica. È definita per ogni matrice, anche rettangolare o di rango non massimo, e permette di descrivere in modo trasparente:</p>
+<ul class="simple">
+<li><p>l’azione geometrica di una matrice;</p></li>
+<li><p>rango, nucleo e immagine;</p></li>
+<li><p>norme e condizionamento;</p></li>
+<li><p>approssimazioni a rango basso e compressione dei dati.</p></li>
+</ul>
+<section id="richiamo-ortogonalita">
+<h2>2.1 Richiamo: ortogonalità<a class="headerlink" href="#richiamo-ortogonalita" title="Link to this heading">#</a></h2>
+<p>Due vettori <span class="math notranslate nohighlight">\(x,y\in\mathbb{R}^n\)</span> sono <em>ortogonali</em> se <span class="math notranslate nohighlight">\(x^Ty=0\)</span>. Un insieme di vettori è <strong>ortonormale</strong> se i vettori sono ortogonali tra loro e hanno norma euclidea unitaria.</p>
+<p>Una matrice quadrata <span class="math notranslate nohighlight">\(Q\)</span> è ortogonale quando le sue colonne formano una base ortonormale, cioè</p>
+<div class="math notranslate nohighlight">
+\[
+Q^TQ=QQ^T=I, \qquad Q^{-1}=Q^T.
+\]</div>
+<p>Le trasformazioni ortogonali conservano prodotto scalare, norma 2, distanze e angoli:</p>
+<div class="math notranslate nohighlight">
+\[
+\|Qx\|_2=\|x\|_2.
+\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)],</span>
+              <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span>  <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)]])</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Q^T Q =&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">Q</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;||x||_2  = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s1">.6f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;||Qx||_2 = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">Q</span><span class="w"> </span><span class="o">@</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s1">.6f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Q^T Q =
+[[ 1. -0.]
+ [-0.  1.]]
+||x||_2  = 2.236068
+||Qx||_2 = 2.236068
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="teorema-di-esistenza-della-svd">
+<h2>2.2 Teorema di esistenza della SVD<a class="headerlink" href="#teorema-di-esistenza-della-svd" title="Link to this heading">#</a></h2>
+<p>Per ogni matrice reale <span class="math notranslate nohighlight">\(A\in\mathbb{R}^{m\times n}\)</span> esistono due matrici ortogonali</p>
+<div class="math notranslate nohighlight">
+\[
+U\in\mathbb{R}^{m\times m}, \qquad
+V\in\mathbb{R}^{n\times n},
+\]</div>
+<p>e una matrice rettangolare diagonale <span class="math notranslate nohighlight">\(\Sigma\in\mathbb{R}^{m\times n}\)</span> tali che</p>
+<div class="math notranslate nohighlight">
+\[
+\boxed{A=U\Sigma V^T}.
+\]</div>
+<p>Ponendo <span class="math notranslate nohighlight">\(p=\min(m,n)\)</span>, sulla diagonale di <span class="math notranslate nohighlight">\(\Sigma\)</span> compaiono i <strong>valori singolari</strong> ordinati:</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma_1\geq\sigma_2\geq\cdots\geq\sigma_p\geq0.
+\]</div>
+<p>Nella SVD completa le dimensioni sono:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>matrice</p></th>
+<th class="head text-center"><p>dimensione</p></th>
+<th class="head text-left"><p>significato</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><span class="math notranslate nohighlight">\(A\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(m\times n\)</span></p></td>
+<td class="text-left"><p>matrice di partenza</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><span class="math notranslate nohighlight">\(U\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(m\times m\)</span></p></td>
+<td class="text-left"><p>vettori singolari sinistri</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><span class="math notranslate nohighlight">\(\Sigma\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(m\times n\)</span></p></td>
+<td class="text-left"><p>valori singolari sulla diagonale</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><span class="math notranslate nohighlight">\(V\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(n\times n\)</span></p></td>
+<td class="text-left"><p>vettori singolari destri</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Le colonne di <span class="math notranslate nohighlight">\(U=(u_1,\ldots,u_m)\)</span> e di <span class="math notranslate nohighlight">\(V=(v_1,\ldots,v_n)\)</span> sono basi ortonormali rispettivamente di <span class="math notranslate nohighlight">\(\mathbb{R}^m\)</span> e <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span>.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="book/immagini_sorgente/svd_dimensioni.png"><img alt="book/immagini_sorgente/svd_dimensioni.png" src="book/immagini_sorgente/svd_dimensioni.png" style="width: 100%;" />
+</a>
+</figure>
+<p align="center">
+  <img src="immagini_sorgente/svd_dimensioni.png" width="700">
+</p><p><strong>SVD compatta</strong></p>
+<p>Se <span class="math notranslate nohighlight">\(r=\operatorname{rank}(A)\)</span>, allora esattamente <span class="math notranslate nohighlight">\(r\)</span> valori singolari sono positivi:</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma_1\geq\cdots\geq\sigma_r&gt;0, \qquad
+\sigma_{r+1}=\cdots=\sigma_p=0.
+\]</div>
+<p>Eliminando le colonne associate ai valori singolari nulli si ottiene la <strong>SVD compatta</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+A=U_r\Sigma_rV_r^T,
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(U_r\in\mathbb{R}^{m\times r}\)</span>, <span class="math notranslate nohighlight">\(\Sigma_r\in\mathbb{R}^{r\times r}\)</span> e <span class="math notranslate nohighlight">\(V_r\in\mathbb{R}^{n\times r}\)</span>. Questa forma contiene tutta l’informazione necessaria a ricostruire <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<p>Per ogni valore singolare positivo valgono le relazioni fondamentali</p>
+<div class="math notranslate nohighlight">
+\[
+Av_i=\sigma_i u_i, \qquad
+A^Tu_i=\sigma_i v_i.
+\]</div>
+<p>Quindi <span class="math notranslate nohighlight">\(A\)</span> trasforma il vettore unitario <span class="math notranslate nohighlight">\(v_i\)</span> nel vettore <span class="math notranslate nohighlight">\(u_i\)</span>, moltiplicandone la lunghezza per <span class="math notranslate nohighlight">\(\sigma_i\)</span>. Le direzioni <span class="math notranslate nohighlight">\(v_i\)</span> sono le direzioni principali nel dominio; le direzioni <span class="math notranslate nohighlight">\(u_i\)</span> sono le corrispondenti direzioni nel codominio.</p>
+</section>
+<section id="relazione-con-autovalori-e-autovettori">
+<h2>2.3 Relazione con autovalori e autovettori<a class="headerlink" href="#relazione-con-autovalori-e-autovettori" title="Link to this heading">#</a></h2>
+<p>Dalla SVD segue</p>
+<div class="math notranslate nohighlight">
+\[
+A^TA=V\Sigma^T\Sigma V^T, \qquad
+AA^T=U\Sigma\Sigma^T U^T.
+\]</div>
+<p>Pertanto:</p>
+<div class="math notranslate nohighlight">
+\[
+A^TAv_i=\sigma_i^2v_i, \qquad
+AA^Tu_i=\sigma_i^2u_i.
+\]</div>
+<p>I valori singolari sono quindi le radici quadrate degli autovalori non negativi di <span class="math notranslate nohighlight">\(A^TA\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma_i=\sqrt{\lambda_i(A^TA)}.
+\]</div>
+<blockquote>
+<div><p>Questa relazione è utile teoricamente, ma in generale non conviene calcolare numericamente la SVD formando esplicitamente <span class="math notranslate nohighlight">\(A^TA\)</span>: il condizionamento viene elevato al quadrato e si può perdere accuratezza.</p>
+</div></blockquote>
+<figure class="align-center">
+<a class="reference internal image-reference" href="book/immagini_sorgente/svd_ata.png"><img alt="book/immagini_sorgente/svd_ata.png" src="book/immagini_sorgente/svd_ata.png" style="width: 100%;" />
+</a>
+</figure>
+<p align="center">
+  <img src="immagini_sorgente/svd_ata.png" width="700">
+</p><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Esempio di SVD di una matrice rettangolare 3 x 2</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]])</span>
+
+<span class="c1"># full_matrices=False restituisce la SVD ridotta</span>
+<span class="n">U</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">VT</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">Sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="n">A_ricostruita</span> <span class="o">=</span> <span class="n">U</span> <span class="o">@</span> <span class="n">Sigma</span> <span class="o">@</span> <span class="n">VT</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;U =</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Valori singolari =&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;V^T =</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">VT</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Errore di ricostruzione =&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="n">A_ricostruita</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;U^T U =</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">U</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;V^T V =</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">VT</span> <span class="o">@</span> <span class="n">VT</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>U =
+ [[-0.6667  0.7071]
+ [-0.6667 -0.7071]
+ [-0.3333  0.    ]]
+Valori singolari = [4.2426 2.    ]
+V^T =
+ [[-0.7071 -0.7071]
+ [ 0.7071 -0.7071]]
+Errore di ricostruzione = 1.2161883888976235e-15
+U^T U =
+ [[1. 0.]
+ [0. 1.]]
+V^T V =
+ [[ 1. -0.]
+ [-0.  1.]]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="rango-immagine-e-nucleo">
+<h2>2.4 Rango, immagine e nucleo<a class="headerlink" href="#rango-immagine-e-nucleo" title="Link to this heading">#</a></h2>
+<p>Se <span class="math notranslate nohighlight">\(A\)</span> ha rango <span class="math notranslate nohighlight">\(r\)</span>, la SVD rende immediatamente visibili i suoi sottospazi fondamentali:</p>
+<div class="math notranslate nohighlight">
+\[
+\operatorname{Im}(A)=\operatorname{span}\{u_1,\ldots,u_r\},
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\operatorname{Im}(A^T)=\operatorname{span}\{v_1,\ldots,v_r\},
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\ker(A)=\operatorname{span}\{v_{r+1},\ldots,v_n\}.
+\]</div>
+<p>In aritmetica floating point non si verifica quasi mai se <span class="math notranslate nohighlight">\(\sigma_i\)</span> è esattamente zero: si confronta con una tolleranza dipendente da <span class="math notranslate nohighlight">\(\sigma_1\)</span>, dalle dimensioni della matrice e dalla precisione di macchina.</p>
+</section>
+<section id="una-applicazione-decomposizione-diadica">
+<h2>2.5 Una applicazione:  decomposizione diadica<a class="headerlink" href="#una-applicazione-decomposizione-diadica" title="Link to this heading">#</a></h2>
+<p>La SVD compatta può essere scritta come somma di matrici di rango uno:</p>
+<div class="math notranslate nohighlight">
+\[
+\boxed{A=\sum_{i=1}^{r}\sigma_i u_i v_i^T}.
+\]</div>
+<p>Ogni termine <span class="math notranslate nohighlight">\(\sigma_i u_i v_i^T\)</span> descrive una componente indipendente della matrice. Le componenti sono ordinate dalla più importante alla meno importante in base alla grandezza dei valori singolari.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ricostruzione come somma di diadi</span>
+<span class="n">A_somma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)):</span>
+    <span class="n">diade</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">U</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="n">VT</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span>
+    <span class="n">A_somma</span> <span class="o">+=</span> <span class="n">diade</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dopo </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1"> termine/i: errore di Frobenius = &#39;</span>
+          <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="n">A_somma</span><span class="p">,</span><span class="w"> </span><span class="nb">ord</span><span class="o">=</span><span class="s2">&quot;fro&quot;</span><span class="p">)</span><span class="si">:</span><span class="s1">.6f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dopo 1 termine/i: errore di Frobenius = 2.000000
+Dopo 2 termine/i: errore di Frobenius = 0.000000
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>SVD troncata e approssimazione a rango basso</strong></p>
+<p>Se conserviamo soltanto i primi <span class="math notranslate nohighlight">\(k&lt;r\)</span> termini otteniamo</p>
+<div class="math notranslate nohighlight">
+\[
+A_k=\sum_{i=1}^{k}\sigma_i u_i v_i^T.
+\]</div>
+<p>Il teorema di Eckart-Young-Mirsky afferma che <span class="math notranslate nohighlight">\(A_k\)</span> è la migliore approssimazione di rango al più <span class="math notranslate nohighlight">\(k\)</span> sia in norma 2 sia in norma di Frobenius:</p>
+<div class="math notranslate nohighlight">
+\[
+\|A-A_k\|_2=\sigma_{k+1},
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\|A-A_k\|_F=\sqrt{\sum_{i=k+1}^{r}\sigma_i^2}.
+\]</div>
+<p>Questa proprietà è alla base di compressione, riduzione dimensionale e filtraggio del rumore.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verifica numerica del teorema di Eckart-Young-Mirsky</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">4.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]])</span>
+<span class="n">Ub</span><span class="p">,</span> <span class="n">sb</span><span class="p">,</span> <span class="n">VTb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Valori singolari:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">sb</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">sb</span><span class="p">)):</span>
+    <span class="n">Bk</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ub</span><span class="p">[:,</span> <span class="p">:</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">sb</span><span class="p">[:</span><span class="n">k</span><span class="p">])</span> <span class="o">@</span> <span class="n">VTb</span><span class="p">[:</span><span class="n">k</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">err2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">B</span><span class="o">-</span><span class="n">Bk</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">errF</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">B</span><span class="o">-</span><span class="n">Bk</span><span class="p">,</span> <span class="s1">&#39;fro&#39;</span><span class="p">)</span>
+    <span class="n">teoricoF</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">sb</span><span class="p">[</span><span class="n">k</span><span class="p">:]</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;k=</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">: errore 2 = </span><span class="si">{</span><span class="n">err2</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"> (sigma_</span><span class="si">{</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">=</span><span class="si">{</span><span class="n">sb</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">), &#39;</span>
+          <span class="sa">f</span><span class="s1">&#39;errore F = </span><span class="si">{</span><span class="n">errF</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"> (teorico=</span><span class="si">{</span><span class="n">teoricoF</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Valori singolari: [5.0322 2.7962 2.2038 0.0322]
+k=1: errore 2 = 2.7962 (sigma_2=2.7962), errore F = 3.5604 (teorico=3.5604)
+k=2: errore 2 = 2.2038 (sigma_3=2.2038), errore F = 2.2041 (teorico=2.2041)
+k=3: errore 2 = 0.0322 (sigma_4=0.0322), errore F = 0.0322 (teorico=0.0322)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="pseudoinversa-mediante-svd">
+<h2>2.6 Pseudoinversa mediante SVD<a class="headerlink" href="#pseudoinversa-mediante-svd" title="Link to this heading">#</a></h2>
+<p>Dalla SVD compatta <span class="math notranslate nohighlight">\(A=U_r\Sigma_rV_r^T\)</span> si definisce la pseudoinversa di Moore-Penrose:</p>
+<div class="math notranslate nohighlight">
+\[
+A^+=V_r\Sigma_r^{-1}U_r^T,
+\]</div>
+<p>dove</p>
+<div class="math notranslate nohighlight">
+\[
+\Sigma_r^{-1}=\operatorname{diag}
+\left(\frac1{\sigma_1},\ldots,\frac1{\sigma_r}\right).
+\]</div>
+<p>Se <span class="math notranslate nohighlight">\(A\)</span> è quadrata e invertibile, allora <span class="math notranslate nohighlight">\(A^+=A^{-1}\)</span>. Per matrici di rango non massimo, i valori singolari nulli non vengono invertiti. In pratica si usa una tolleranza per decidere quali valori singolari trattare come nulli.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pseudoinversa di una matrice di rango non massimo</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">]])</span>
+<span class="n">Ud</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">VTd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">tol</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span> <span class="o">*</span> <span class="n">sd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sd_inv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="o">/</span><span class="n">sigma</span> <span class="k">if</span> <span class="n">sigma</span> <span class="o">&gt;</span> <span class="n">tol</span> <span class="k">else</span> <span class="mf">0.0</span> <span class="k">for</span> <span class="n">sigma</span> <span class="ow">in</span> <span class="n">sd</span><span class="p">])</span>
+<span class="n">D_piu</span> <span class="o">=</span> <span class="n">VTd</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">sd_inv</span><span class="p">)</span> <span class="o">@</span> <span class="n">Ud</span><span class="o">.</span><span class="n">T</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Valori singolari:&#39;</span><span class="p">,</span> <span class="n">sd</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Rango numerico:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">sd</span> <span class="o">&gt;</span> <span class="n">tol</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;||D D+ D - D||_F =&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">D</span> <span class="o">@</span> <span class="n">D_piu</span> <span class="o">@</span> <span class="n">D</span><span class="o">-</span><span class="n">D</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Confronto con np.linalg.pinv:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">D_piu</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">pinv</span><span class="p">(</span><span class="n">D</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Valori singolari: [8.36660027e+00 4.32998615e-16]
+Rango numerico: 1
+||D D+ D - D||_F = 1.137640067256873e-15
+Confronto con np.linalg.pinv: 1.0408340855860843e-17
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="aspetti-numerici">
+<h2>2.7 Aspetti numerici<a class="headerlink" href="#aspetti-numerici" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Per una matrice densa <span class="math notranslate nohighlight">\(m\times n\)</span>, il costo della SVD completa è dell’ordine di <span class="math notranslate nohighlight">\(mn\min(m,n)\)</span>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.linalg.svd(A,</span> <span class="pre">full_matrices=False)</span></code> calcola la forma ridotta ed evita di memorizzare colonne non necessarie.</p></li>
+<li><p>Per matrici molto grandi e sparse si calcolano spesso soltanto i primi valori e vettori singolari con metodi iterativi.</p></li>
+<li><p>Il rango numerico dipende dalla tolleranza: valori singolari molto piccoli possono essere indistinguibili da zero in precisione finita.</p></li>
+<li><p>Formare esplicitamente <span class="math notranslate nohighlight">\(A^TA\)</span> può peggiorare l’accuratezza numerica; gli algoritmi standard lavorano direttamente su <span class="math notranslate nohighlight">\(A\)</span>, tipicamente tramite bidiagonalizzazione.</p></li>
+</ul>
+</section>
+<section id="approximazione-mediante-diadi">
+<h2>2.8 Approximazione mediante diadi<a class="headerlink" href="#approximazione-mediante-diadi" title="Link to this heading">#</a></h2>
+<p>La decomposizione diadica ordina le componenti di <span class="math notranslate nohighlight">\(A\)</span> in base alla loro importanza:</p>
+<div class="math notranslate nohighlight">
+\[
+A=\underbrace{\sigma_1u_1v_1^T}_{D_1}+
+  \underbrace{\sigma_2u_2v_2^T}_{D_2}+\cdots+
+  \underbrace{\sigma_ru_rv_r^T}_{D_r}.
+\]</div>
+<p>Ogni diade <span class="math notranslate nohighlight">\(D_i=\sigma_i u_iv_i^T\)</span> ha rango uno. Le somme parziali</p>
+<div class="math notranslate nohighlight">
+\[
+A_k=D_1+\cdots+D_k=\sum_{i=1}^{k}\sigma_i u_i v_i^T
+\]</div>
+<p>hanno rango al più <span class="math notranslate nohighlight">\(k\)</span> e forniscono approssimazioni via via più accurate di <span class="math notranslate nohighlight">\(A\)</span>. Il residuo dopo <span class="math notranslate nohighlight">\(k\)</span> termini è</p>
+<div class="math notranslate nohighlight">
+\[
+R_k=A-A_k=\sum_{i=k+1}^{r}\sigma_i u_i v_i^T.
+\]</div>
+<p>Poiché <span class="math notranslate nohighlight">\(\sigma_1\geq\sigma_2\geq\cdots\)</span>, si conservano per prime le direzioni che producono la maggiore variazione.</p>
+<p>Per rendere visibile l’effetto della SVD usiamo una vera immagine in <strong>scala di grigi</strong>, ottenuta dalla fotografia di un fiore inclusa tra i dati di esempio di scikit-learn. In questo modo l’immagine è rappresentata direttamente da una sola matrice.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="book/immagini_sorgente/flower_gray.png"><img alt="book/immagini_sorgente/flower_gray.png" src="book/immagini_sorgente/flower_gray.png" style="width: 100%;" />
+</a>
+</figure>
+<p align="center">
+  <img src="immagini_sorgente/flower_gray.png" width="700">
+</p><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Immagine in scala di grigi: ogni pixel è un elemento della matrice</span>
+<span class="n">immagine</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;immagini_sorgente/flower_gray.png&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">immagine</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">immagine</span> <span class="o">=</span> <span class="n">immagine</span> <span class="o">/</span> <span class="mf">255.0</span>
+
+<span class="c1"># Sottocampionamento per rendere l&#39;esempio rapido anche su un portatile</span>
+<span class="n">immagine</span> <span class="o">=</span> <span class="n">immagine</span><span class="p">[::</span><span class="mi">2</span><span class="p">,</span> <span class="p">::</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">U_img</span><span class="p">,</span> <span class="n">s_img</span><span class="p">,</span> <span class="n">VT_img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">immagine</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">approssimazione_svd</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">U_img</span><span class="p">[:,</span> <span class="p">:</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">s_img</span><span class="p">[:</span><span class="n">k</span><span class="p">])</span> <span class="o">@</span> <span class="n">VT_img</span><span class="p">[:</span><span class="n">k</span><span class="p">,</span> <span class="p">:]</span>
+
+<span class="n">diadi_img</span> <span class="o">=</span> <span class="p">[</span><span class="n">s_img</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">U_img</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="n">VT_img</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span>
+              <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+<span class="n">ranghi</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">]</span>
+<span class="n">approssimazioni_img</span> <span class="o">=</span> <span class="p">[</span><span class="n">approssimazione_svd</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ranghi</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">immagine</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Originale: </span><span class="si">{</span><span class="n">immagine</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1"> x </span><span class="si">{</span><span class="n">immagine</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">diadi_img</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">fr</span><span class="s1">&#39;Diade $D_</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">$&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">Ak</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">approssimazioni_img</span><span class="p">,</span> <span class="n">ranghi</span><span class="p">):</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">Ak</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">fr</span><span class="s1">&#39;Approssimazione $A_</span><span class="se">{{</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="se">}}</span><span class="s1">$&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">ravel</span><span class="p">():</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Diadi e approssimazioni SVD a rango crescente&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">10</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># Immagine in scala di grigi: ogni pixel è un elemento della matrice</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">immagine</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;immagini_sorgente/flower_gray.png&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="k">if</span> <span class="n">immagine</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">immagine</span> <span class="o">=</span> <span class="n">immagine</span> <span class="o">/</span> <span class="mf">255.0</span>
+
+<span class="nn">File /opt/anaconda3/envs/libro/lib/python3.13/site-packages/matplotlib/pyplot.py:2614,</span> in <span class="ni">imread</span><span class="nt">(fname, format)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2610</span> <span class="nd">@_copy_docstring_and_deprecators</span><span class="p">(</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">imread</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2611</span> <span class="k">def</span><span class="w"> </span><span class="nf">imread</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">2612</span>         <span class="n">fname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span> <span class="o">|</span> <span class="n">BinaryIO</span><span class="p">,</span> <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="g g-Whitespace">   </span><span class="mi">2613</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">2614</span>     <span class="k">return</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="nb">format</span><span class="p">)</span>
+
+<span class="nn">File /opt/anaconda3/envs/libro/lib/python3.13/site-packages/matplotlib/image.py:1520,</span> in <span class="ni">imread</span><span class="nt">(fname, format)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1513</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">parse</span><span class="o">.</span><span class="n">urlparse</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span><span class="o">.</span><span class="n">scheme</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1514</span>     <span class="c1"># Pillow doesn&#39;t handle URLs directly.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1515</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1516</span>         <span class="s2">&quot;Please open the URL for reading and pass the &quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1517</span>         <span class="s2">&quot;result to Pillow, e.g. with &quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1518</span>         <span class="s2">&quot;``np.array(PIL.Image.open(urllib.request.urlopen(url)))``.&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1519</span>         <span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1520</span> <span class="k">with</span> <span class="n">img_open</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="k">as</span> <span class="n">image</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1521</span>     <span class="k">return</span> <span class="p">(</span><span class="n">_pil_png_to_float_array</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1522</span>             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">PIL</span><span class="o">.</span><span class="n">PngImagePlugin</span><span class="o">.</span><span class="n">PngImageFile</span><span class="p">)</span> <span class="k">else</span>
+<span class="g g-Whitespace">   </span><span class="mi">1523</span>             <span class="n">pil_to_array</span><span class="p">(</span><span class="n">image</span><span class="p">))</span>
+
+<span class="nn">File /opt/anaconda3/envs/libro/lib/python3.13/site-packages/PIL/ImageFile.py:138,</span> in <span class="ni">ImageFile.__init__</span><span class="nt">(self, fp, filename)</span>
+<span class="g g-Whitespace">    </span><span class="mi">135</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fp</span><span class="p">:</span> <span class="n">IO</span><span class="p">[</span><span class="nb">bytes</span><span class="p">]</span> <span class="o">|</span> <span class="n">DeferredError</span>
+<span class="g g-Whitespace">    </span><span class="mi">136</span> <span class="k">if</span> <span class="n">is_path</span><span class="p">(</span><span class="n">fp</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">137</span>     <span class="c1"># filename</span>
+<span class="ne">--&gt; </span><span class="mi">138</span>     <span class="bp">self</span><span class="o">.</span><span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">139</span>     <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">fspath</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">140</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_exclusive_fp</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;immagini_sorgente/flower_gray.png&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>L’approssimazione <span class="math notranslate nohighlight">\(A_k\)</span> non è soltanto una possibile matrice di rango <span class="math notranslate nohighlight">\(k\)</span>: è la <strong>migliore</strong> tra tutte le matrici di rango al più <span class="math notranslate nohighlight">\(k\)</span>. Gli errori sono</p>
+<div class="math notranslate nohighlight">
+\[
+\|A-A_k\|_2=\sigma_{k+1}, \qquad
+\|A-A_k\|_F=\sqrt{\sigma_{k+1}^2+\cdots+\sigma_r^2}.
+\]</div>
+<p>La frazione di energia conservata dai primi <span class="math notranslate nohighlight">\(k\)</span> termini è</p>
+<div class="math notranslate nohighlight">
+\[
+E_k=\frac{\sigma_1^2+\cdots+\sigma_k^2}
+{\sigma_1^2+\cdots+\sigma_r^2}.
+\]</div>
+<p>Se i valori singolari decrescono rapidamente, pochi termini descrivono bene la matrice. Se decadono lentamente, è necessario conservare molte diadi.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">energia</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">s_img</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">s_img</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">immagine</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">ranghi_tabella</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39; k   errore relativo F   energia conservata   dati rispetto all originale&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ranghi_tabella</span><span class="p">:</span>
+    <span class="n">Ak</span> <span class="o">=</span> <span class="n">approssimazione_svd</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">errore_rel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">immagine</span><span class="o">-</span><span class="n">Ak</span><span class="p">,</span> <span class="s1">&#39;fro&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">immagine</span><span class="p">,</span> <span class="s1">&#39;fro&#39;</span><span class="p">)</span>
+    <span class="n">frazione_dati</span> <span class="o">=</span> <span class="n">k</span> <span class="o">*</span> <span class="p">(</span><span class="n">m</span><span class="o">+</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">m</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s1">3d</span><span class="si">}</span><span class="s1">       </span><span class="si">{</span><span class="n">errore_rel</span><span class="si">:</span><span class="s1">8.4f</span><span class="si">}</span><span class="s1">             &#39;</span>
+          <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">energia</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">8.4f</span><span class="si">}</span><span class="s1">                 </span><span class="si">{</span><span class="n">frazione_dati</span><span class="si">:</span><span class="s1">8.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">))</span>
+<span class="n">indici</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mi">120</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">s_img</span><span class="p">))</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">indici</span><span class="p">,</span> <span class="n">s_img</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">indici</span><span class="p">)],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;tab:blue&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Decadimento dei valori singolari&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;$i$&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$\sigma_i$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">indici</span><span class="p">,</span> <span class="n">energia</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">indici</span><span class="p">)],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;tab:green&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Energia cumulativa&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;$k$&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;$E_k$&#39;</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">:</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> k   errore relativo F   energia conservata   dati rispetto all originale
+  1         0.3938               0.8449                   0.0078
+  5         0.2185               0.9523                   0.0391
+ 10         0.1689               0.9715                   0.0781
+ 20         0.1242               0.9846                   0.1562
+ 50         0.0613               0.9962                   0.3906
+100         0.0184               0.9997                   0.7812
+</pre></div>
+</div>
+<img alt="../_images/12959b0b45eb77392256a37172c2a50dbb4cb737a7b54976da222744960474a8.png" src="../_images/12959b0b45eb77392256a37172c2a50dbb4cb737a7b54976da222744960474a8.png" />
+</div>
+</div>
+</section>
+<section id="interpretazione-come-compressione">
+<h2>2.9 Interpretazione come compressione<a class="headerlink" href="#interpretazione-come-compressione" title="Link to this heading">#</a></h2>
+<p>Una matrice <span class="math notranslate nohighlight">\(A\in\mathbb{R}^{m\times n}\)</span> richiede <span class="math notranslate nohighlight">\(mn\)</span> numeri. Per memorizzare la sua approssimazione <span class="math notranslate nohighlight">\(A_k=U_k\Sigma_kV_k^T\)</span> sono sufficienti</p>
+<div class="math notranslate nohighlight">
+\[
+mk+k+nk=k(m+n+1)
+\]</div>
+<p>numeri. Si ottiene una vera compressione quando</p>
+<div class="math notranslate nohighlight">
+\[
+k(m+n+1)&lt;mn.
+\]</div>
+<p>La scelta di <span class="math notranslate nohighlight">\(k\)</span> realizza quindi un compromesso: valori piccoli producono maggiore compressione, mentre valori grandi riducono l’errore di approssimazione.</p>
+</section>
+<section id="una-applicazione-pca-mediante-svd">
+<h2>5.11 Una applicazione:  PCA mediante SVD<a class="headerlink" href="#una-applicazione-pca-mediante-svd" title="Link to this heading">#</a></h2>
+<p>La <strong>Principal Component Analysis</strong> (PCA) cerca nuove direzioni ortogonali lungo le quali i dati presentano la massima variabilità. Può essere calcolata direttamente mediante la SVD della matrice dei dati centrati.</p>
+<p>Sia <span class="math notranslate nohighlight">\(X\in\mathbb{R}^{N\times p}\)</span> una matrice in cui le righe rappresentano gli oggetti osservati e le colonne le variabili. Prima di applicare la PCA si sottrae da ogni colonna la propria media:</p>
+<div class="math notranslate nohighlight">
+\[
+X_c=X-\mathbf{1}\mu^T.
+\]</div>
+<p>La centratura è essenziale: la PCA deve descrivere le variazioni rispetto al centro dei dati, non la loro posizione rispetto all’origine.</p>
+<p>Calcoliamo la SVD della matrice centrata:</p>
+<div class="math notranslate nohighlight">
+\[
+X_c=U\Sigma V^T.
+\]</div>
+<p>La matrice di covarianza è</p>
+<div class="math notranslate nohighlight">
+\[
+C=\frac{1}{N-1}X_c^TX_c
+ =V\frac{\Sigma^2}{N-1}V^T.
+\]</div>
+<p>Di conseguenza:</p>
+<ul class="simple">
+<li><p>le colonne di <span class="math notranslate nohighlight">\(V\)</span> sono le <strong>direzioni principali</strong>;</p></li>
+<li><p>le varianze lungo tali direzioni sono <span class="math notranslate nohighlight">\(\lambda_i=\sigma_i^2/(N-1)\)</span>;</p></li>
+<li><p>le coordinate dei dati nel nuovo sistema, dette <strong>score</strong>, sono</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+Z=X_cV=U\Sigma.
+\]</div>
+</section>
+<section id="esempio-il-dataset-iris">
+<h2>5.12 Esempio: il dataset Iris<a class="headerlink" href="#esempio-il-dataset-iris" title="Link to this heading">#</a></h2>
+<p>Il dataset contiene 150 fiori appartenenti a tre specie. Ogni fiore è descritto da quattro variabili: lunghezza e larghezza del sepalo, lunghezza e larghezza del petalo.</p>
+<p>Calcoliamo la PCA usando soltanto <code class="docutils literal notranslate"><span class="pre">numpy.linalg.svd</span></code>. Le specie non vengono usate nel calcolo: serviranno unicamente per colorare il grafico finale.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_iris</span>
+
+<span class="n">iris</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span>
+<span class="n">nomi_variabili</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">feature_names</span>
+
+<span class="n">media</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">Xc</span> <span class="o">=</span> <span class="n">X</span><span class="o">-</span><span class="n">media</span>
+<span class="n">U_pca</span><span class="p">,</span> <span class="n">s_pca</span><span class="p">,</span> <span class="n">VT_pca</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">Xc</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">varianza</span> <span class="o">=</span> <span class="n">s_pca</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">varianza_spiegata</span> <span class="o">=</span> <span class="n">varianza</span> <span class="o">/</span> <span class="n">varianza</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">score</span> <span class="o">=</span> <span class="n">Xc</span> <span class="o">@</span> <span class="n">VT_pca</span><span class="o">.</span><span class="n">T</span>       <span class="c1"># equivalente a U_pca * s_pca</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Dimensione di X:&#39;</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Media delle variabili:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">media</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Valori singolari:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">s_pca</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Varianza spiegata:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">varianza_spiegata</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Varianza spiegata dalle prime due componenti:&#39;</span><span class="p">,</span>
+      <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">varianza_spiegata</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dimensione di X: (150, 4)
+Media delle variabili: [5.843 3.057 3.758 1.199]
+Valori singolari: [25.1    6.013  3.414  1.885]
+Varianza spiegata: [0.9246 0.0531 0.0171 0.0052]
+Varianza spiegata dalle prime due componenti: 97.77%
+</pre></div>
+</div>
+</div>
+</div>
+<p>Per ridurre i dati da quattro a due dimensioni conserviamo soltanto le prime due colonne di <span class="math notranslate nohighlight">\(V\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+Z_2=X_cV_2\in\mathbb{R}^{N\times2}.
+\]</div>
+<p>Ogni riga di <span class="math notranslate nohighlight">\(Z_2\)</span> contiene le coordinate di un fiore rispetto alle prime due componenti principali.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">classe</span><span class="p">,</span> <span class="n">nome</span><span class="p">,</span> <span class="n">colore</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">iris</span><span class="o">.</span><span class="n">target_names</span><span class="p">,</span>
+                                 <span class="p">[</span><span class="s1">&#39;tab:blue&#39;</span><span class="p">,</span> <span class="s1">&#39;tab:orange&#39;</span><span class="p">,</span> <span class="s1">&#39;tab:green&#39;</span><span class="p">]):</span>
+    <span class="n">selezione</span> <span class="o">=</span> <span class="n">y</span> <span class="o">==</span> <span class="n">classe</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">score</span><span class="p">[</span><span class="n">selezione</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">score</span><span class="p">[</span><span class="n">selezione</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                  <span class="n">label</span><span class="o">=</span><span class="n">nome</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colore</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;PC1 (</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">varianza_spiegata</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">% della varianza)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;PC2 (</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">varianza_spiegata</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">% della varianza)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Iris proiettato sulle prime due componenti&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+
+<span class="n">componenti</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">varianza_spiegata</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">componenti</span><span class="p">,</span> <span class="n">varianza_spiegata</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;tab:blue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
+          <span class="n">label</span><span class="o">=</span><span class="s1">&#39;singola componente&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">componenti</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">varianza_spiegata</span><span class="p">),</span> <span class="s1">&#39;o-&#39;</span><span class="p">,</span>
+           <span class="n">color</span><span class="o">=</span><span class="s1">&#39;tab:red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;cumulativa&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">componenti</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Componente principale&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Frazione di varianza&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Varianza spiegata&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/648d44e3cfcedc40e6a014c746fe5ca97058935a375eddf14c43ae2fb37fbf81.png" src="../_images/648d44e3cfcedc40e6a014c746fe5ca97058935a375eddf14c43ae2fb37fbf81.png" />
+</div>
+</div>
+<p><em>Interpretazione delle componenti</em></p>
+<p>Gli elementi di <span class="math notranslate nohighlight">\(v_i\)</span> sono detti <strong>loadings</strong> e misurano il contributo delle variabili originali alla componente principale <span class="math notranslate nohighlight">\(i\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+z_i=X_cv_i.
+\]</div>
+<p>Il segno di una componente principale è arbitrario: sostituire contemporaneamente <span class="math notranslate nohighlight">\(v_i\)</span> con <span class="math notranslate nohighlight">\(-v_i\)</span> e <span class="math notranslate nohighlight">\(u_i\)</span> con <span class="math notranslate nohighlight">\(-u_i\)</span> non cambia la fattorizzazione né l’informazione rappresentata.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">larghezza</span> <span class="o">=</span> <span class="mf">0.35</span>
+<span class="n">posizioni</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nomi_variabili</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">posizioni</span><span class="o">-</span><span class="n">larghezza</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">VT_pca</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">larghezza</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;PC1&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">posizioni</span><span class="o">+</span><span class="n">larghezza</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">VT_pca</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">larghezza</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;PC2&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">posizioni</span><span class="p">,</span> <span class="n">nomi_variabili</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Loading&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Contributo delle variabili alle prime due componenti&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/16448e7ef63ca9797ef6a58d0bc64a9cf9e1373d2be4ac11f126153d2c16538f.png" src="../_images/16448e7ef63ca9797ef6a58d0bc64a9cf9e1373d2be4ac11f126153d2c16538f.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="ricostruzione-con-un-numero-ridotto-di-componenti">
+<h1>Ricostruzione con un numero ridotto di componenti<a class="headerlink" href="#ricostruzione-con-un-numero-ridotto-di-componenti" title="Link to this heading">#</a></h1>
+<p>Dopo aver conservato <span class="math notranslate nohighlight">\(k\)</span> componenti, i dati centrati si ricostruiscono mediante</p>
+<div class="math notranslate nohighlight">
+\[
+X_{c,k}=Z_kV_k^T=U_k\Sigma_kV_k^T.
+\]</div>
+<p>Per tornare alle variabili originali bisogna aggiungere nuovamente la media:</p>
+<div class="math notranslate nohighlight">
+\[
+\widehat X_k=X_{c,k}+\mathbf{1}\mu^T.
+\]</div>
+<p>La PCA è quindi un’applicazione diretta della SVD troncata alla matrice dei dati centrati.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39; k   varianza conservata   errore relativo di ricostruzione&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">Zk</span> <span class="o">=</span> <span class="n">score</span><span class="p">[:,</span> <span class="p">:</span><span class="n">k</span><span class="p">]</span>
+    <span class="n">X_ricostruita</span> <span class="o">=</span> <span class="n">Zk</span> <span class="o">@</span> <span class="n">VT_pca</span><span class="p">[:</span><span class="n">k</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">media</span>
+    <span class="n">errore</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">X</span><span class="o">-</span><span class="n">X_ricostruita</span><span class="p">,</span> <span class="s1">&#39;fro&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">Xc</span><span class="p">,</span> <span class="s1">&#39;fro&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s1">2d</span><span class="si">}</span><span class="s1">          </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">varianza_spiegata</span><span class="p">[:</span><span class="n">k</span><span class="p">])</span><span class="si">:</span><span class="s1">8.4f</span><span class="si">}</span><span class="s1">&#39;</span>
+          <span class="sa">f</span><span class="s1">&#39;                    </span><span class="si">{</span><span class="n">errore</span><span class="si">:</span><span class="s1">8.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> k   varianza conservata   errore relativo di ricostruzione
+ 1            0.9246                      0.2746
+ 2            0.9777                      0.1494
+ 3            0.9948                      0.0722
+ 4            1.0000                      0.0000
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 
     <script type="text/x-thebe-config">
@@ -420,6 +1251,40 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Fattorizzazioni che diagonalizzano: autovalori e valori singolari</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fattorizzazione-agli-autovalori-teoria-e-numpy">1.   Fattorizzazione agli autovalori: teoria e NumPy</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#decomposizione-ai-valori-singolari-svd">2. Decomposizione ai valori singolari (SVD)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#richiamo-ortogonalita">2.1 Richiamo: ortogonalità</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#teorema-di-esistenza-della-svd">2.2 Teorema di esistenza della SVD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relazione-con-autovalori-e-autovettori">2.3 Relazione con autovalori e autovettori</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rango-immagine-e-nucleo">2.4 Rango, immagine e nucleo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#una-applicazione-decomposizione-diadica">2.5 Una applicazione:  decomposizione diadica</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pseudoinversa-mediante-svd">2.6 Pseudoinversa mediante SVD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aspetti-numerici">2.7 Aspetti numerici</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#approximazione-mediante-diadi">2.8 Approximazione mediante diadi</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-come-compressione">2.9 Interpretazione come compressione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#una-applicazione-pca-mediante-svd">5.11 Una applicazione:  PCA mediante SVD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-il-dataset-iris">5.12 Esempio: il dataset Iris</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ricostruzione-con-un-numero-ridotto-di-componenti">Ricostruzione con un numero ridotto di componenti</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
               
             
           </div>

@@ -1,0 +1,112 @@
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/libro/lib/python3.13/site-packages/jupyter_core/utils/__init__.py", line 154, in wrapped
+    asyncio.get_running_loop()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/libro/lib/python3.13/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+    ~~~~~~~~~^
+        nb,
+        ^^^
+    ...<4 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/envs/libro/lib/python3.13/site-packages/nbclient/client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/opt/anaconda3/envs/libro/lib/python3.13/site-packages/jupyter_core/utils/__init__.py", line 158, in wrapped
+    return loop.run_until_complete(inner)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/opt/anaconda3/envs/libro/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/opt/anaconda3/envs/libro/lib/python3.13/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+        cell, index, execution_count=self.code_cells_executed + 1
+    )
+  File "/opt/anaconda3/envs/libro/lib/python3.13/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/anaconda3/envs/libro/lib/python3.13/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# Immagine in scala di grigi: ogni pixel è un elemento della matrice
+immagine = plt.imread('immagini_sorgente/flower_gray.png')
+if immagine.max() > 1:
+    immagine = immagine / 255.0
+
+# Sottocampionamento per rendere l'esempio rapido anche su un portatile
+immagine = immagine[::2, ::2]
+U_img, s_img, VT_img = np.linalg.svd(immagine, full_matrices=False)
+
+def approssimazione_svd(k):
+    return (U_img[:, :k] * s_img[:k]) @ VT_img[:k, :]
+
+diadi_img = [s_img[i] * np.outer(U_img[:, i], VT_img[i, :])
+              for i in range(3)]
+ranghi = [1, 5, 20, 50]
+approssimazioni_img = [approssimazione_svd(k) for k in ranghi]
+
+fig, ax = plt.subplots(2, 4, figsize=(13, 8))
+ax[0, 0].imshow(immagine, cmap='gray', vmin=0, vmax=1)
+ax[0, 0].set_title(f'Originale: {immagine.shape[0]} x {immagine.shape[1]}')
+for i in range(3):
+    ax[0, i+1].imshow(diadi_img[i], cmap='gray')
+    ax[0, i+1].set_title(fr'Diade $D_{i+1}$')
+
+for a, Ak, k in zip(ax[1], approssimazioni_img, ranghi):
+    a.imshow(np.clip(Ak, 0, 1), cmap='gray', vmin=0, vmax=1)
+    a.set_title(fr'Approssimazione $A_{{{k}}}$')
+
+for a in ax.ravel():
+    a.axis('off')
+plt.suptitle('Diadi e approssimazioni SVD a rango crescente', fontsize=15)
+plt.tight_layout()
+plt.show()
+------------------
+
+
+[31m---------------------------------------------------------------------------[39m
+[31mFileNotFoundError[39m                         Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[10][39m[32m, line 2[39m
+[32m      1[39m [38;5;66;03m# Immagine in scala di grigi: ogni pixel è un elemento della matrice[39;00m
+[32m----> [39m[32m2[39m immagine = plt.imread([33m'[39m[33mimmagini_sorgente/flower_gray.png[39m[33m'[39m)
+[32m      3[39m [38;5;28;01mif[39;00m immagine.max() > [32m1[39m:
+[32m      4[39m     immagine = immagine / [32m255.0[39m
+
+[36mFile [39m[32m/opt/anaconda3/envs/libro/lib/python3.13/site-packages/matplotlib/pyplot.py:2614[39m, in [36mimread[39m[34m(fname, format)[39m
+[32m   2610[39m [38;5;129m@_copy_docstring_and_deprecators[39m(matplotlib.image.imread)
+[32m   2611[39m [38;5;28;01mdef[39;00m[38;5;250m [39m[34mimread[39m(
+[32m   2612[39m         fname: [38;5;28mstr[39m | pathlib.Path | BinaryIO, [38;5;28mformat[39m: [38;5;28mstr[39m | [38;5;28;01mNone[39;00m = [38;5;28;01mNone[39;00m
+[32m   2613[39m ) -> np.ndarray:
+[32m-> [39m[32m2614[39m     [38;5;28;01mreturn[39;00m matplotlib.image.imread(fname, [38;5;28mformat[39m)
+
+[36mFile [39m[32m/opt/anaconda3/envs/libro/lib/python3.13/site-packages/matplotlib/image.py:1520[39m, in [36mimread[39m[34m(fname, format)[39m
+[32m   1513[39m [38;5;28;01mif[39;00m [38;5;28misinstance[39m(fname, [38;5;28mstr[39m) [38;5;129;01mand[39;00m [38;5;28mlen[39m(parse.urlparse(fname).scheme) > [32m1[39m:
+[32m   1514[39m     [38;5;66;03m# Pillow doesn't handle URLs directly.[39;00m
+[32m   1515[39m     [38;5;28;01mraise[39;00m [38;5;167;01mValueError[39;00m(
+[32m   1516[39m         [33m"[39m[33mPlease open the URL for reading and pass the [39m[33m"[39m
+[32m   1517[39m         [33m"[39m[33mresult to Pillow, e.g. with [39m[33m"[39m
+[32m   1518[39m         [33m"[39m[33m``np.array(PIL.Image.open(urllib.request.urlopen(url)))``.[39m[33m"[39m
+[32m   1519[39m         )
+[32m-> [39m[32m1520[39m [38;5;28;01mwith[39;00m img_open(fname) [38;5;28;01mas[39;00m image:
+[32m   1521[39m     [38;5;28;01mreturn[39;00m (_pil_png_to_float_array(image)
+[32m   1522[39m             [38;5;28;01mif[39;00m [38;5;28misinstance[39m(image, PIL.PngImagePlugin.PngImageFile) [38;5;28;01melse[39;00m
+[32m   1523[39m             pil_to_array(image))
+
+[36mFile [39m[32m/opt/anaconda3/envs/libro/lib/python3.13/site-packages/PIL/ImageFile.py:138[39m, in [36mImageFile.__init__[39m[34m(self, fp, filename)[39m
+[32m    135[39m [38;5;28mself[39m._fp: IO[[38;5;28mbytes[39m] | DeferredError
+[32m    136[39m [38;5;28;01mif[39;00m is_path(fp):
+[32m    137[39m     [38;5;66;03m# filename[39;00m
+[32m--> [39m[32m138[39m     [38;5;28mself[39m.fp = [38;5;28mopen[39m(fp, [33m"[39m[33mrb[39m[33m"[39m)
+[32m    139[39m     [38;5;28mself[39m.filename = os.fspath(fp)
+[32m    140[39m     [38;5;28mself[39m._exclusive_fp = [38;5;28;01mTrue[39;00m
+
+[31mFileNotFoundError[39m: [Errno 2] No such file or directory: 'immagini_sorgente/flower_gray.png'
+
