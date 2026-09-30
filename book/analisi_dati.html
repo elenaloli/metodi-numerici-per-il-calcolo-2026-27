@@ -396,12 +396,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-analisi-dei-dati-e-interdisciplinare">1.1 L’analisi dei dati è interdisciplinare</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#il-ciclo-di-vita-dell-analisi-dei-dati">1.2 Il ciclo di vita dell’analisi dei dati</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-modelli-famiglie-parametriche-di-funzioni">1.1 I modelli: famiglie parametriche di funzioni</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-approccio-del-machine-learning">2.7 L’approccio del Machine Learning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-obiettivo-generalizzare">2.8 L’obiettivo: generalizzare</a></li>
-</ul>
-</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#il-ciclo-di-vita-dell-analisi-dei-dati">1.2 Il ciclo di vita dell’analisi dei dati</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-l-algebra-lineare-e-fondamentale-nell-analisi-dei-dati">2. Perché l’algebra lineare è fondamentale nell’analisi dei dati?</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-algebra-lineare-permette-di-confrontare-gli-oggetti">L’algebra lineare permette di confrontare gli oggetti</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-modelli-diventano-operazioni-tra-matrici-e-vettori">I modelli diventano operazioni tra matrici e vettori</a></li>
@@ -500,156 +495,6 @@ align: center
 <li><p>la <strong>conoscenza</strong> permette di utilizzare l’informazione per comprendere un fenomeno o prendere decisioni.</p></li>
 </ul>
 <p>Un algoritmo può individuare una struttura nei dati, ma il risultato deve essere interpretato nel contesto del problema. Un’associazione tra due variabili, per esempio, non implica necessariamente una relazione di causa ed effetto.</p>
-<p><strong>La scelta del modello</strong></p>
-<p>Gli stessi dati possono essere rappresentati utilizzando <em>modelli</em> differenti. Per esempio, possiamo scegliere come modello una retta oppure una parabola.</p>
-<figure class="align-center">
-<a class="reference internal image-reference" href="../_images/modelli_lineare_quadratico.png"><img alt="../_images/modelli_lineare_quadratico.png" src="../_images/modelli_lineare_quadratico.png" style="width: 100%;" />
-</a>
-</figure>
-<p align="center">
-  <img src="immagini_sorgente/modelli_lineare_quadratico.png" width="700">
-</p>
-<p>Nel primo caso il modello ha la forma</p>
-<div class="math notranslate nohighlight">
-\[
-f(x;\boldsymbol{\theta})=\theta_0+\theta_1x,
-\]</div>
-<p>mentre nel secondo caso ha la forma</p>
-<div class="math notranslate nohighlight">
-\[
-f(x;\boldsymbol{\theta})=\theta_0+\theta_1x+\theta_2x^2.
-\]</div>
-<p>La famiglia scelta non deve necessariamente essere quella dei polinomi. Per esempio, possiamo considerare una combinazione lineare di una funzione esponenziale e di una costante:</p>
-<div class="math notranslate nohighlight">
-\[
-f(x;\boldsymbol{\theta})=\theta_0+\theta_1 e^{\alpha x}.
-\]</div>
-<p><img alt="" src="../_images/modello_esponenziale.png" /></p>
-<!-- ```{figure} immagini_sorgente/modello_esponenziale.png
----
-width: 100%
-align: center
----
-```
-<p align="center">
-  <img src="immagini_sorgente/modello_esponenziale.png" width="700">
-</p> -->
-<p>La scelta della famiglia di funzioni dipende dal fenomeno che vogliamo descrivere e dalle informazioni disponibili sui dati.</p>
-<section id="i-modelli-famiglie-parametriche-di-funzioni">
-<h2>1.1 I modelli: famiglie parametriche di funzioni<a class="headerlink" href="#i-modelli-famiglie-parametriche-di-funzioni" title="Link to this heading">#</a></h2>
-<p>Scelta una famiglia di funzioni <span class="math notranslate nohighlight">\(f(x;\boldsymbol{\theta})\)</span>, occorre determinare i parametri</p>
-<div class="math notranslate nohighlight">
-\[
-\boldsymbol{\theta}=(\theta_0,\theta_1,\ldots,\theta_{k-1})^T\in\mathbb{R}^{k}
-\]</div>
-<p>che identificano la particolare funzione della famiglia che meglio rappresenta i dati.</p>
-<p>Per esempio, scegliendo come famiglia le rette del piano, dobbiamo determinare</p>
-<div class="math notranslate nohighlight">
-\[
-\boldsymbol{\theta}=(\theta_0,\theta_1)^T,
-\]</div>
-<p>dove <span class="math notranslate nohighlight">\(\theta_0\)</span> è l’intercetta e <span class="math notranslate nohighlight">\(\theta_1\)</span> è il coefficiente angolare. Il problema consiste quindi nel trovare la retta che meglio approssima i punti dati.</p>
-<p><strong>Come confrontare due modelli?</strong></p>
-<p>Per stabilire se una funzione rappresenta i dati meglio di un’altra dobbiamo introdurre una misura di vicinanza tra i valori previsti e quelli osservati.</p>
-<p>Questo viene fatto definendo una <strong>funzione di costo</strong>, detta anche <strong>funzione di perdita</strong> o <em>loss function</em>. Indicata con <span class="math notranslate nohighlight">\(h\)</span> la perdita relativa a una singola osservazione, definiamo</p>
-<div class="math notranslate nohighlight">
-\[
-\mathcal{L}(\boldsymbol{\theta})
-=\sum_{i=1}^{n}h\bigl(f(x_i;\boldsymbol{\theta}),y_i\bigr).
-\]</div>
-<p>La funzione di costo dipende dai parametri perché, al variare di <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span>, cambiano le previsioni del modello.</p>
-<p><em>Il calcolo dei parametri come problema di minimo</em></p>
-<p>I parametri ottimali sono quelli che rendono minima la funzione di costo:</p>
-<div class="math notranslate nohighlight">
-\[
-\boldsymbol{\theta}^{*}
-=\operatorname*{argmin}_{\boldsymbol{\theta}\in\mathbb{R}^{k}}
-\mathcal{L}(\boldsymbol{\theta}).
-\]</div>
-<p>La funzione <span class="math notranslate nohighlight">\(f(x;\boldsymbol{\theta}^{*})\)</span>, i cui parametri sono stati stimati minimizzando la funzione di perdita, prende il nome di <strong>funzione di regressione</strong>.</p>
-<blockquote>
-<div><p>Il problema di costruire un modello predittivo viene così trasformato in un problema di ottimizzazione.</p>
-</div></blockquote>
-</section>
-<section id="l-approccio-del-machine-learning">
-<h2>2.7 L’approccio del Machine Learning<a class="headerlink" href="#l-approccio-del-machine-learning" title="Link to this heading">#</a></h2>
-<p>Nella programmazione tradizionale il programmatore specifica esplicitamente le regole che trasformano i dati in risultati. Questo approccio diventa difficile quando le regole sono troppo numerose, complesse o impossibili da descrivere in modo preciso.</p>
-<p>Nel <strong>Machine Learning</strong> non scriviamo direttamente tutte le regole: forniamo esempi a un algoritmo, che cerca nei dati le regolarità utili per costruire un modello predittivo.</p>
-<p><img alt="" src="../_images/tradizionale_vs_ml.png" /></p>
-<!-- ```{figure} immagini_sorgente/tradizionale_vs_ml.png
----
-width: 100%
-align: center
----
-```
-<p align="center">
-  <img src="immagini_sorgente/tradizionale_vs_ml.png" width="700">
-</p> -->
-<blockquote>
-<div><p>Un sistema di Machine Learning apprende dai dati una regola che non è stata programmata esplicitamente.</p>
-</div></blockquote>
-<p><em>Imparare dagli esempi</em></p>
-<p>L’apprendimento automatico può essere paragonato allo studio di uno studente:</p>
-<ul class="simple">
-<li><p>durante il <strong>training</strong>, lo studente studia esempi ed esercizi già svolti;</p></li>
-<li><p>durante il <strong>test</strong>, affronta domande nuove;</p></li>
-<li><p>la <strong>valutazione</strong> misura quanto ciò che ha appreso sia trasferibile a situazioni mai viste.</p></li>
-</ul>
-<p><img alt="" src="../_images/studying_training_evaluation.png" /></p>
-<!-- ```{figure} immagini_sorgente/studying_training_evaluation.png
----
-width: 100%
-align: center
----
-```
-<p align="center">
-  <img src="immagini_sorgente/studying_training_evaluation.png" width="700">
-</p> -->
-<p>Se le domande dell’esame fossero identiche agli esercizi studiati, non potremmo capire se lo studente ha davvero imparato. Analogamente, un modello deve essere valutato su dati non utilizzati durante il training.</p>
-<p>Nell’<strong>apprendimento supervisionato</strong> disponiamo di un insieme di esempi</p>
-<div class="math notranslate nohighlight">
-\[
-\mathcal{D}_{\mathrm{train}}=\{(\mathbf{x}_i,y_i)\}_{i=1}^{m},
-\]</div>
-<p>dove <span class="math notranslate nohighlight">\(\mathbf{x}_i\)</span> contiene le caratteristiche dell’osservazione e <span class="math notranslate nohighlight">\(y_i\)</span> è la risposta corretta.</p>
-<p>L’<strong>algoritmo di apprendimento</strong> usa il training set per determinare un modello <span class="math notranslate nohighlight">\(f_{\boldsymbol{\theta}}\)</span>. Una volta costruito, il modello riceve un nuovo input e produce una previsione:</p>
-<div class="math notranslate nohighlight">
-\[
-\mathbf{x}_{\mathrm{new}}
-\longrightarrow
-f_{\boldsymbol{\theta}}(\mathbf{x}_{\mathrm{new}})
-=\widehat{y}_{\mathrm{new}}.
-\]</div>
-<p>È importante distinguere:</p>
-<ul class="simple">
-<li><p>l’<strong>algoritmo</strong>, cioè la procedura che apprende;</p></li>
-<li><p>il <strong>modello</strong>, cioè la funzione ottenuta al termine dell’apprendimento;</p></li>
-<li><p>la <strong>predizione</strong>, cioè l’output del modello per un nuovo dato.</p></li>
-</ul>
-</section>
-<section id="l-obiettivo-generalizzare">
-<h2>2.8 L’obiettivo: generalizzare<a class="headerlink" href="#l-obiettivo-generalizzare" title="Link to this heading">#</a></h2>
-<p>Lo scopo non è riprodurre perfettamente gli esempi già osservati, ma ottenere buone previsioni su dati nuovi. Questa capacità prende il nome di <strong>generalizzazione</strong>.</p>
-<p><img alt="" src="../_images/training_validation_test.png" /></p>
-<!-- ```{figure} immagini_sorgente/training_validation_test.png
----
-width: 100%
-align: center
----
-```
-<p align="center">
-  <img src="immagini_sorgente/training_validation_test.png" width="700">
-</p> -->
-<ul class="simple">
-<li><p>Il <strong>training set</strong> serve ad apprendere i parametri del modello.</p></li>
-<li><p>Il <strong>validation set</strong> serve a confrontare scelte e configurazioni.</p></li>
-<li><p>Il <strong>test set</strong> deve essere usato soltanto per la valutazione finale.</p></li>
-</ul>
-<p>Un modello troppo semplice può non cogliere la struttura dei dati (<strong>underfitting</strong>); un modello che si adatta anche al rumore del training set può invece non funzionare su nuovi dati (<strong>overfitting</strong>).</p>
-<blockquote>
-<div><p>La qualità di un modello si misura sulla sua capacità di prevedere, non sulla sua capacità di ricordare.</p>
-</div></blockquote>
-</section>
 </section>
 <section id="perche-l-algebra-lineare-e-fondamentale-nell-analisi-dei-dati">
 <h1>2. Perché l’algebra lineare è fondamentale nell’analisi dei dati?<a class="headerlink" href="#perche-l-algebra-lineare-e-fondamentale-nell-analisi-dei-dati" title="Link to this heading">#</a></h1>
@@ -1097,12 +942,7 @@ Numero di caratteristiche per cliente: 4
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-analisi-dei-dati-e-interdisciplinare">1.1 L’analisi dei dati è interdisciplinare</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#il-ciclo-di-vita-dell-analisi-dei-dati">1.2 Il ciclo di vita dell’analisi dei dati</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-modelli-famiglie-parametriche-di-funzioni">1.1 I modelli: famiglie parametriche di funzioni</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-approccio-del-machine-learning">2.7 L’approccio del Machine Learning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-obiettivo-generalizzare">2.8 L’obiettivo: generalizzare</a></li>
-</ul>
-</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#il-ciclo-di-vita-dell-analisi-dei-dati">1.2 Il ciclo di vita dell’analisi dei dati</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-l-algebra-lineare-e-fondamentale-nell-analisi-dei-dati">2. Perché l’algebra lineare è fondamentale nell’analisi dei dati?</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-algebra-lineare-permette-di-confrontare-gli-oggetti">L’algebra lineare permette di confrontare gli oggetti</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-modelli-diventano-operazioni-tra-matrici-e-vettori">I modelli diventano operazioni tra matrici e vettori</a></li>
