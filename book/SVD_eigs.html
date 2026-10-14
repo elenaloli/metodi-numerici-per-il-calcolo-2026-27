@@ -628,8 +628,9 @@ V\in\mathbb{R}^{n\times n},
 </table>
 </div>
 <p>Le colonne di <span class="math notranslate nohighlight">\(U=(u_1,\ldots,u_m)\)</span> e di <span class="math notranslate nohighlight">\(V=(v_1,\ldots,v_n)\)</span> sono basi ortonormali rispettivamente di <span class="math notranslate nohighlight">\(\mathbb{R}^m\)</span> e <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span>.</p>
+<p><img alt="" src="../_images/svd_dimensioni.png" /></p>
 <figure class="align-center">
-<a class="reference internal image-reference" href="book/immagini_sorgente/svd_dimensioni.png"><img alt="book/immagini_sorgente/svd_dimensioni.png" src="book/immagini_sorgente/svd_dimensioni.png" style="width: 100%;" />
+<a class="reference internal image-reference" href="../_images/svd_dimensioni.png"><img alt="../_images/svd_dimensioni.png" src="../_images/svd_dimensioni.png" style="width: 100%;" />
 </a>
 </figure>
 <p align="center">
@@ -677,13 +678,16 @@ AA^Tu_i=\sigma_i^2u_i.
 <blockquote>
 <div><p>Questa relazione è utile teoricamente, ma in generale non conviene calcolare numericamente la SVD formando esplicitamente <span class="math notranslate nohighlight">\(A^TA\)</span>: il condizionamento viene elevato al quadrato e si può perdere accuratezza.</p>
 </div></blockquote>
-<figure class="align-center">
-<a class="reference internal image-reference" href="../_images/svd_ata.png"><img alt="../_images/svd_ata.png" src="../_images/svd_ata.png" style="width: 100%;" />
-</a>
-</figure>
-<p align="center">
+<p><img alt="" src="../_images/svd_ata.png" /></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">---</span>
+<span class="n">width</span><span class="p">:</span> <span class="mi">100</span><span class="o">%</span>
+<span class="n">align</span><span class="p">:</span> <span class="n">center</span>
+<span class="o">---</span>
+</pre></div>
+</div>
+<!-- <p align="center">
   <img src="immagini_sorgente/svd_ata.png" width="700">
-</p><div class="cell docutils container">
+</p> --><div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Esempio di SVD di una matrice rettangolare 3 x 2</span>
 <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
@@ -887,13 +891,14 @@ R_k=A-A_k=\sum_{i=k+1}^{r}\sigma_i u_i v_i^T.
 \]</div>
 <p>Poiché <span class="math notranslate nohighlight">\(\sigma_1\geq\sigma_2\geq\cdots\)</span>, si conservano per prime le direzioni che producono la maggiore variazione.</p>
 <p>Per rendere visibile l’effetto della SVD usiamo una vera immagine in <strong>scala di grigi</strong>, ottenuta dalla fotografia di un fiore inclusa tra i dati di esempio di scikit-learn. In questo modo l’immagine è rappresentata direttamente da una sola matrice.</p>
+<p><img alt="" src="../_images/flower_gray.png" /></p>
 <figure class="align-center">
 <a class="reference internal image-reference" href="../_images/flower_gray.png"><img alt="../_images/flower_gray.png" src="../_images/flower_gray.png" style="width: 100%;" />
 </a>
 </figure>
-<p align="center">
+<!-- <p align="center">
   <img src="immagini_sorgente/flower_gray.png" width="700">
-</p><div class="cell docutils container">
+</p> --><div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Immagine in scala di grigi: ogni pixel è un elemento della matrice</span>
 <span class="n">immagine</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;immagini_sorgente/flower_gray.png&#39;</span><span class="p">)</span>
