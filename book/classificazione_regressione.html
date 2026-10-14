@@ -62,6 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'book/classificazione_regressione';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Fattorizzazioni che diagonalizzano: autovalori e valori singolari" href="SVD_eigs.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -124,8 +125,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -181,7 +180,7 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="intro_mnpc.html">Introduzione al corso Metodi Numerici per il calcolo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="calcolo_multivariato.html">Calcolo multivariato</a></li>
 
@@ -198,6 +197,7 @@
 
 <li class="toctree-l1"><a class="reference internal" href="SVD_eigs.html">Fattorizzazioni che diagonalizzano: autovalori e valori singolari</a></li>
 
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Task del Machine Learning: classificazione e regressione</a></li>
 </ul>
 
     </div>
@@ -393,37 +393,17 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-analisi-predittiva">L’analisi predittiva</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#un-primo-esempio">1.4 Un primo esempio</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dall-analisi-descrittiva-all-analisi-predittiva">2. Dall’analisi descrittiva all’analisi predittiva</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#che-cos-e-un-classificatore">2.1 Che cos’è un classificatore?</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apprendimento-supervisionato">2.3 Apprendimento supervisionato</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#una-prima-idea-di-classificazione">2.4 Una prima idea di classificazione</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apprendimento-e-valutazione">2.5 Apprendimento e valutazione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classificazione">Classificazione</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#domande-per-la-discussione">Domande per la discussione</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-scelta-del-modello">2.6 La scelta del modello</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#i-modelli-famiglie-parametriche-di-funzioni">2.6 I modelli: famiglie parametriche di funzioni</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-approccio-del-machine-learning">2.7 L’approccio del Machine Learning</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-obiettivo-generalizzare">2.8 L’obiettivo: generalizzare</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.6 La scelta del modello</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1.1 I modelli: famiglie parametriche di funzioni</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2.7 L’approccio del Machine Learning</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2.8 L’obiettivo: generalizzare</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#il-problema-dei-minimi-quadrati-nell-approssimazione-dei-dati">Il problema dei minimi quadrati nell’approssimazione dei dati.</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#famiglie-parametriche-di-funzioni">7.6 Famiglie parametriche di funzioni</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#il-calcolo-dei-parametri-come-problema-di-minimo">7.7 Il calcolo dei parametri come problema di minimo</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regressione-e-perdita-quadratica">7.8 Regressione e perdita quadratica</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regressione">Regressione</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio">Esempio</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelli-polinomiali">Modelli polinomiali</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minimi-quadrati-pesati">7.9 Minimi quadrati pesati</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regolarizzazione-di-tikhonov-o-ridge">7.10 Regolarizzazione di Tikhonov o Ridge</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#impariamo-dai-dati">2. Impariamo dai dati</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-approccio-del-machine-learning">L’approccio del Machine Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-modelli-famiglie-parametriche-di-funzioni">I modelli: famiglie parametriche di funzioni</a></li>
 </ul>
             </nav>
         </div>
@@ -437,9 +417,8 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="task-del-machine-learning-classificazione-e-regressione">
 <h1>Task del Machine Learning: classificazione e regressione<a class="headerlink" href="#task-del-machine-learning-classificazione-e-regressione" title="Link to this heading">#</a></h1>
-<section id="l-analisi-predittiva">
-<h2>L’analisi predittiva<a class="headerlink" href="#l-analisi-predittiva" title="Link to this heading">#</a></h2>
-<p>In questo corso ci concentreremo soprattutto sull’<strong>analisi predittiva</strong>. A partire da esempi per i quali conosciamo già la risposta, cercheremo di costruire una funzione capace di fornire una previsione su nuove osservazioni.</p>
+<p>La parte dell’analisi dati che richiede i metodi numerici è l’<strong>analisi predittiva</strong>.</p>
+<p>A partire da esempi per i quali conosciamo già la risposta, cercheremo di costruire una funzione (modello) capace di fornire una previsione su nuove osservazioni.</p>
 <p>In forma schematica:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -455,8 +434,8 @@ document.write(`
 <li><p>la <strong>regressione</strong>, quando la risposta è una quantità numerica.</p></li>
 </ul>
 <p>Cominciamo dall’idea di classificazione.</p>
-<section id="un-primo-esempio">
-<h3>1.4 Un primo esempio<a class="headerlink" href="#un-primo-esempio" title="Link to this heading">#</a></h3>
+<section id="classificazione">
+<h2>Classificazione<a class="headerlink" href="#classificazione" title="Link to this heading">#</a></h2>
 <p>Supponiamo di conoscere, per un insieme di studenti:</p>
 <ul class="simple">
 <li><p>il numero di ore dedicate allo studio;</p></li>
@@ -582,21 +561,7 @@ document.write(`
 <li><p>le variabili numeriche possono essere utilizzate nei calcoli;</p></li>
 <li><p>il nome dello studente è invece una variabile identificativa.</p></li>
 </ul>
-<p><strong>Per riflettere</strong></p>
-<p>Consideriamo un’applicazione che deve analizzare automaticamente immagini mediche.</p>
-<ol class="arabic simple">
-<li><p>Che cosa rappresentano le osservazioni?</p></li>
-<li><p>Quali potrebbero essere le variabili o feature?</p></li>
-<li><p>Da quali sorgenti potrebbe provenire il rumore?</p></li>
-<li><p>Quali conseguenze potrebbe avere un errore dell’algoritmo?</p></li>
-<li><p>L’accuratezza numerica è l’unico criterio con cui valutarlo?</p></li>
-</ol>
-<p>Queste domande mostrano perché l’analisi dei dati richiede sia strumenti matematici e computazionali sia una conoscenza del contesto applicativo.</p>
-</section>
-</section>
-<section id="dall-analisi-descrittiva-all-analisi-predittiva">
-<h2>2. Dall’analisi descrittiva all’analisi predittiva<a class="headerlink" href="#dall-analisi-descrittiva-all-analisi-predittiva" title="Link to this heading">#</a></h2>
-<p>Descrivere i dati disponibili è soltanto una parte dell’analisi dei dati. Molto spesso vogliamo utilizzare ciò che abbiamo osservato per formulare una <strong>previsione su nuovi dati</strong>.</p>
+<p>Molto spesso vogliamo utilizzare ciò che abbiamo osservato per formulare una <strong>previsione su nuovi dati</strong>.</p>
 <p>Esempi di domande predittive sono:</p>
 <ul class="simple">
 <li><p>un messaggio di posta elettronica è <em>spam</em> oppure <em>non spam</em>?</p></li>
@@ -605,22 +570,18 @@ document.write(`
 <li><p>un’immagine medica mostra un tessuto sano oppure patologico?</p></li>
 </ul>
 <p>Quando il risultato da prevedere appartiene a un insieme finito di categorie, abbiamo un problema di <strong>classificazione</strong>.</p>
-<p><strong>Due problemi predittivi fondamentali</strong></p>
-<p>Nell’apprendimento supervisionato distinguiamo soprattutto:</p>
-<ul class="simple">
-<li><p><strong>classificazione</strong>, se <span class="math notranslate nohighlight">\(y\)</span> è una categoria;</p></li>
-<li><p><strong>regressione</strong>, se <span class="math notranslate nohighlight">\(y\)</span> è una quantità numerica.</p></li>
-</ul>
-<figure class="align-center">
-<a class="reference internal image-reference" href="../_images/classificazione_regressione.png"><img alt="../_images/classificazione_regressione.png" src="../_images/classificazione_regressione.png" style="width: 100%;" />
-</a>
-</figure>
+<p><img alt="" src="../_images/classificazione_regressione.png" /></p>
+<!-- ```{figure} immagini_sorgente/classificazione_regressione.png
+---
+width: 100%
+align: center
+---
+```
 <!-- <p align="center">
   <img src="immagini_sorgente/classificazione_regressione.png" width="700">
-</p> -->
+</p> --> -->
 <p>In entrambi i casi il modello deve individuare una relazione tra gli input e gli output osservati, per poi applicarla a nuovi dati. Cambiano il tipo di risposta e le misure utilizzate per valutare l’errore.</p>
-<section id="che-cos-e-un-classificatore">
-<h3>2.1 Che cos’è un classificatore?<a class="headerlink" href="#che-cos-e-un-classificatore" title="Link to this heading">#</a></h3>
+<p><strong>Che cos’è un classificatore?</strong></p>
 <p>Ogni oggetto viene descritto mediante un insieme di caratteristiche numeriche, dette <strong>feature</strong>. Queste caratteristiche formano un vettore</p>
 <div class="math notranslate nohighlight">
 \[
@@ -631,15 +592,16 @@ document.write(`
 \[
 f:\mathbb{R}^n\longrightarrow\{C_1,C_2,\ldots,C_K\}.
 \]</div>
-<figure class="align-center">
-<a class="reference internal image-reference" href="../_images/schema_classificazione.png"><img alt="../_images/schema_classificazione.png" src="../_images/schema_classificazione.png" style="width: 100%;" />
-</a>
-</figure>
+<p><img alt="" src="../_images/schema_classificazione.png" /></p>
+<!-- ```{figure} immagini_sorgente/schema_classificazione.png
+---
+width: 100%
+align: center
+---
+```
 <!-- <p align="center">
   <img src="immagini_sorgente/schema_classificazione.png" width="700">
-</p> --></section>
-<section id="apprendimento-supervisionato">
-<h3>2.3 Apprendimento supervisionato<a class="headerlink" href="#apprendimento-supervisionato" title="Link to this heading">#</a></h3>
+</p> --> --><p><em>Apprendimento supervisionato</em></p>
 <p>Come possiamo costruire la funzione <span class="math notranslate nohighlight">\(f\)</span>? Disponiamo di un insieme di esempi per i quali la classe corretta è già nota:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -649,30 +611,32 @@ f:\mathbb{R}^n\longrightarrow\{C_1,C_2,\ldots,C_K\}.
 <p>Si parla di <strong>apprendimento supervisionato</strong> perché durante l’apprendimento il metodo conosce sia i dati in ingresso sia le risposte corrette.</p>
 <p><em>Un piccolo dataset a due classi</em></p>
 <p>Consideriamo dodici oggetti. Ogni oggetto è descritto da due caratteristiche, <span class="math notranslate nohighlight">\(x_1\)</span> e <span class="math notranslate nohighlight">\(x_2\)</span>, ed è associato alla <strong>classe A</strong> oppure alla <strong>classe B</strong>. Poiché ci sono soltanto due possibili etichette, questo è un problema di <strong>classificazione binaria</strong>.</p>
-<figure class="align-center">
-<a class="reference internal image-reference" href="../_images/dati_due_classi.png"><img alt="../_images/dati_due_classi.png" src="../_images/dati_due_classi.png" style="width: 100%;" />
-</a>
-</figure>
+<p><img alt="" src="../_images/dati_due_classi.png" /></p>
+<!-- ```{figure} immagini_sorgente/dati_due_classi.png
+---
+width: 100%
+align: center
+---
+```
 <!-- <p align="center">
   <img src="immagini_sorgente/dati_due_classi.png" width="700">
-</p> -->
+</p> --> 
 <p>Ogni punto rappresenta un’osservazione. La sua posizione dipende dalle caratteristiche, mentre il colore e la forma indicano la classe nota.</p>
 <p>Se le possibili etichette fossero più di due, per esempio gatto, cane e cavallo, parleremmo invece di <strong>classificazione multiclasse</strong>.</p>
 <p>Il classificatore suddivide lo spazio delle caratteristiche in regioni associate alle diverse classi. Il confine tra queste regioni prende il nome di <strong>frontiera di decisione</strong>.</p>
-<figure class="align-center">
-<a class="reference internal image-reference" href="../_images/frontiera_classificazione.png"><img alt="../_images/frontiera_classificazione.png" src="../_images/frontiera_classificazione.png" style="width: 100%;" />
-</a>
-</figure>
+<p><img alt="" src="../_images/frontiera_classificazione.png" /></p>
+<!-- ```{figure} immagini_sorgente/frontiera_classificazione.png
+---
+width: 100%
+align: center
+---
+```
 <!-- <p align="center">
   <img src="immagini_sorgente/frontiera_classificazione.png" width="700">
-</p> -->
+</p> --> 
 <p>Una volta costruita la frontiera, una nuova osservazione viene classificata in base alla regione in cui si trova.</p>
-<blockquote>
-<div><p>La frontiera mostrata nella figura serve soltanto a illustrare il concetto: nei problemi reali deve essere appresa dai dati.</p>
-</div></blockquote>
-</section>
-<section id="una-prima-idea-di-classificazione">
-<h3>2.4 Una prima idea di classificazione<a class="headerlink" href="#una-prima-idea-di-classificazione" title="Link to this heading">#</a></h3>
+<p>La frontiera mostrata nella figura serve soltanto a illustrare il concetto: nei problemi reali deve essere appresa dai dati.</p>
+<p><em>Esempio di classificazione</em></p>
 <p>Consideriamo un insieme di fiori descritti mediante due caratteristiche:</p>
 <ul class="simple">
 <li><p>la lunghezza del petalo;</p></li>
@@ -874,24 +838,6 @@ f:\mathbb{R}^2\longrightarrow\{\text{Setosa},\text{Versicolor}\}.
 <img alt="../_images/a3ef453e59e22596da7403b0d70b8def8a82f9410f1f9ece368f81d130689ec0.png" src="../_images/a3ef453e59e22596da7403b0d70b8def8a82f9410f1f9ece368f81d130689ec0.png" />
 </div>
 </div>
-</section>
-<section id="apprendimento-e-valutazione">
-<h3>2.5 Apprendimento e valutazione<a class="headerlink" href="#apprendimento-e-valutazione" title="Link to this heading">#</a></h3>
-<p>I dati usati per costruire la regola di classificazione costituiscono il <strong>training set</strong>. Valutare il modello sugli stessi esempi, però, non ci dice quanto sarà efficace su dati mai osservati.</p>
-<p>Per questo si separano normalmente i dati in:</p>
-<ul class="simple">
-<li><p><strong>training set</strong>, utilizzato per apprendere il modello;</p></li>
-<li><p><strong>test set</strong>, utilizzato per valutarne la capacità predittiva su nuovi dati.</p></li>
-</ul>
-<p>Una prima misura di prestazione è l’<strong>accuratezza</strong>:</p>
-<div class="math notranslate nohighlight">
-\[
-\operatorname{accuracy}=
-\frac{\text{numero di classificazioni corrette}}
-{\text{numero totale di esempi nel test set}}.
-\]</div>
-<p>Nei problemi reali l’accuratezza non è sempre sufficiente: il significato e il costo dei diversi tipi di errore possono essere molto differenti.</p>
-</section>
 <section id="domande-per-la-discussione">
 <h3>Domande per la discussione<a class="headerlink" href="#domande-per-la-discussione" title="Link to this heading">#</a></h3>
 <ol class="arabic simple">
@@ -903,210 +849,157 @@ f:\mathbb{R}^2\longrightarrow\{\text{Setosa},\text{Versicolor}\}.
 <li><p>In una diagnosi medica, tutti gli errori di classificazione avrebbero lo stesso costo?</p></li>
 </ol>
 </section>
-<section id="la-scelta-del-modello">
-<h3>2.6 La scelta del modello<a class="headerlink" href="#la-scelta-del-modello" title="Link to this heading">#</a></h3>
-<p>Gli stessi dati possono essere rappresentati utilizzando <em>modelli</em> differenti. Per esempio, possiamo scegliere come modello una retta oppure una parabola.</p>
-<figure class="align-center">
-<a class="reference internal image-reference" href="../_images/modelli_lineare_quadratico.png"><img alt="../_images/modelli_lineare_quadratico.png" src="../_images/modelli_lineare_quadratico.png" style="width: 100%;" />
-</a>
-</figure>
-<!-- <p align="center">
-  <img src="immagini_sorgente/modelli_lineare_quadratico.png" width="700">
-</p> -->
-<p>Nel primo caso il modello ha la forma</p>
-<div class="math notranslate nohighlight">
-\[
-f(x;\boldsymbol{\theta})=\theta_0+\theta_1x,
-\]</div>
-<p>mentre nel secondo caso ha la forma</p>
-<div class="math notranslate nohighlight">
-\[
-f(x;\boldsymbol{\theta})=\theta_0+\theta_1x+\theta_2x^2.
-\]</div>
-<p>La famiglia scelta non deve necessariamente essere quella dei polinomi. Per esempio, possiamo considerare una combinazione lineare di una funzione esponenziale e di una costante:</p>
-<div class="math notranslate nohighlight">
-\[
-f(x;\boldsymbol{\theta})=\theta_0+\theta_1 e^{\alpha x}.
-\]</div>
-<figure class="align-center">
-<a class="reference internal image-reference" href="../_images/modello_esponenziale.png"><img alt="../_images/modello_esponenziale.png" src="../_images/modello_esponenziale.png" style="width: 100%;" />
-</a>
-</figure>
-<!-- <p align="center">
-  <img src="immagini_sorgente/modello_esponenziale.png" width="700">
-</p> -->
-<p>La scelta della famiglia di funzioni dipende dal fenomeno che vogliamo descrivere e dalle informazioni disponibili sui dati.</p>
 </section>
-<section id="i-modelli-famiglie-parametriche-di-funzioni">
-<h3>2.6 I modelli: famiglie parametriche di funzioni<a class="headerlink" href="#i-modelli-famiglie-parametriche-di-funzioni" title="Link to this heading">#</a></h3>
-<p>Scelta una famiglia di funzioni <span class="math notranslate nohighlight">\(f(x;\boldsymbol{\theta})\)</span>, occorre determinare i parametri</p>
+<section id="regressione">
+<h2>Regressione<a class="headerlink" href="#regressione" title="Link to this heading">#</a></h2>
+<p><strong>Esempio</strong></p>
+<p>Supponiamo di voler capire come variano i costi immobiliari in diverse città, analizzando come la qualità della vita influisca sul costo degli affitti in diverse città.</p>
+<ul class="simple">
+<li><p>L’<strong>indice di qualità della vita (IQV)</strong> potrebbe includere vari fattori, come la sicurezza, l’accesso ai servizi sanitari, l’istruzione, il trasporto pubblico e le opportunità di svago.</p></li>
+<li><p>È sensato ipotizzare che la percezione della qualità della vita in una città possa influenzare il costo medio dell’affitto per un appartamento.</p></li>
+</ul>
+<p>Dati a disposizione</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Città</p></th>
+<th class="head text-right"><p>Indice di qualità della vita (tra 0 e 100)</p></th>
+<th class="head text-right"><p>Costo medio di affitto mensile (€)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>A</p></td>
+<td class="text-right"><p>60</p></td>
+<td class="text-right"><p>921,82</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>B</p></td>
+<td class="text-right"><p>65</p></td>
+<td class="text-right"><p>947,36</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>C</p></td>
+<td class="text-right"><p>70</p></td>
+<td class="text-right"><p>1013,86</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>D</p></td>
+<td class="text-right"><p>75</p></td>
+<td class="text-right"><p>1070,30</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>E</p></td>
+<td class="text-right"><p>80</p></td>
+<td class="text-right"><p>1161,71</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>F</p></td>
+<td class="text-right"><p>85</p></td>
+<td class="text-right"><p>1229,49</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="esempio">
+<h3>Esempio<a class="headerlink" href="#esempio" title="Link to this heading">#</a></h3>
+<p><img alt="" src="../_images/scenario_affitti.png" /></p>
+<p><strong>Quanto mi può costare l’affitto in una città con IQV = 40?</strong></p>
+</section>
+</section>
+<section id="impariamo-dai-dati">
+<h2>2. Impariamo dai dati<a class="headerlink" href="#impariamo-dai-dati" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Città</p></th>
+<th class="head text-right"><p>Indice di qualità della vita (tra 0 e 100)</p></th>
+<th class="head text-right"><p>Costo medio di affitto mensile (€)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>A</p></td>
+<td class="text-right"><p>60</p></td>
+<td class="text-right"><p>921,82</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>B</p></td>
+<td class="text-right"><p>65</p></td>
+<td class="text-right"><p>947,36</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>C</p></td>
+<td class="text-right"><p>70</p></td>
+<td class="text-right"><p>1013,86</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>D</p></td>
+<td class="text-right"><p>75</p></td>
+<td class="text-right"><p>1070,30</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>E</p></td>
+<td class="text-right"><p>80</p></td>
+<td class="text-right"><p>1161,71</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>F</p></td>
+<td class="text-right"><p>85</p></td>
+<td class="text-right"><p>1229,49</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Basandoci sui sei dati che abbiamo, cerchiamo la <strong>miglior retta</strong> che descriva la relazione tra:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(X =\)</span> IQV;</p></li>
+<li><p><span class="math notranslate nohighlight">\(Y =\)</span> affitto.</p></li>
+</ul>
+<p>Ossia, cerchiamo la miglior coppia di valori <span class="math notranslate nohighlight">\((\beta_0,\beta_1)\)</span> tali che</p>
 <div class="math notranslate nohighlight">
 \[
-\boldsymbol{\theta}=(\theta_0,\theta_1,\ldots,\theta_{k-1})^T\in\mathbb{R}^{k}
+y=\beta_0+\beta_1 x.
 \]</div>
-<p>che identificano la particolare funzione della famiglia che meglio rappresenta i dati.</p>
-<p>Per esempio, scegliendo come famiglia le rette del piano, dobbiamo determinare</p>
+<p><img alt="" src="../_images/dati_affitti.png" /></p>
+<p><strong>Il criterio dei minimi quadrati</strong></p>
+<p>La retta più ragionevole è individuata dai coefficienti <span class="math notranslate nohighlight">\(\beta_0\)</span> e <span class="math notranslate nohighlight">\(\beta_1\)</span> calcolati in modo da minimizzare la <strong>somma dei quadrati dei residui</strong> (<em>residual sum of squares</em>, RSS).</p>
+<p>Matematicamente, cerchiamo <span class="math notranslate nohighlight">\(\beta_0\)</span> e <span class="math notranslate nohighlight">\(\beta_1\)</span> risolvendo il problema</p>
 <div class="math notranslate nohighlight">
 \[
-\boldsymbol{\theta}=(\theta_0,\theta_1)^T,
+\min_{\beta_0,\beta_1}\sum_{i=1}^{N}\left(\beta_0+\beta_1 x_i-y_i\right)^2.
 \]</div>
-<p>dove <span class="math notranslate nohighlight">\(\theta_0\)</span> è l’intercetta e <span class="math notranslate nohighlight">\(\theta_1\)</span> è il coefficiente angolare. Il problema consiste quindi nel trovare la retta che meglio approssima i punti dati.</p>
-<p><strong>Come confrontare due modelli?</strong></p>
-<p>Per stabilire se una funzione rappresenta i dati meglio di un’altra dobbiamo introdurre una misura di vicinanza tra i valori previsti e quelli osservati.</p>
-<p>Questo viene fatto definendo una <strong>funzione di costo</strong>, detta anche <strong>funzione di perdita</strong> o <em>loss function</em>. Indicata con <span class="math notranslate nohighlight">\(h\)</span> la perdita relativa a una singola osservazione, definiamo</p>
+<p><img alt="Retta di regressione e segmenti verticali che rappresentano i residui rispetto ai dati originali." src="../_images/residui_regressione.png" /></p>
+<p>La slide richiama anche l’<strong>errore quadratico medio</strong> (<em>mean squared error</em>, MSE). Per distinguere le due quantità:</p>
 <div class="math notranslate nohighlight">
 \[
-\mathcal{L}(\boldsymbol{\theta})
-=\sum_{i=1}^{n}h\bigl(f(x_i;\boldsymbol{\theta}),y_i\bigr).
+\operatorname{RSS}(\beta_0,\beta_1)=\sum_{i=1}^{N}\left(\beta_0+\beta_1 x_i-y_i\right)^2,
+\qquad
+\operatorname{MSE}(\beta_0,\beta_1)=\frac{1}{N}\operatorname{RSS}(\beta_0,\beta_1).
 \]</div>
-<p>La funzione di costo dipende dai parametri perché, al variare di <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span>, cambiano le previsioni del modello.</p>
-<p><em>Il calcolo dei parametri come problema di minimo</em></p>
-<p>I parametri ottimali sono quelli che rendono minima la funzione di costo:</p>
+<p>Per un numero fissato di dati <span class="math notranslate nohighlight">\(N\)</span>, minimizzare RSS o MSE fornisce gli stessi coefficienti.</p>
+<p><em>Confrontiamo due rette</em></p>
+<p>Proviamo due coppie di valori:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Caso</p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(\beta_0\)</span></p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(\beta_1\)</span></p></th>
+<th class="head text-left"><p>Retta</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Blu</p></td>
+<td class="text-right"><p>290</p></td>
+<td class="text-right"><p>10,7</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(y=290+10{,}7x\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Verde</p></td>
+<td class="text-right"><p>130,34</p></td>
+<td class="text-right"><p>12,8</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(y=130{,}34+12{,}8x\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img alt="Confronto tra la retta blu e la retta verde sui dati degli affitti." src="../_images/confronto_rette.png" /></p>
+<p>La retta migliore è quella che fornisce la <strong>minor somma dei quadrati dei residui (RSS)</strong>:</p>
 <div class="math notranslate nohighlight">
 \[
-\boldsymbol{\theta}^{*}
-=\operatorname*{argmin}_{\boldsymbol{\theta}\in\mathbb{R}^{k}}
-\mathcal{L}(\boldsymbol{\theta}).
+\min_{\beta_0,\beta_1}\sum_{i=1}^{N}\left(\beta_0+\beta_1 x_i-y_i\right)^2.
 \]</div>
-<p>La funzione <span class="math notranslate nohighlight">\(f(x;\boldsymbol{\theta}^{*})\)</span>, i cui parametri sono stati stimati minimizzando la funzione di perdita, prende il nome di <strong>funzione di regressione</strong>.</p>
-<blockquote>
-<div><p>Il problema di costruire un modello predittivo viene così trasformato in un problema di ottimizzazione.</p>
-</div></blockquote>
 </section>
 <section id="l-approccio-del-machine-learning">
-<h3>2.7 L’approccio del Machine Learning<a class="headerlink" href="#l-approccio-del-machine-learning" title="Link to this heading">#</a></h3>
+<h2>L’approccio del Machine Learning<a class="headerlink" href="#l-approccio-del-machine-learning" title="Link to this heading">#</a></h2>
 <p>Nella programmazione tradizionale il programmatore specifica esplicitamente le regole che trasformano i dati in risultati. Questo approccio diventa difficile quando le regole sono troppo numerose, complesse o impossibili da descrivere in modo preciso.</p>
-<p>Nel <strong>Machine Learning</strong> non scriviamo direttamente tutte le regole: forniamo esempi a un algoritmo, che cerca nei dati le regolarità utili per costruire un modello predittivo.</p>
-<figure class="align-center">
-<a class="reference internal image-reference" href="../_images/tradizionale_vs_ml.png"><img alt="../_images/tradizionale_vs_ml.png" src="../_images/tradizionale_vs_ml.png" style="width: 100%;" />
-</a>
-</figure>
-<p align="center">
-  <img src="immagini_sorgente/tradizionale_vs_ml.png" width="700">
-</p>
-<blockquote>
-<div><p>Un sistema di Machine Learning apprende dai dati una regola che non è stata programmata esplicitamente.</p>
-</div></blockquote>
-<p><em>Imparare dagli esempi</em></p>
-<p>L’apprendimento automatico può essere paragonato allo studio di uno studente:</p>
-<ul class="simple">
-<li><p>durante il <strong>training</strong>, lo studente studia esempi ed esercizi già svolti;</p></li>
-<li><p>durante il <strong>test</strong>, affronta domande nuove;</p></li>
-<li><p>la <strong>valutazione</strong> misura quanto ciò che ha appreso sia trasferibile a situazioni mai viste.</p></li>
-</ul>
-<figure class="align-center">
-<a class="reference internal image-reference" href="../_images/studying_training_evaluation.png"><img alt="../_images/studying_training_evaluation.png" src="../_images/studying_training_evaluation.png" style="width: 100%;" />
-</a>
-</figure>
-<!-- <p align="center">
-  <img src="immagini_sorgente/studying_training_evaluation.png" width="700">
-</p> -->
-<p>Se le domande dell’esame fossero identiche agli esercizi studiati, non potremmo capire se lo studente ha davvero imparato. Analogamente, un modello deve essere valutato su dati non utilizzati durante il training.</p>
-<p>Nell’<strong>apprendimento supervisionato</strong> disponiamo di un insieme di esempi</p>
-<div class="math notranslate nohighlight">
-\[
-\mathcal{D}_{\mathrm{train}}=\{(\mathbf{x}_i,y_i)\}_{i=1}^{m},
-\]</div>
-<p>dove <span class="math notranslate nohighlight">\(\mathbf{x}_i\)</span> contiene le caratteristiche dell’osservazione e <span class="math notranslate nohighlight">\(y_i\)</span> è la risposta corretta.</p>
-<p>L’<strong>algoritmo di apprendimento</strong> usa il training set per determinare un modello <span class="math notranslate nohighlight">\(f_{\boldsymbol{\theta}}\)</span>. Una volta costruito, il modello riceve un nuovo input e produce una previsione:</p>
-<div class="math notranslate nohighlight">
-\[
-\mathbf{x}_{\mathrm{new}}
-\longrightarrow
-f_{\boldsymbol{\theta}}(\mathbf{x}_{\mathrm{new}})
-=\widehat{y}_{\mathrm{new}}.
-\]</div>
-<p>È importante distinguere:</p>
-<ul class="simple">
-<li><p>l’<strong>algoritmo</strong>, cioè la procedura che apprende;</p></li>
-<li><p>il <strong>modello</strong>, cioè la funzione ottenuta al termine dell’apprendimento;</p></li>
-<li><p>la <strong>predizione</strong>, cioè l’output del modello per un nuovo dato.</p></li>
-</ul>
-</section>
-<section id="l-obiettivo-generalizzare">
-<h3>2.8 L’obiettivo: generalizzare<a class="headerlink" href="#l-obiettivo-generalizzare" title="Link to this heading">#</a></h3>
-<p>Lo scopo non è riprodurre perfettamente gli esempi già osservati, ma ottenere buone previsioni su dati nuovi. Questa capacità prende il nome di <strong>generalizzazione</strong>.</p>
-<figure class="align-center">
-<a class="reference internal image-reference" href="book/immagini_sorgente/training_test.png"><img alt="book/immagini_sorgente/training_test.png" src="book/immagini_sorgente/training_test.png" style="width: 100%;" />
-</a>
-</figure>
-<!-- <p align="center">
-  <img src="immagini_sorgente/training_test.png" width="700">
-</p> -->
-<ul class="simple">
-<li><p>Il <strong>training set</strong> serve ad apprendere i parametri del modello.</p></li>
-<li><p>Il <strong>test set</strong> deve essere usato soltanto per la valutazione finale.</p></li>
-</ul>
-<p>Un modello troppo semplice può non cogliere la struttura dei dati (<strong>underfitting</strong>); un modello che si adatta anche al rumore del training set può invece non funzionare su nuovi dati (<strong>overfitting</strong>).</p>
-<blockquote>
-<div><p>La qualità di un modello si misura sulla sua capacità di prevedere, non sulla sua capacità di ricordare.</p>
-</div></blockquote>
-</section>
-<section id="id1">
-<h3>2.6 La scelta del modello<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
-<p>Gli stessi dati possono essere rappresentati utilizzando <em>modelli</em> differenti. Per esempio, possiamo scegliere come modello una retta oppure una parabola.</p>
-<p><img alt="" src="../_images/modelli_lineare_quadratico.png" /></p>
-<!-- ```{figure} immagini_sorgente/modelli_lineare_quadratico.png
----
-width: 100%
-align: center
----
-```
-<!-- <p align="center">
-  <img src="immagini_sorgente/modelli_lineare_quadratico.png" width="700">
-</p> --> -->
-<p>Nel primo caso il modello ha la forma</p>
-<div class="math notranslate nohighlight">
-\[
-f(x;\boldsymbol{\theta})=\theta_0+\theta_1x,
-\]</div>
-<p>mentre nel secondo caso ha la forma</p>
-<div class="math notranslate nohighlight">
-\[
-f(x;\boldsymbol{\theta})=\theta_0+\theta_1x+\theta_2x^2.
-\]</div>
-</section>
-<section id="id2">
-<h3>1.1 I modelli: famiglie parametriche di funzioni<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
-<p>Scelta una famiglia di funzioni <span class="math notranslate nohighlight">\(f(x;\boldsymbol{\theta})\)</span>, occorre determinare i parametri</p>
-<div class="math notranslate nohighlight">
-\[
-\boldsymbol{\theta}=(\theta_0,\theta_1,\ldots,\theta_{k-1})^T\in\mathbb{R}^{k}
-\]</div>
-<p>che identificano la particolare funzione della famiglia che meglio rappresenta i dati.</p>
-<p>Per esempio, scegliendo come famiglia le rette del piano, dobbiamo determinare</p>
-<div class="math notranslate nohighlight">
-\[
-\boldsymbol{\theta}=(\theta_0,\theta_1)^T,
-\]</div>
-<p>dove <span class="math notranslate nohighlight">\(\theta_0\)</span> è l’intercetta e <span class="math notranslate nohighlight">\(\theta_1\)</span> è il coefficiente angolare. Il problema consiste quindi nel trovare la retta che meglio approssima i punti dati.</p>
-<p><strong>Come confrontare due modelli?</strong></p>
-<p>Per stabilire se una funzione rappresenta i dati meglio di un’altra dobbiamo introdurre una misura di vicinanza tra i valori previsti e quelli osservati.</p>
-<p>Questo viene fatto definendo una <strong>funzione di costo</strong>, detta anche <strong>funzione di perdita</strong> o <em>loss function</em>. Indicata con <span class="math notranslate nohighlight">\(h\)</span> la perdita relativa a una singola osservazione, definiamo</p>
-<div class="math notranslate nohighlight">
-\[
-\mathcal{L}(\boldsymbol{\theta})
-=\sum_{i=1}^{n}h\bigl(f(x_i;\boldsymbol{\theta}),y_i\bigr).
-\]</div>
-<p>La funzione di costo dipende dai parametri perché, al variare di <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span>, cambiano le previsioni del modello.</p>
-<p><em>Il calcolo dei parametri come problema di minimo</em></p>
-<p>I parametri ottimali sono quelli che rendono minima la funzione di costo:</p>
-<div class="math notranslate nohighlight">
-\[
-\boldsymbol{\theta}^{*}
-=\operatorname*{argmin}_{\boldsymbol{\theta}\in\mathbb{R}^{k}}
-\mathcal{L}(\boldsymbol{\theta}).
-\]</div>
-<p>La funzione <span class="math notranslate nohighlight">\(f(x;\boldsymbol{\theta}^{*})\)</span>, i cui parametri sono stati stimati minimizzando la funzione di perdita, prende il nome di <strong>funzione di regressione</strong>.</p>
-<blockquote>
-<div><p>Il problema di costruire un modello predittivo viene così trasformato in un problema di ottimizzazione.</p>
-</div></blockquote>
-</section>
-<section id="id3">
-<h3>2.7 L’approccio del Machine Learning<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
-<p>Nella programmazione tradizionale il programmatore specifica esplicitamente le regole che trasformano i dati in risultati. Questo approccio diventa difficile quando le regole sono troppo numerose, complesse o impossibili da descrivere in modo preciso.</p>
-<p>Nel <strong>Machine Learning</strong> non scriviamo direttamente tutte le regole: forniamo esempi a un algoritmo, che cerca nei dati le regolarità utili per costruire un modello predittivo.</p>
-<p><img alt="" src="../_images/tradizionale_vs_ml.png" /></p>
+<p>Nel <strong>Machine Learning</strong> non scriviamo direttamente tutte le regole: forniamo esempi a un algoritmo, che cerca nei dati le regolarità utili per costruire un modello predittivo.
+<img alt="" src="../_images/tradizionale_vs_ml.png" /></p>
 <!-- ```{figure} immagini_sorgente/tradizionale_vs_ml.png
 ---
 width: 100%
@@ -1157,9 +1050,7 @@ f_{\boldsymbol{\theta}}(\mathbf{x}_{\mathrm{new}})
 <li><p>il <strong>modello</strong>, cioè la funzione ottenuta al termine dell’apprendimento;</p></li>
 <li><p>la <strong>predizione</strong>, cioè l’output del modello per un nuovo dato.</p></li>
 </ul>
-</section>
-<section id="id4">
-<h3>2.8 L’obiettivo: generalizzare<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p><em>L’obiettivo: generalizzare</em></p>
 <p>Lo scopo non è riprodurre perfettamente gli esempi già osservati, ma ottenere buone previsioni su dati nuovi. Questa capacità prende il nome di <strong>generalizzazione</strong>.</p>
 <p><img alt="" src="../_images/training_validation_test.png" /></p>
 <!-- ```{figure} immagini_sorgente/training_validation_test.png
@@ -1181,41 +1072,8 @@ align: center
 <div><p>La qualità di un modello si misura sulla sua capacità di prevedere, non sulla sua capacità di ricordare.</p>
 </div></blockquote>
 </section>
-<section id="il-problema-dei-minimi-quadrati-nell-approssimazione-dei-dati">
-<h3>Il problema dei minimi quadrati nell’approssimazione dei dati.<a class="headerlink" href="#il-problema-dei-minimi-quadrati-nell-approssimazione-dei-dati" title="Link to this heading">#</a></h3>
-<p>Supponiamo di avere un insieme di dati</p>
-<div class="math notranslate nohighlight">
-\[
-\mathcal{D}=\{(x_i,y_i)\}_{i=1}^{n},
-\]</div>
-<p>dove <span class="math notranslate nohighlight">\(x_i\)</span> è il dato in ingresso e <span class="math notranslate nohighlight">\(y_i\)</span> è il valore osservato.</p>
-<p>L’obiettivo è determinare una funzione che rappresenti nel modo migliore possibile la relazione tra <span class="math notranslate nohighlight">\(x\)</span> e <span class="math notranslate nohighlight">\(y\)</span> e che possa essere utilizzata per prevedere il valore corrispondente a un nuovo dato in ingresso.</p>
-<p><strong>La scelta del modello</strong></p>
-<p>Gli stessi dati possono essere rappresentati utilizzando famiglie di funzioni differenti. Per esempio, possiamo scegliere come modello una retta oppure una parabola.</p>
-<p><img alt="" src="../_images/modelli_lineare_quadratico.png" /></p>
-<!-- ```{figure} immagini_sorgente/modelli_lineare_quadratico.png
----
-width: 100%
-align: center
----
-```
-<p align="center">
-  <img src="immagini_sorgente/modelli_lineare_quadratico.png" width="700">
-</p> -->
-<p>Nel primo caso il modello ha la forma</p>
-<div class="math notranslate nohighlight">
-\[
-f(x;\boldsymbol{\theta})=\theta_0+\theta_1x,
-\]</div>
-<p>mentre nel secondo caso ha la forma</p>
-<div class="math notranslate nohighlight">
-\[
-f(x;\boldsymbol{\theta})=\theta_0+\theta_1x+\theta_2x^2.
-\]</div>
-</section>
-</section>
-<section id="famiglie-parametriche-di-funzioni">
-<h2>7.6 Famiglie parametriche di funzioni<a class="headerlink" href="#famiglie-parametriche-di-funzioni" title="Link to this heading">#</a></h2>
+<section id="i-modelli-famiglie-parametriche-di-funzioni">
+<h2>I modelli: famiglie parametriche di funzioni<a class="headerlink" href="#i-modelli-famiglie-parametriche-di-funzioni" title="Link to this heading">#</a></h2>
 <p>Scelta una famiglia di funzioni <span class="math notranslate nohighlight">\(f(x;\boldsymbol{\theta})\)</span>, occorre determinare i parametri</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1237,8 +1095,7 @@ f(x;\boldsymbol{\theta})=\theta_0+\theta_1x+\theta_2x^2.
 =\sum_{i=1}^{n}h\bigl(f(x_i;\boldsymbol{\theta}),y_i\bigr).
 \]</div>
 <p>La funzione di costo dipende dai parametri perché, al variare di <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span>, cambiano le previsioni del modello.</p>
-<section id="il-calcolo-dei-parametri-come-problema-di-minimo">
-<h3>7.7 Il calcolo dei parametri come problema di minimo<a class="headerlink" href="#il-calcolo-dei-parametri-come-problema-di-minimo" title="Link to this heading">#</a></h3>
+<p><em>Il calcolo dei parametri come problema di minimo</em></p>
 <p>I parametri ottimali sono quelli che rendono minima la funzione di costo:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1250,273 +1107,6 @@ f(x;\boldsymbol{\theta})=\theta_0+\theta_1x+\theta_2x^2.
 <blockquote>
 <div><p>Il problema di costruire un modello predittivo viene così trasformato in un problema di ottimizzazione.</p>
 </div></blockquote>
-</section>
-<section id="regressione-e-perdita-quadratica">
-<h3>7.8 Regressione e perdita quadratica<a class="headerlink" href="#regressione-e-perdita-quadratica" title="Link to this heading">#</a></h3>
-<p>Nella regressione si utilizza frequentemente la perdita quadratica</p>
-<div class="math notranslate nohighlight">
-\[
-h\bigl(f(x_i;\boldsymbol{\theta}),y_i\bigr)
-=\bigl(f(x_i;\boldsymbol{\theta})-y_i\bigr)^2.
-\]</div>
-<p>La funzione di costo diventa quindi</p>
-<div class="math notranslate nohighlight">
-\[
-\mathcal{L}(\boldsymbol{\theta})
-=\sum_{i=1}^{n}\bigl(f(x_i;\boldsymbol{\theta})-y_i\bigr)^2.
-\]</div>
-<p>Ogni termine misura il quadrato del residuo relativo all’osservazione <span class="math notranslate nohighlight">\(i\)</span>. Gli errori di segno opposto non si cancellano e gli errori grandi vengono penalizzati maggiormente.</p>
-<p>Nel caso della <strong>regressione lineare</strong>, il polinomio è una retta:</p>
-<div class="math notranslate nohighlight">
-\[
-f(x;\boldsymbol{\theta})=\theta_0+\theta_1x.
-\]</div>
-<p>Nel caso della <strong>regressione quadratica</strong>, il polinomio è una parabola:</p>
-<div class="math notranslate nohighlight">
-\[
-f(x;\boldsymbol{\theta})=\theta_0+\theta_1x+\theta_2x^2.
-\]</div>
-<p>In generale, un polinomio di grado <span class="math notranslate nohighlight">\(k\)</span> dipende da <span class="math notranslate nohighlight">\(k+1\)</span> parametri:</p>
-<div class="math notranslate nohighlight">
-\[
-f(x;\boldsymbol{\theta})
-=\theta_0+\theta_1x+\theta_2x^2+\cdots+\theta_kx^k.
-\]</div>
-<p><em>La funzione di perdita per la regressione polinomiale</em></p>
-<p>Sostituendo il modello polinomiale nella perdita quadratica otteniamo</p>
-<div class="math notranslate nohighlight">
-\[
-\mathcal{L}(\boldsymbol{\theta})
-=\sum_{i=1}^{n}
-\left(\theta_0+\theta_1x_i+\theta_2x_i^2+\cdots+\theta_kx_i^k-y_i\right)^2.
-\]</div>
-<p>Introduciamo i vettori</p>
-<div class="math notranslate nohighlight">
-\[
-\boldsymbol{\theta}=(\theta_0,\theta_1,\ldots,\theta_k)^T,
-\qquad
-\mathbf{y}=(y_1,y_2,\ldots,y_n)^T,
-\]</div>
-<p>e la matrice</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\Phi=
-\begin{pmatrix}
-x_1^0 &amp; x_1^1 &amp; \cdots &amp; x_1^k\\
-x_2^0 &amp; x_2^1 &amp; \cdots &amp; x_2^k\\
-\vdots &amp; \vdots &amp; \ddots &amp; \vdots\\
-x_n^0 &amp; x_n^1 &amp; \cdots &amp; x_n^k
-\end{pmatrix}
-\in\mathbb{R}^{n\times(k+1)}.
-\end{split}\]</div>
-<p>La matrice <span class="math notranslate nohighlight">\(\Phi\)</span> viene spesso chiamata <strong>matrice del modello</strong> o <strong>design matrix</strong>.</p>
-<p><em>Formulazione matriciale</em></p>
-<p>Il vettore delle previsioni del modello sui punti osservati è</p>
-<div class="math notranslate nohighlight">
-\[
-\widehat{\mathbf{y}}=\Phi\boldsymbol{\theta}.
-\]</div>
-<p>Il vettore dei residui è quindi</p>
-<div class="math notranslate nohighlight">
-\[
-\mathbf{r}=\Phi\boldsymbol{\theta}-\mathbf{y},
-\]</div>
-<p>e la funzione di perdita può essere scritta in forma compatta come</p>
-<div class="math notranslate nohighlight">
-\[
-\mathcal{L}(\boldsymbol{\theta})
-=\|\Phi\boldsymbol{\theta}-\mathbf{y}\|_2^2.
-\]</div>
-<p>La determinazione dei coefficienti del polinomio conduce quindi al problema dei minimi quadrati lineari.</p>
-<div class="math notranslate nohighlight">
-\[
-\min_{\boldsymbol{\theta}\in\mathbb{R}^{k+1}}
-\|\Phi\boldsymbol{\theta}-\mathbf{y}\|_2^2,
-\]</div>
-<p><em>Il problema</em></p>
-<p>Supponiamo di osservare coppie <span class="math notranslate nohighlight">\((t_i,y_i)\)</span> e di voler descrivere la relazione con una retta</p>
-<div class="math notranslate nohighlight">
-\[
-y_i\approx\beta_0+\beta_1t_i.
-\]</div>
-<p>Per tutte le osservazioni il modello diventa</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\underbrace{\begin{bmatrix}
-1&amp;t_1\\1&amp;t_2\\\vdots&amp;\vdots\\1&amp;t_m
-\end{bmatrix}}_{A}
-\underbrace{\begin{bmatrix}\theta_0\\\theta_1\end{bmatrix}}_{x}
-\approx
-\underbrace{\begin{bmatrix}y_1\\y_2\\\vdots\\y_m\end{bmatrix}}_{b}.
-\end{split}\]</div>
-<p>La prima colonna di uno permette di rappresentare l’intercetta <span class="math notranslate nohighlight">\(\beta_0\)</span>. Stimare la retta significa risolvere un problema lineare ai minimi quadrati.</p>
-<p><em>Esempio: spesa pubblicitaria e vendite</em></p>
-<p>Consideriamo un piccolo dataset in cui <span class="math notranslate nohighlight">\(t\)</span> rappresenta la spesa pubblicitaria e <span class="math notranslate nohighlight">\(y\)</span> le vendite. Cerchiamo la retta che descrive meglio la relazione media tra le due variabili.</p>
-<p>I segmenti verticali nel grafico rappresenteranno i residui <span class="math notranslate nohighlight">\(y_i-\widehat y_i\)</span>.</p>
-<figure class="align-center">
-<a class="reference internal image-reference" href="../_images/fig_regressione_residui.png"><img alt="../_images/fig_regressione_residui.png" src="../_images/fig_regressione_residui.png" style="width: 100%;" />
-</a>
-</figure>
-<p align="center">
-  <img src="immagini_sorgente/fig_regressione_residui.png" width="700">
-</p><div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pubblicita</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mf">18.</span><span class="p">])</span>
-<span class="n">vendite</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">15</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mf">42.</span><span class="p">])</span>
-<span class="n">A_reg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pubblicita</span><span class="p">)),</span> <span class="n">pubblicita</span><span class="p">))</span>
-<span class="n">theta</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">A_reg</span><span class="p">,</span> <span class="n">vendite</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="n">vendite_stimate</span> <span class="o">=</span> <span class="n">A_reg</span> <span class="o">@</span> <span class="n">beta</span>
-
-<span class="n">griglia</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">pubblicita</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">pubblicita</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">200</span><span class="p">)</span>
-<span class="n">retta</span> <span class="o">=</span> <span class="n">theta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">bethetata</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">griglia</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">pubblicita</span><span class="p">,</span> <span class="n">vendite</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">55</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;dati osservati&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">griglia</span><span class="p">,</span> <span class="n">retta</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;tab:red&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">2.2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;retta LSQ&#39;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">x_i</span><span class="p">,</span> <span class="n">y_i</span><span class="p">,</span> <span class="n">yh_i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pubblicita</span><span class="p">,</span> <span class="n">vendite</span><span class="p">,</span> <span class="n">vendite_stimate</span><span class="p">):</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x_i</span><span class="p">,</span> <span class="n">x_i</span><span class="p">],</span> <span class="p">[</span><span class="n">yh_i</span><span class="p">,</span> <span class="n">y_i</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;0.55&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Spesa pubblicitaria&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Vendite&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Regressione lineare mediante minimi quadrati&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Intercetta beta_0 = </span><span class="si">{</span><span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Pendenza   beta_1 = </span><span class="si">{</span><span class="n">beta</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">A_reg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pubblicita</span><span class="p">)),</span> <span class="n">pubblicita</span><span class="p">))</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">theta</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">A_reg</span><span class="p">,</span> <span class="n">vendite</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="ne">----&gt; </span><span class="mi">5</span> <span class="n">vendite_stimate</span> <span class="o">=</span> <span class="n">A_reg</span> <span class="o">@</span> <span class="n">beta</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">griglia</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">pubblicita</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">pubblicita</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">200</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">retta</span> <span class="o">=</span> <span class="n">theta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">bethetata</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">griglia</span>
-
-<span class="ne">NameError</span>: name &#39;beta&#39; is not defined
-</pre></div>
-</div>
-</div>
-</div>
-<p><em>Interpretazione dei coefficienti</em></p>
-<p>Nel modello</p>
-<div class="math notranslate nohighlight">
-\[
-\widehat y=\theta_0+\theta_1t,
-\]</div>
-<p>l’intercetta <span class="math notranslate nohighlight">\(\theta_0\)</span> è il valore previsto quando <span class="math notranslate nohighlight">\(t=0\)</span>, mentre la pendenza <span class="math notranslate nohighlight">\(\theta_1\)</span> è la variazione media prevista di <span class="math notranslate nohighlight">\(y\)</span> associata a un aumento unitario di <span class="math notranslate nohighlight">\(t\)</span>.</p>
-<p>Questa interpretazione deve essere fatta nel dominio osservato: estrapolare molto oltre i valori presenti nei dati può essere inaffidabile. Inoltre una relazione statistica non implica automaticamente un rapporto causale.</p>
-<p><em>Misure dell’errore</em></p>
-<p>Indicando con <span class="math notranslate nohighlight">\(e_i=y_i-\widehat y_i\)</span> i residui, sono comuni le seguenti quantità:</p>
-<div class="math notranslate nohighlight">
-\[
-\mathrm{SSE}=\sum_{i=1}^{m}e_i^2,
-\]</div>
-<div class="math notranslate nohighlight">
-\[
-\mathrm{MSE}=\frac1m\sum_{i=1}^{m}e_i^2,
-\qquad
-\mathrm{RMSE}=\sqrt{\mathrm{MSE}},
-\]</div>
-<div class="math notranslate nohighlight">
-\[
-R^2=1-\frac{\sum_i(y_i-\widehat y_i)^2}
-{\sum_i(y_i-\overline y)^2}.
-\]</div>
-<p>L’RMSE ha la stessa unità di misura della variabile risposta. <span class="math notranslate nohighlight">\(R^2\)</span> misura la frazione di variabilità spiegata rispetto al semplice uso della media, ma non dimostra che il modello sia corretto.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">errori</span> <span class="o">=</span> <span class="n">vendite</span><span class="o">-</span><span class="n">vendite_stimate</span>
-<span class="n">SSE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">errori</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">MSE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">errori</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">RMSE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">MSE</span><span class="p">)</span>
-<span class="n">R2</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="n">SSE</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">vendite</span><span class="o">-</span><span class="n">vendite</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;SSE  = </span><span class="si">{</span><span class="n">SSE</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;MSE  = </span><span class="si">{</span><span class="n">MSE</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;RMSE = </span><span class="si">{</span><span class="n">RMSE</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;R^2  = </span><span class="si">{</span><span class="n">R2</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-</section>
-<section id="modelli-polinomiali">
-<h2>Modelli polinomiali<a class="headerlink" href="#modelli-polinomiali" title="Link to this heading">#</a></h2>
-<p>Anche un modello come</p>
-<div class="math notranslate nohighlight">
-\[
-y\approx\theta_0+\theta_1t+\theta_2t^2
-\]</div>
-<p>è un problema lineare ai minimi quadrati, perché è lineare rispetto ai parametri <span class="math notranslate nohighlight">\(\theta_0,\theta_1,\theta_2\)</span>. Basta costruire la matrice</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-A=\begin{bmatrix}
-1&amp;t_1&amp;t_1^2\\
-\vdots&amp;\vdots&amp;\vdots\\
-1&amp;t_m&amp;t_m^2
-\end{bmatrix}.
-\end{split}\]</div>
-<p>Un grado elevato può però produrre mal condizionamento e adattamento eccessivo ai dati.</p>
-<p><strong>Aspetti pratici nell’analisi dei dati</strong></p>
-<p><em>Intercetta</em>
-Per includere un termine costante bisogna aggiungere ad <span class="math notranslate nohighlight">\(A\)</span> una colonna di uno. Ometterla forza il modello a passare per l’origine.</p>
-<p><em>Scala delle variabili</em>
-Cambiare unità di misura non modifica le previsioni di un modello LSQ non regolarizzato, ma può peggiorare il condizionamento e rendere difficili i confronti tra coefficienti. Centrare e scalare le variabili può aiutare.</p>
-<p><em>Valori anomali</em>
-Poiché gli errori vengono elevati al quadrato, gli outlier (dati lontani dal centro della distribuzione) possono spostare sensibilmente la soluzione. È importante ispezionare dati e residui.</p>
-<section id="minimi-quadrati-pesati">
-<h3>7.9 Minimi quadrati pesati<a class="headerlink" href="#minimi-quadrati-pesati" title="Link to this heading">#</a></h3>
-<p>Se alcune osservazioni sono più affidabili di altre, possiamo assegnare pesi <span class="math notranslate nohighlight">\(w_i&gt;0\)</span> e risolvere</p>
-<div class="math notranslate nohighlight">
-\[
-\min_x\sum_{i=1}^{m}w_i(b_i-a_i^Tx)^2.
-\]</div>
-<p>In forma matriciale, con <span class="math notranslate nohighlight">\(W=\operatorname{diag}(w_1,\ldots,w_m)\)</span>,</p>
-<div class="math notranslate nohighlight">
-\[
-\min_x\|W^{1/2}(b-Ax)\|_2^2.
-\]</div>
-<p>Si tratta ancora di un problema lineare ai minimi quadrati, applicato alla matrice <span class="math notranslate nohighlight">\(W^{1/2}A\)</span> e al vettore <span class="math notranslate nohighlight">\(W^{1/2}b\)</span>.</p>
-</section>
-<section id="regolarizzazione-di-tikhonov-o-ridge">
-<h3>7.10 Regolarizzazione di Tikhonov o Ridge<a class="headerlink" href="#regolarizzazione-di-tikhonov-o-ridge" title="Link to this heading">#</a></h3>
-<p>Quando il problema è mal condizionato o ha molte variabili, si può penalizzare la grandezza della soluzione:</p>
-<div class="math notranslate nohighlight">
-\[
-\min_x\bigl(\|b-Ax\|_2^2+\lambda\|x\|_2^2\bigr),
-\qquad \lambda&gt;0.
-\]</div>
-<p>Le corrispondenti equazioni sono</p>
-<div class="math notranslate nohighlight">
-\[
-(A^TA+\lambda I)x=A^Tb.
-\]</div>
-<p>Il parametro <span class="math notranslate nohighlight">\(\lambda\)</span> controlla il compromesso tra aderenza ai dati e stabilità: aumentando <span class="math notranslate nohighlight">\(\lambda\)</span> i coefficienti vengono ridotti, introducendo distorsione ma diminuendo la sensibilità al rumore.</p>
-<p><em>Addestramento e valutazione predittiva</em></p>
-<p>Un errore piccolo sui dati usati per stimare i coefficienti non garantisce buone previsioni su nuovi dati. In un’applicazione predittiva bisogna:</p>
-<ol class="arabic simple">
-<li><p>separare i dati in training set e test set;</p></li>
-<li><p>stimare i coefficienti usando soltanto il training set;</p></li>
-<li><p>applicare il modello al test set;</p></li>
-<li><p>calcolare RMSE o altre metriche sui dati non utilizzati nell’addestramento.</p></li>
-</ol>
-<p>Questa distinzione riguarda la capacità di generalizzazione del modello, non soltanto la soluzione numerica del problema LSQ.</p>
-<p><strong>Riepilogo</strong></p>
-<p>Il problema lineare ai minimi quadrati</p>
-<div class="math notranslate nohighlight">
-\[
-\min_x\|b-Ax\|_2^2
-\]</div>
-<p>cerca il vettore <span class="math notranslate nohighlight">\(Ax\)</span> più vicino a <span class="math notranslate nohighlight">\(b\)</span> nello spazio generato dalle colonne di <span class="math notranslate nohighlight">\(A\)</span>. Il residuo ottimo è ortogonale a tale spazio.</p>
-<p>Le equazioni normali sono semplici ma possono peggiorare il condizionamento. La SVD è più robusta e permette di trattare anche matrici di rango non massimo, producendo la soluzione di norma minima.</p>
-<p>Nell’analisi dei dati, la stessa struttura matematica permette di stimare i coefficienti della regressione lineare.</p>
-</section>
 </section>
 </section>
 
@@ -1550,6 +1140,15 @@ Poiché gli errori vengono elevati al quadrato, gli outlier (dati lontani dal ce
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="SVD_eigs.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Fattorizzazioni che diagonalizzano: autovalori e valori singolari</p>
+      </div>
+    </a>
 </div>
                 </footer>
               
@@ -1566,37 +1165,17 @@ Poiché gli errori vengono elevati al quadrato, gli outlier (dati lontani dal ce
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-analisi-predittiva">L’analisi predittiva</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#un-primo-esempio">1.4 Un primo esempio</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dall-analisi-descrittiva-all-analisi-predittiva">2. Dall’analisi descrittiva all’analisi predittiva</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#che-cos-e-un-classificatore">2.1 Che cos’è un classificatore?</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apprendimento-supervisionato">2.3 Apprendimento supervisionato</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#una-prima-idea-di-classificazione">2.4 Una prima idea di classificazione</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apprendimento-e-valutazione">2.5 Apprendimento e valutazione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classificazione">Classificazione</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#domande-per-la-discussione">Domande per la discussione</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-scelta-del-modello">2.6 La scelta del modello</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#i-modelli-famiglie-parametriche-di-funzioni">2.6 I modelli: famiglie parametriche di funzioni</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-approccio-del-machine-learning">2.7 L’approccio del Machine Learning</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-obiettivo-generalizzare">2.8 L’obiettivo: generalizzare</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.6 La scelta del modello</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1.1 I modelli: famiglie parametriche di funzioni</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2.7 L’approccio del Machine Learning</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2.8 L’obiettivo: generalizzare</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#il-problema-dei-minimi-quadrati-nell-approssimazione-dei-dati">Il problema dei minimi quadrati nell’approssimazione dei dati.</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#famiglie-parametriche-di-funzioni">7.6 Famiglie parametriche di funzioni</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#il-calcolo-dei-parametri-come-problema-di-minimo">7.7 Il calcolo dei parametri come problema di minimo</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regressione-e-perdita-quadratica">7.8 Regressione e perdita quadratica</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regressione">Regressione</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio">Esempio</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelli-polinomiali">Modelli polinomiali</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minimi-quadrati-pesati">7.9 Minimi quadrati pesati</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regolarizzazione-di-tikhonov-o-ridge">7.10 Regolarizzazione di Tikhonov o Ridge</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#impariamo-dai-dati">2. Impariamo dai dati</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-approccio-del-machine-learning">L’approccio del Machine Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-modelli-famiglie-parametriche-di-funzioni">I modelli: famiglie parametriche di funzioni</a></li>
 </ul>
   </nav></div>
 
