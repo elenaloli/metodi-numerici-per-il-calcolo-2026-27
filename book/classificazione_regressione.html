@@ -393,17 +393,13 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classificazione">Classificazione</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#domande-per-la-discussione">Domande per la discussione</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#domande-per-la-discussione">Domande per la discussione</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regressione">Regressione</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio">Esempio</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#impariamo-dai-dati">2. Impariamo dai dati</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-approccio-del-machine-learning">L’approccio del Machine Learning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-modelli-famiglie-parametriche-di-funzioni">I modelli: famiglie parametriche di funzioni</a></li>
 </ul>
             </nav>
         </div>
@@ -417,8 +413,9 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="task-del-machine-learning-classificazione-e-regressione">
 <h1>Task del Machine Learning: classificazione e regressione<a class="headerlink" href="#task-del-machine-learning-classificazione-e-regressione" title="Link to this heading">#</a></h1>
+<p>Abbiamo già introdotto in una lezione precedente alcune caratteristiche del processo di analisi dei dati, costituito da diverse fasi (vedi immagine nella lezione precedente).</p>
 <p>La parte dell’analisi dati che richiede i metodi numerici è l’<strong>analisi predittiva</strong>.</p>
-<p>A partire da esempi per i quali conosciamo già la risposta, cercheremo di costruire una funzione (modello) capace di fornire una previsione su nuove osservazioni.</p>
+<p><strong>A partire da esempi per i quali conosciamo già la risposta, cercheremo di costruire una funzione (modello) capace di fornire una previsione su nuove osservazioni.</strong></p>
 <p>In forma schematica:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -433,9 +430,7 @@ document.write(`
 <li><p>la <strong>classificazione</strong>, quando la risposta è una categoria;</p></li>
 <li><p>la <strong>regressione</strong>, quando la risposta è una quantità numerica.</p></li>
 </ul>
-<p>Cominciamo dall’idea di classificazione.</p>
-<section id="classificazione">
-<h2>Classificazione<a class="headerlink" href="#classificazione" title="Link to this heading">#</a></h2>
+<p><strong>Esempio</strong></p>
 <p>Supponiamo di conoscere, per un insieme di studenti:</p>
 <ul class="simple">
 <li><p>il numero di ore dedicate allo studio;</p></li>
@@ -444,11 +439,8 @@ document.write(`
 </ul>
 <p>A partire da questi dati possiamo formulare diverse domande:</p>
 <ul class="simple">
-<li><p>Qual è il voto medio?</p></li>
-<li><p>Quanto sono variabili i risultati?</p></li>
 <li><p>Esiste una relazione tra ore di studio e voto?</p></li>
-<li><p>Sono presenti studenti con un comportamento anomalo?</p></li>
-<li><p>Possiamo dividere gli studenti in gruppi con caratteristiche simili?</p></li>
+<li><p>Possiamo dividere gli studenti in gruppi con caratteristiche simili? Per esempio con voto maggiore di 25?</p></li>
 </ul>
 <p>Prima di scegliere un algoritmo dobbiamo quindi chiarire <strong>quale domanda vogliamo porre ai dati</strong>.</p>
 <div class="cell docutils container">
@@ -570,45 +562,6 @@ document.write(`
 <li><p>un’immagine medica mostra un tessuto sano oppure patologico?</p></li>
 </ul>
 <p>Quando il risultato da prevedere appartiene a un insieme finito di categorie, abbiamo un problema di <strong>classificazione</strong>.</p>
-<p><img alt="" src="../_images/classificazione_regressione.png" /></p>
-<!-- ```{figure} immagini_sorgente/classificazione_regressione.png
----
-width: 100%
-align: center
----
-```
-<!-- <p align="center">
-  <img src="immagini_sorgente/classificazione_regressione.png" width="700">
-</p> --> -->
-<p>In entrambi i casi il modello deve individuare una relazione tra gli input e gli output osservati, per poi applicarla a nuovi dati. Cambiano il tipo di risposta e le misure utilizzate per valutare l’errore.</p>
-<p><strong>Che cos’è un classificatore?</strong></p>
-<p>Ogni oggetto viene descritto mediante un insieme di caratteristiche numeriche, dette <strong>feature</strong>. Queste caratteristiche formano un vettore</p>
-<div class="math notranslate nohighlight">
-\[
-\mathbf{x}=(x_1,x_2,\ldots,x_n)\in\mathbb{R}^n.
-\]</div>
-<p>Un classificatore riceve il vettore <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> e gli assegna una classe:</p>
-<div class="math notranslate nohighlight">
-\[
-f:\mathbb{R}^n\longrightarrow\{C_1,C_2,\ldots,C_K\}.
-\]</div>
-<p><img alt="" src="../_images/schema_classificazione.png" /></p>
-<!-- ```{figure} immagini_sorgente/schema_classificazione.png
----
-width: 100%
-align: center
----
-```
-<!-- <p align="center">
-  <img src="immagini_sorgente/schema_classificazione.png" width="700">
-</p> --> --><p><em>Apprendimento supervisionato</em></p>
-<p>Come possiamo costruire la funzione <span class="math notranslate nohighlight">\(f\)</span>? Disponiamo di un insieme di esempi per i quali la classe corretta è già nota:</p>
-<div class="math notranslate nohighlight">
-\[
-\mathcal{D}=\{(\mathbf{x}_i,y_i)\}_{i=1}^m,
-\]</div>
-<p>dove <span class="math notranslate nohighlight">\(\mathbf{x}_i\)</span> contiene le caratteristiche dell’osservazione <span class="math notranslate nohighlight">\(i\)</span> e <span class="math notranslate nohighlight">\(y_i\)</span> è la sua <strong>etichetta</strong>, o <em>label</em>.</p>
-<p>Si parla di <strong>apprendimento supervisionato</strong> perché durante l’apprendimento il metodo conosce sia i dati in ingresso sia le risposte corrette.</p>
 <p><em>Un piccolo dataset a due classi</em></p>
 <p>Consideriamo dodici oggetti. Ogni oggetto è descritto da due caratteristiche, <span class="math notranslate nohighlight">\(x_1\)</span> e <span class="math notranslate nohighlight">\(x_2\)</span>, ed è associato alla <strong>classe A</strong> oppure alla <strong>classe B</strong>. Poiché ci sono soltanto due possibili etichette, questo è un problema di <strong>classificazione binaria</strong>.</p>
 <p><img alt="" src="../_images/dati_due_classi.png" /></p>
@@ -839,7 +792,7 @@ f:\mathbb{R}^2\longrightarrow\{\text{Setosa},\text{Versicolor}\}.
 </div>
 </div>
 <section id="domande-per-la-discussione">
-<h3>Domande per la discussione<a class="headerlink" href="#domande-per-la-discussione" title="Link to this heading">#</a></h3>
+<h2>Domande per la discussione<a class="headerlink" href="#domande-per-la-discussione" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p>Quali informazioni costituiscono l’input del classificatore?</p></li>
 <li><p>Qual è l’output?</p></li>
@@ -848,8 +801,27 @@ f:\mathbb{R}^2\longrightarrow\{\text{Setosa},\text{Versicolor}\}.
 <li><p>È possibile ottenere un’accuratezza perfetta sul training set ma commettere errori sui nuovi dati?</p></li>
 <li><p>In una diagnosi medica, tutti gli errori di classificazione avrebbero lo stesso costo?</p></li>
 </ol>
-</section>
-</section>
+<p><strong>Che cos’è un classificatore?</strong></p>
+<p>Ogni oggetto viene descritto mediante un insieme di caratteristiche numeriche, dette <strong>features</strong>. Queste caratteristiche formano un vettore</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{x}=(x_1,x_2,\ldots,x_n)\in\mathbb{R}^n.
+\]</div>
+<p>Un classificatore riceve il vettore <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> e gli assegna una classe:</p>
+<div class="math notranslate nohighlight">
+\[
+f:\mathbb{R}^n\longrightarrow\{C_1,C_2,\ldots,C_K\}.
+\]</div>
+<p><img alt="" src="../_images/schema_classificazione.png" /></p>
+<!-- ```{figure} immagini_sorgente/schema_classificazione.png
+---
+width: 100%
+align: center
+---
+```
+<!-- <p align="center">
+  <img src="immagini_sorgente/schema_classificazione.png" width="700">
+</p> --> --></section>
 <section id="regressione">
 <h2>Regressione<a class="headerlink" href="#regressione" title="Link to this heading">#</a></h2>
 <p><strong>Esempio</strong></p>
@@ -948,22 +920,6 @@ f:\mathbb{R}^2\longrightarrow\{\text{Setosa},\text{Versicolor}\}.
 y=\beta_0+\beta_1 x.
 \]</div>
 <p><img alt="" src="../_images/dati_affitti.png" /></p>
-<p><strong>Il criterio dei minimi quadrati</strong></p>
-<p>La retta più ragionevole è individuata dai coefficienti <span class="math notranslate nohighlight">\(\beta_0\)</span> e <span class="math notranslate nohighlight">\(\beta_1\)</span> calcolati in modo da minimizzare la <strong>somma dei quadrati dei residui</strong> (<em>residual sum of squares</em>, RSS).</p>
-<p>Matematicamente, cerchiamo <span class="math notranslate nohighlight">\(\beta_0\)</span> e <span class="math notranslate nohighlight">\(\beta_1\)</span> risolvendo il problema</p>
-<div class="math notranslate nohighlight">
-\[
-\min_{\beta_0,\beta_1}\sum_{i=1}^{N}\left(\beta_0+\beta_1 x_i-y_i\right)^2.
-\]</div>
-<p><img alt="Retta di regressione e segmenti verticali che rappresentano i residui rispetto ai dati originali." src="../_images/residui_regressione.png" /></p>
-<p>La slide richiama anche l’<strong>errore quadratico medio</strong> (<em>mean squared error</em>, MSE). Per distinguere le due quantità:</p>
-<div class="math notranslate nohighlight">
-\[
-\operatorname{RSS}(\beta_0,\beta_1)=\sum_{i=1}^{N}\left(\beta_0+\beta_1 x_i-y_i\right)^2,
-\qquad
-\operatorname{MSE}(\beta_0,\beta_1)=\frac{1}{N}\operatorname{RSS}(\beta_0,\beta_1).
-\]</div>
-<p>Per un numero fissato di dati <span class="math notranslate nohighlight">\(N\)</span>, minimizzare RSS o MSE fornisce gli stessi coefficienti.</p>
 <p><em>Confrontiamo due rette</em></p>
 <p>Proviamo due coppie di valori:</p>
 <div class="pst-scrollable-table-container"><table class="table">
@@ -989,11 +945,7 @@ y=\beta_0+\beta_1 x.
 </table>
 </div>
 <p><img alt="Confronto tra la retta blu e la retta verde sui dati degli affitti." src="../_images/confronto_rette.png" /></p>
-<p>La retta migliore è quella che fornisce la <strong>minor somma dei quadrati dei residui (RSS)</strong>:</p>
-<div class="math notranslate nohighlight">
-\[
-\min_{\beta_0,\beta_1}\sum_{i=1}^{N}\left(\beta_0+\beta_1 x_i-y_i\right)^2.
-\]</div>
+<p>Dobbiamo trovare un criterio oggettivo (matematico) per decidere quale delle due rette sia “la migliore”. Vedremo nella prossima lezione quale criterio adottare.</p>
 </section>
 <section id="l-approccio-del-machine-learning">
 <h2>L’approccio del Machine Learning<a class="headerlink" href="#l-approccio-del-machine-learning" title="Link to this heading">#</a></h2>
@@ -1072,42 +1024,6 @@ align: center
 <div><p>La qualità di un modello si misura sulla sua capacità di prevedere, non sulla sua capacità di ricordare.</p>
 </div></blockquote>
 </section>
-<section id="i-modelli-famiglie-parametriche-di-funzioni">
-<h2>I modelli: famiglie parametriche di funzioni<a class="headerlink" href="#i-modelli-famiglie-parametriche-di-funzioni" title="Link to this heading">#</a></h2>
-<p>Scelta una famiglia di funzioni <span class="math notranslate nohighlight">\(f(x;\boldsymbol{\theta})\)</span>, occorre determinare i parametri</p>
-<div class="math notranslate nohighlight">
-\[
-\boldsymbol{\theta}=(\theta_0,\theta_1,\ldots,\theta_{k-1})^T\in\mathbb{R}^{k}
-\]</div>
-<p>che identificano la particolare funzione della famiglia che meglio rappresenta i dati.</p>
-<p>Per esempio, scegliendo come famiglia le rette del piano, dobbiamo determinare</p>
-<div class="math notranslate nohighlight">
-\[
-\boldsymbol{\theta}=(\theta_0,\theta_1)^T,
-\]</div>
-<p>dove <span class="math notranslate nohighlight">\(\theta_0\)</span> è l’intercetta e <span class="math notranslate nohighlight">\(\theta_1\)</span> è il coefficiente angolare. Il problema consiste quindi nel trovare la retta che meglio approssima i punti dati.</p>
-<p><strong>Come confrontare due modelli?</strong></p>
-<p>Per stabilire se una funzione rappresenta i dati meglio di un’altra dobbiamo introdurre una misura di vicinanza tra i valori previsti e quelli osservati.</p>
-<p>Questo viene fatto definendo una <strong>funzione di costo</strong>, detta anche <strong>funzione di perdita</strong> o <em>loss function</em>. Indicata con <span class="math notranslate nohighlight">\(h\)</span> la perdita relativa a una singola osservazione, definiamo</p>
-<div class="math notranslate nohighlight">
-\[
-\mathcal{L}(\boldsymbol{\theta})
-=\sum_{i=1}^{n}h\bigl(f(x_i;\boldsymbol{\theta}),y_i\bigr).
-\]</div>
-<p>La funzione di costo dipende dai parametri perché, al variare di <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span>, cambiano le previsioni del modello.</p>
-<p><em>Il calcolo dei parametri come problema di minimo</em></p>
-<p>I parametri ottimali sono quelli che rendono minima la funzione di costo:</p>
-<div class="math notranslate nohighlight">
-\[
-\boldsymbol{\theta}^{*}
-=\operatorname*{argmin}_{\boldsymbol{\theta}\in\mathbb{R}^{k}}
-\mathcal{L}(\boldsymbol{\theta}).
-\]</div>
-<p>La funzione <span class="math notranslate nohighlight">\(f(x;\boldsymbol{\theta}^{*})\)</span>, i cui parametri sono stati stimati minimizzando la funzione di perdita, prende il nome di <strong>funzione di regressione</strong>.</p>
-<blockquote>
-<div><p>Il problema di costruire un modello predittivo viene così trasformato in un problema di ottimizzazione.</p>
-</div></blockquote>
-</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -1165,17 +1081,13 @@ align: center
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classificazione">Classificazione</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#domande-per-la-discussione">Domande per la discussione</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#domande-per-la-discussione">Domande per la discussione</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regressione">Regressione</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio">Esempio</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#impariamo-dai-dati">2. Impariamo dai dati</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-approccio-del-machine-learning">L’approccio del Machine Learning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-modelli-famiglie-parametriche-di-funzioni">I modelli: famiglie parametriche di funzioni</a></li>
 </ul>
   </nav></div>
 

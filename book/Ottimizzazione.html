@@ -429,6 +429,27 @@ document.write(`
 <p>L’ottimizzazione riveste un ruolo centrale anche nell’analisi dei dati, nel machine learning e nelle reti neurali. In questi contesti si introduce generalmente una funzione di costo, o funzione di perdita, che misura quanto le previsioni del modello siano lontane dai valori desiderati. Addestrare un modello significa quindi trovare i valori dei suoi parametri che rendono questa funzione il più piccola possibile.</p>
 <p>Nel caso di una rete neurale, i parametri da determinare sono i pesi e i bias dei diversi strati. Poiché il loro numero può essere molto elevato, il problema di ottimizzazione è generalmente multidimensionale. Il gradiente della funzione di costo indica la direzione in cui la funzione cresce più rapidamente; muovendosi nella direzione opposta si cerca quindi di ridurne il valore. Questa idea è alla base del metodo del gradiente discendente e di molti degli algoritmi utilizzati per l’addestramento delle reti neurali.</p>
 <p>Lo studio del gradiente, della matrice hessiana e delle derivate di funzioni di più variabili permette quindi non solo di descrivere il comportamento locale di una funzione, ma anche di costruire metodi numerici in grado di individuare in modo efficiente punti di minimo.</p>
+<p><strong>Come confrontare due modelli?</strong></p>
+<p>Per stabilire se una funzione rappresenta i dati meglio di un’altra dobbiamo introdurre una misura di vicinanza tra i valori previsti e quelli osservati.</p>
+<p>Questo viene fatto definendo una <strong>funzione di costo</strong>, detta anche <strong>funzione di perdita</strong> o <em>loss function</em>. Indicata con <span class="math notranslate nohighlight">\(h\)</span> la perdita relativa a una singola osservazione, definiamo</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(\boldsymbol{\theta})
+=\sum_{i=1}^{n}h\bigl(f(x_i;\boldsymbol{\theta}),y_i\bigr).
+\]</div>
+<p>La funzione di costo dipende dai parametri perché, al variare di <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span>, cambiano le previsioni del modello.</p>
+<p><em>Il calcolo dei parametri come problema di minimo</em></p>
+<p>I parametri ottimali sono quelli che rendono minima la funzione di costo:</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{\theta}^{*}
+=\operatorname*{argmin}_{\boldsymbol{\theta}\in\mathbb{R}^{k}}
+\mathcal{L}(\boldsymbol{\theta}).
+\]</div>
+<p>La funzione <span class="math notranslate nohighlight">\(f(x;\boldsymbol{\theta}^{*})\)</span>, i cui parametri sono stati stimati minimizzando la funzione di perdita, prende il nome di <strong>funzione di regressione</strong>.</p>
+<blockquote>
+<div><p>Il problema di costruire un modello predittivo viene così trasformato in un problema di ottimizzazione.</p>
+</div></blockquote>
 <p>Data una funzione</p>
 <div class="math notranslate nohighlight">
 \[ 
