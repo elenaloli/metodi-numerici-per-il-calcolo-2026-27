@@ -405,7 +405,12 @@ document.write(`
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#equazioni-normali">7.3 Equazioni normali</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#soluzione-mediante-svd">7.4 Soluzione mediante SVD</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#il-problema-dei-minimi-quadrati-nell-approssimazione-dei-dati">Il problema dei minimi quadrati nell’approssimazione dei dati.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelli-polinomiali">Modelli polinomiali</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelli-polinomiali">Modelli polinomiali</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overfitting-nella-regressione-polinomiale">Overfitting nella regressione polinomiale</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#underfit-overfit">Underfit/Overfit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regolarizzazione">Regolarizzazione</a></li>
 </ul>
 </li>
 </ul>
@@ -599,13 +604,17 @@ f(x)=x^TA^TAx-2x^TA^Tb+b^Tb.
 \boxed{A^TAx=A^Tb}.
 \]</div>
 <p>La figura seguente mostra la funzione obiettivo per il primo esempio. Le curve di livello sono ellissi concentriche e il loro centro coincide con la soluzione <span class="math notranslate nohighlight">\(x^*\)</span>.</p>
-<figure class="align-center">
-<a class="reference internal image-reference" href="../_images/fig_funzione_obiettivo.png"><img alt="../_images/fig_funzione_obiettivo.png" src="../_images/fig_funzione_obiettivo.png" style="width: 100%;" />
-</a>
-</figure>
+<p><img alt="" src="../_images/fig_funzione_obiettivo.png" /></p>
+<!-- ```{figure} immagini_sorgente/fig_funzione_obiettivo.png
+---
+width: 100%
+align: center
+---
+```
+
 <p align="center">
   <img src="immagini_sorgente/fig_funzione_obiettivo.png" width="700">
-</p><p>La matrice <span class="math notranslate nohighlight">\(A^TA\)</span> è sempre simmetrica e semidefinita positiva, perché</p>
+</p> --><p>La matrice <span class="math notranslate nohighlight">\(A^TA\)</span> è sempre simmetrica e semidefinita positiva, perché</p>
 <div class="math notranslate nohighlight">
 \[
 z^TA^TAz=\|Az\|_2^2\geq0.
@@ -900,22 +909,26 @@ y_i\approx\beta_0+\beta_1t_i.
 <p><em>Esempio: spesa pubblicitaria e vendite</em></p>
 <p>Consideriamo un piccolo dataset in cui <span class="math notranslate nohighlight">\(t\)</span> rappresenta la spesa pubblicitaria e <span class="math notranslate nohighlight">\(y\)</span> le vendite. Cerchiamo la retta che descrive meglio la relazione media tra le due variabili.</p>
 <p>I segmenti verticali nel grafico rappresenteranno i residui <span class="math notranslate nohighlight">\(y_i-\widehat y_i\)</span>.</p>
-<figure class="align-center">
-<a class="reference internal image-reference" href="../_images/fig_regressione_residui.png"><img alt="../_images/fig_regressione_residui.png" src="../_images/fig_regressione_residui.png" style="width: 100%;" />
-</a>
-</figure>
+<p><img alt="" src="../_images/fig_regressione_residui.png" /></p>
+<!-- ```{figure} immagini_sorgente/fig_regressione_residui.png
+---
+width: 100%
+align: center
+---
+```
+
 <p align="center">
   <img src="immagini_sorgente/fig_regressione_residui.png" width="700">
-</p><div class="cell docutils container">
+</p> --><div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pubblicita</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mf">18.</span><span class="p">])</span>
 <span class="n">vendite</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">15</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mf">42.</span><span class="p">])</span>
 <span class="n">A_reg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pubblicita</span><span class="p">)),</span> <span class="n">pubblicita</span><span class="p">))</span>
 <span class="n">theta</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">A_reg</span><span class="p">,</span> <span class="n">vendite</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="n">vendite_stimate</span> <span class="o">=</span> <span class="n">A_reg</span> <span class="o">@</span> <span class="n">beta</span>
+<span class="n">vendite_stimate</span> <span class="o">=</span> <span class="n">A_reg</span> <span class="o">@</span> <span class="n">theta</span>
 
 <span class="n">griglia</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">pubblicita</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">pubblicita</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">200</span><span class="p">)</span>
-<span class="n">retta</span> <span class="o">=</span> <span class="n">theta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">bethetata</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">griglia</span>
+<span class="n">retta</span> <span class="o">=</span> <span class="n">theta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">theta</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">griglia</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">pubblicita</span><span class="p">,</span> <span class="n">vendite</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">55</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;dati osservati&#39;</span><span class="p">)</span>
@@ -929,22 +942,15 @@ y_i\approx\beta_0+\beta_1t_i.
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Intercetta beta_0 = </span><span class="si">{</span><span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Pendenza   beta_1 = </span><span class="si">{</span><span class="n">beta</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Intercetta beta_0 = </span><span class="si">{</span><span class="n">theta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Pendenza   beta_1 = </span><span class="si">{</span><span class="n">theta</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">A_reg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pubblicita</span><span class="p">)),</span> <span class="n">pubblicita</span><span class="p">))</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">theta</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">A_reg</span><span class="p">,</span> <span class="n">vendite</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="ne">----&gt; </span><span class="mi">5</span> <span class="n">vendite_stimate</span> <span class="o">=</span> <span class="n">A_reg</span> <span class="o">@</span> <span class="n">beta</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">griglia</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">pubblicita</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">pubblicita</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">200</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">retta</span> <span class="o">=</span> <span class="n">theta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">bethetata</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">griglia</span>
-
-<span class="ne">NameError</span>: name &#39;beta&#39; is not defined
+<img alt="../_images/fcbfe0781aa994d882f90943c91279c1e01d96d8dd24b2ef8b3a7073c578333b.png" src="../_images/fcbfe0781aa994d882f90943c91279c1e01d96d8dd24b2ef8b3a7073c578333b.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Intercetta beta_0 = 12.458
+Pendenza   beta_1 = 1.636
 </pre></div>
 </div>
 </div>
@@ -990,6 +996,14 @@ R^2=1-\frac{\sum_i(y_i-\widehat y_i)^2}
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SSE  = 9.6033
+MSE  = 0.9603
+RMSE = 0.9800
+R^2  = 0.9855
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="modelli-polinomiali">
@@ -1009,6 +1023,239 @@ A=\begin{bmatrix}
 \end{bmatrix}.
 \end{split}\]</div>
 <p>Un grado elevato può però produrre mal condizionamento e adattamento eccessivo ai dati.</p>
+<section id="overfitting-nella-regressione-polinomiale">
+<h3>Overfitting nella regressione polinomiale<a class="headerlink" href="#overfitting-nella-regressione-polinomiale" title="Link to this heading">#</a></h3>
+<p>Un polinomio che passa per tutti i punti osservati è sempre il modello migliore? <strong>No: può adattarsi anche al rumore e prevedere male i valori in altri punti.</strong></p>
+<p>Costruiamo due esempi con 11 punti del piano. Confrontiamo un modello troppo semplice (<em>underfitting</em>), uno che rappresenta bene l’andamento e uno eccessivamente flessibile (<em>overfitting</em>).</p>
+<p>In entrambi i casi i dati sono generati da</p>
+<div class="math notranslate nohighlight">
+\[y_i=f(x_i)+\varepsilon_i,\qquad \varepsilon_i\sim\mathcal N(0,0.16^2).\]</div>
+<p>Il polinomio di grado <span class="math notranslate nohighlight">\(d\)</span> è stimato con i minimi quadrati:</p>
+<div class="math notranslate nohighlight">
+\[p_d(x)=\sum_{j=0}^{d}\theta_j x^j,\qquad
+\min_{\theta_0,\ldots,\theta_d}\sum_{i=1}^{11}(p_d(x_i)-y_i)^2.\]</div>
+<p>Il grado 10 ha 11 coefficienti e, per 11 ascisse distinte, può interpolare tutti i punti (a meno degli errori numerici). Questo non garantisce che descriva bene la funzione che ha generato i dati.</p>
+<p><em>Esempio 1</em></p>
+<p>La funzione generatrice è <span class="math notranslate nohighlight">\(f(x)=0.5+1.2x^2\)</span>. Le ordinate osservate sono perturbate da un piccolo rumore.</p>
+<ul class="simple">
+<li><p><strong>Grado 1:</strong> una retta non può rappresentare la curvatura della parabola.</p></li>
+<li><p><strong>Grado 2:</strong> il modello ha la forma corretta e segue l’andamento generale senza inseguire ogni perturbazione.</p></li>
+<li><p><strong>Grado 10:</strong> il polinomio passa per tutti gli 11 punti, ma presenta forti oscillazioni tra i punti, soprattutto vicino agli estremi.</p></li>
+</ul>
+<p>La curva tratteggiata mostra la funzione generatrice, nota perché l’esempio è simulato. I punti scuri sono gli stessi in tutti e tre i pannelli.</p>
+<p><img alt="Confronto dei gradi 1, 2 e 10 per dati quadratici." src="../_images/01_parabola.png" /></p>
+<p><strong>Che cosa osservare:</strong> l’errore di training del grado 10 è quasi nullo, ma l’errore sui nuovi dati è maggiore di quello del grado 2. Le oscillazioni avvengono dentro l’intervallo osservato: non si tratta di estrapolazione.</p>
+<p><em>Esempio 2</em></p>
+<p>Ora la funzione generatrice è <span class="math notranslate nohighlight">\(f(x)=\sin(\pi x)\)</span>, sempre per <span class="math notranslate nohighlight">\(x\in[-1,1]\)</span>. La funzione vera non è un polinomio, ma può essere ben approssimata da un polinomio di grado moderato sull’intervallo considerato.</p>
+<p>Confrontiamo i gradi <strong>1, 5 e 10</strong>. Il grado 5 segue l’andamento sinusoidale; il grado 10 segue anche le perturbazioni dei singoli dati e produce oscillazioni che non appartengono alla funzione generatrice.</p>
+<p><img alt="Confronto dei gradi 1, 5 e 10 per dati sinusoidali." src="../_images/02_sinusoide.png" /></p>
+<p><em>Errore sui dati osservati ed errore su dati nuovi</em></p>
+<p>Per ogni grado da 1 a 10, calcoliamo:</p>
+<div class="math notranslate nohighlight">
+\[\operatorname{RMSE}_{\mathrm{train}}=
+\sqrt{\frac{1}{11}\sum_{i=1}^{11}(y_i-p_d(x_i))^2},\]</div>
+<div class="math notranslate nohighlight">
+\[\operatorname{RMSE}_{\mathrm{test}}=
+\sqrt{\frac{1}{N_{\mathrm{test}}}\sum_{j=1}^{N_{\mathrm{test}}}
+(y_j^{\mathrm{test}}-p_d(x_j^{\mathrm{test}}))^2}.\]</div>
+<p>I 2000 punti di test sono generati indipendentemente nello stesso intervallo, con lo stesso livello di rumore; non sono usati per stimare i coefficienti. Il test misura quindi l’errore su <strong>nuove osservazioni rumorose</strong>, non soltanto la distanza dalla curva tratteggiata.</p>
+<p>Con i minimi quadrati non regolarizzati, aumentando il grado l’errore di training non aumenta: ogni famiglia contiene le precedenti. L’errore di test può invece crescere. È questo peggioramento sui nuovi dati, insieme all’ottimo adattamento ai dati osservati, a evidenziare l’overfitting.</p>
+<p>La linea orizzontale <span class="math notranslate nohighlight">\(\sigma=0.16\)</span> indica la RMSE teorica della funzione generatrice rispetto a nuove osservazioni, nel limite di molti dati: il rumore nei nuovi dati resta anche se conosciamo <span class="math notranslate nohighlight">\(f\)</span>.</p>
+<p><img alt="RMSE di training e test al crescere del grado, nei due esempi." src="../_images/03_errori_grado.png" /></p>
+<p>Esempio.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Numero di dati</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">15</span>
+
+<span class="c1"># Definiamo gli x_i</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+<span class="c1">#Definizamo gli y_i</span>
+<span class="n">y</span><span class="o">=</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/101aec7397b13f0bb13f9d517bf74ef0cad4ab6053f984aa7baa75b28974e4e0.png" src="../_images/101aec7397b13f0bb13f9d517bf74ef0cad4ab6053f984aa7baa75b28974e4e0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">vandermonde</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Preso in input un numpy array &quot;x&quot; di lunghezza (n, ) contentente i dati, e un valore intero &quot;d&quot; rappresentante il grado del polinomio, </span>
+<span class="sd">    costruisce e ritorna la matrice di vandermonde X di grado d, associata a x.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    x (ndarray): Il vettore dei dati di input.</span>
+<span class="sd">    d (int): Il grado massimo del polinomio.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    X (ndarray): La matrice di Vandermonde di grado &quot;d&quot;, associata ad x.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    
+    <span class="c1"># Inizializzo la matrice di Vandermonde con shape (n, d+1)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    
+    <span class="c1"># Costruisco la matrice di Vandermonde</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">X</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span> <span class="o">**</span> <span class="n">i</span>
+    <span class="k">return</span> <span class="n">X</span>
+
+<span class="c1"># Definiamo la matrice di Vandermonde tramite la funzione appena definita con grado d = 5</span>
+<span class="c1">#d = 3 #grado polinomio approssimante </span>
+<span class="c1">#X = vandermonde(x, d)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Definiamo la funzione f(x, alpha) che prende in input il vettore alpha dei coefficienti e un vettore x di lunghezza n, e ritorna il valore del rispettivo polinomio calcolato su x elemento per elemento</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">alpha</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span> <span class="c1"># abbiamo detto che la shape di alpha è (d+1, )</span>
+
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1"># Questa è l&#39;unica riga che dobbiamo cambiare rispetto a prima!</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span> <span class="o">**</span> <span class="n">i</span>
+    <span class="k">return</span> <span class="n">y</span>
+<span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">theta_star</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">vandermonde</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+    <span class="n">coefficienti</span><span class="p">,</span> <span class="n">residui</span><span class="p">,</span> <span class="n">rango</span><span class="p">,</span> <span class="n">valori_singolari</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">theta_star</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coefficienti</span><span class="p">)</span>  <span class="c1"># Aggiungiamo un elemento alla lista.</span>
+    <span class="c1"># Rappresentiamo la curva approssimata in [0, 1].</span>
+    <span class="n">yy_eqn</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">coefficienti</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy_eqn</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;d = </span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;dati osservati&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/0934bb53030f42c5a2e3dbadb1e47f4604d84390fa3ef2d6f6c89719b7c4f5c5.png" src="../_images/0934bb53030f42c5a2e3dbadb1e47f4604d84390fa3ef2d6f6c89719b7c4f5c5.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="underfit-overfit">
+<h2>Underfit/Overfit<a class="headerlink" href="#underfit-overfit" title="Link to this heading">#</a></h2>
+<p>Tra le curve della figura sopra, osserviamo tre comportamenti distinti:</p>
+<ul class="simple">
+<li><p>Se <span class="math notranslate nohighlight">\(d=1\)</span>, la curva rappresenta una retta, e non è quindi sufficientemente flessibile da riuscire a recuperare il comportamento <strong>complesso</strong> della curva corretta. Il risultato sarà una scarsa approssimazione, incapace di recuperare l’andamento corretto dei dati. Questo fenomeno è spesso noto con il termine <strong>underfit</strong>.</p></li>
+<li><p>Se <span class="math notranslate nohighlight">\(d=7\)</span>, la curva diventa troppo flessibile, e inizia a seguire l’andamento oscillatorio del rumore. Questa curva, seppur in apparenza relativamente corretta, si comporterà non meglio di quella con <span class="math notranslate nohighlight">\(d=1\)</span> in termini di abilità predittiva poiché, avendo imparato il comportamento del rumore, non è riuscita ad estrarre in maniera efficace il comportamento corretto della curva, e fallirà inevitabilmente se utilizzata per fare predizioni. Questo fenomento è noto con il nome di <strong>overfit</strong>.</p></li>
+<li><p>Se <span class="math notranslate nohighlight">\(d=4\)</span>, la curva ha un comportamento migliore.</p></li>
+</ul>
+<p>Diventa quindi chiaro come lo scopo finale nella costruzione di una curva di approssimazione sarà quello di identificare il valore corretto per l’iperparametro <span class="math notranslate nohighlight">\(d\)</span>, così da evitare in maniera efficace sia overfit che underfit.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>L’<strong>underfit</strong> rappresenta una curva di approssimazione poco flessibile. E’ quindi estremamente semplice riconoscerlo andando a stampare il valore del residuo per ogni determinata scelta dell’iperparametro.</p>
+</div>
+<p>Non è altrettando semplice identificare l’overfit, poiché come si vede il residuo per <span class="math notranslate nohighlight">\(d=5\)</span> è addirittura inferiore al residuo per <span class="math notranslate nohighlight">\(d=3\)</span>. Questo comportamento deriva dal fatto che il modello in overfit ha iniziato ad interpolare il rumore, e questo comporta una riduzione <em>fittizia</em> del residuo, che non correla però con una maggior abilità di far previsione.</p>
+<p>Identificare l’overfit in maniera automatica è infatti uno dei grandi problemi aperti di questo campo al giorno d’oggi, poiché gli algoritmi ad oggi noti richiedono delle assunzioni che portano spesso ad una riduzione generale delle performance.</p>
+<p>Nella prossima sezione, vediamo un metodo semplice ma efficace per attenuare (e sperabilmente risolvere) il problema dell’overfit, una volta che lo si è individuato.</p>
+</section>
+<section id="regolarizzazione">
+<h2>Regolarizzazione<a class="headerlink" href="#regolarizzazione" title="Link to this heading">#</a></h2>
+<p>L’idea di questo approccio è la seguente: supponiamo che <span class="math notranslate nohighlight">\(d=3\)</span> sia il grado <strong>ottimale</strong> per l’approssimazione, ma noi scegliamo (scorrettamente) <span class="math notranslate nohighlight">\(d=5\)</span>. Se gli ultimi due valori di <span class="math notranslate nohighlight">\(\alpha\)</span> sono uguali a zero, allora il risultato ottenuto sarà come se avessimo scelto <span class="math notranslate nohighlight">\(d=3\)</span>.</p>
+<p>Chiaramente, non possiamo sapere a priori esattamente quanti parametri dovranno essere uguali a zero. Ci limitiamo quindi a richiedere la nostro modello di porre <em>il maggior numero possibile</em> di valori uguale a zero, riducendo al minimo l’impatto sull’approssimazione.</p>
+<p>Questo si riduce ad una formulazione del tipo seguente:</p>
+<div class="math notranslate nohighlight">
+\[
+\min_{\alpha} \frac{1}{2}|| X\alpha - y ||_2^2 + \frac{\lambda}{2} || \alpha ||_2^2,
+\]</div>
+<p>dove il primo termine è il classico problema ai minimi quadrati che abbiamo già visto precedentemente, mentre il secondo serve a richiedere che i valori di <span class="math notranslate nohighlight">\(\alpha\)</span> siano il più piccoli possibile, andando quindi a forzare la presenza di vari elementi uguali a <span class="math notranslate nohighlight">\(0\)</span>, come detto. Questo termine è spesso chiamato <strong>termine di regolarizzazione</strong> e, se viene scelto nella forma appena descritto, prende il nome di <strong>termine di regolarizzazione alla Tikhonov</strong>.</p>
+<p>Per risolvere questo problema di minimo, osserviamo che il suo gradiente è uguale a <span class="math notranslate nohighlight">\(0\)</span> (e siamo quindi in presenza di un minimo), se:</p>
+<div class="math notranslate nohighlight">
+\[
+X^T X \alpha - X^T y + \lambda \alpha = 0,
+\]</div>
+<p>e quindi se</p>
+<div class="math notranslate nohighlight">
+\[
+(X^T X + \lambda I) \alpha = X^T y.
+\]</div>
+<p>Da notare che il sistema appena descritto rappresenta un’estensione naturale delle equazioni normali già utilizzate per i problemi dei minimi quadrati. Infatti, ponendo <span class="math notranslate nohighlight">\(\alpha = 0\)</span>, si ottengono esattamente le equazioni normali.</p>
+<p>Notare che questo sistema può essere risolto anch’esso sia mediante fattorizzazione LU, sia tramite Decomposizione ai Valori Singolari. Vediamo come risolverla tramite equazioni normali con fattorizzazione LU.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Grado del polinomio e matrice del modello.</span>
+<span class="n">d</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">vandermonde</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+
+<span class="c1"># Il nome &quot;lambda&quot; è riservato nel linguaggio Python.</span>
+<span class="n">lmbda</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># Equazioni normali regolarizzate: A = X^T X + lambda * I.</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X</span> <span class="o">+</span> <span class="n">lmbda</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">alpha_tik</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Vediamo come si comporta la curva di approssimazione con <span class="math notranslate nohighlight">\(d=5\)</span> vista sopra, al variare del parametro <span class="math notranslate nohighlight">\(\lambda\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcoliamo le soluzioni con lambda variabile e salviamole in una lista.</span>
+<span class="n">lmbda_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="mf">1e-1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">vandermonde</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+
+<span class="n">alpha_tik</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">lmbda</span> <span class="ow">in</span> <span class="n">lmbda_list</span><span class="p">:</span>
+    <span class="c1"># La matrice cambia a ogni valore del parametro di regolarizzazione.</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X</span> <span class="o">+</span> <span class="n">lmbda</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">lmbda</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># Caso non regolarizzato: risoluzione diretta ai minimi quadrati.</span>
+        <span class="n">coefficienti</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">coefficienti</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">alpha_tik</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coefficienti</span><span class="p">)</span>
+
+<span class="c1"># La funzione generatrice dei dati di questo esempio è y = x^2.</span>
+<span class="n">alpha_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">])</span>
+<span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">yy_true</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">alpha_true</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy_true</span><span class="p">,</span> <span class="s1">&#39;b--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Funzione vera: x²&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">lmbda</span><span class="p">,</span> <span class="n">coefficienti</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">lmbda_list</span><span class="p">,</span> <span class="n">alpha_tik</span><span class="p">):</span>
+    <span class="n">yy_tik</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">coefficienti</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy_tik</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;lambda = </span><span class="si">{</span><span class="n">lmbda</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;dati osservati&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/6d17a911ddc6b316536c91fc1bcf94267a178e19698faaf49cd214a77619a406.png" src="../_images/6d17a911ddc6b316536c91fc1bcf94267a178e19698faaf49cd214a77619a406.png" />
+</div>
+</div>
+<p>E’ dunque abbastanza palese come, per valori relativamente piccoli di <span class="math notranslate nohighlight">\(\lambda\)</span>, la soluzione ottenuta è molto migliore di quella che avevamo visto nel caso precedente in cui non era presente il termine di regolarizzazione, e come questo metodo permette di ottenere un buon modello approssimante anche senza stimare in maniera precisa il grado <em>corretto</em> del polinomio.</p>
+<p>Chiaramente, nel caso in cui <span class="math notranslate nohighlight">\(\lambda\)</span> sia scelto troppo grande, il termine di Regolarizzazione inizia a dominare in maniera esagerata la soluzione, generando una curva che manifesta dei parametri <strong>troppo piccoli</strong>, e che quindi non è in grado di fittare correttamente i dati considerati, portando a <strong>underfit</strong>.</p>
+<p>Nonostante ciò, scegliere un parametro <span class="math notranslate nohighlight">\(\lambda\)</span> adeguato è in pratica <strong>estremamente</strong> più semplice di trovare il grado corretto, sia perché sono presenti in letteratura vari metodi per selezionarlo automaticamente, sia perché come si vede dall’esempio sopra il range di valori di <span class="math notranslate nohighlight">\(\lambda\)</span> per cui la ricostruzione è buona è particolarmente grande.</p>
+<p><em>Addestramento e valutazione predittiva</em></p>
+<p>Un errore piccolo sui dati usati per stimare i coefficienti non garantisce buone previsioni su nuovi dati. In un’applicazione predittiva bisogna:</p>
+<ol class="arabic simple">
+<li><p>separare i dati in training set e test set;</p></li>
+<li><p>stimare i coefficienti usando soltanto il training set;</p></li>
+<li><p>applicare il modello al test set;</p></li>
+<li><p>calcolare RMSE o altre metriche sui dati non utilizzati nell’addestramento.</p></li>
+</ol>
+<p>Questa distinzione riguarda la capacità di generalizzazione del modello, non soltanto la soluzione numerica del problema LSQ.</p>
 </section>
 </section>
 
@@ -1069,7 +1316,12 @@ A=\begin{bmatrix}
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#equazioni-normali">7.3 Equazioni normali</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#soluzione-mediante-svd">7.4 Soluzione mediante SVD</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#il-problema-dei-minimi-quadrati-nell-approssimazione-dei-dati">Il problema dei minimi quadrati nell’approssimazione dei dati.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelli-polinomiali">Modelli polinomiali</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelli-polinomiali">Modelli polinomiali</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overfitting-nella-regressione-polinomiale">Overfitting nella regressione polinomiale</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#underfit-overfit">Underfit/Overfit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regolarizzazione">Regolarizzazione</a></li>
 </ul>
 </li>
 </ul>
