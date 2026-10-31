@@ -1,0 +1,1191 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Dati come immagini &#8212; Metodi numerici per il calcolo</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'book/convoluzioni';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Il problema dei minimi quadrati nell’approssimazione dei dati." href="regressione_lsq.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo_mnpc.png" class="logo__image only-light" alt="Metodi numerici per il calcolo - Home"/>
+    <script>document.write(`<img src="../_static/logo_mnpc.png" class="logo__image only-dark" alt="Metodi numerici per il calcolo - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Metodi numerici per il calcolo
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro_mnpc.html">Introduzione al corso Metodi Numerici per il calcolo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calcolo_multivariato.html">Calcolo multivariato</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Ottimizzazione.html">Ottimizzazione numerica</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="analisi_dati.html">Analisi dati:introduzione</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="intro_algebra%20lineare.html">Algebra lineare numerica: basics</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="SVD_eigs.html">Fattorizzazioni che diagonalizzano: autovalori e valori singolari</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="minimi_quadrati.html">Il problema lineare dei minimi quadrati</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classificazione_regressione.html">Task del Machine Learning: classificazione e regressione</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regressione_lsq.html">Il problema dei minimi quadrati nell’approssimazione dei dati.</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Dati come immagini</a></li>
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/elenaloli/metodi-numerici-per-il-calcolo-2026-27.git" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/elenaloli/metodi-numerici-per-il-calcolo-2026-27.git/issues/new?title=Issue%20on%20page%20%2Fbook/convoluzioni.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/book/convoluzioni.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Dati come immagini</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Dati come immagini</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#un-immagine-e-una-griglia-di-numeri">Un’immagine è una griglia di numeri</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#immagini-grayscale-una-matrice">Immagini grayscale: una matrice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#immagini-rgb-tre-matrici-un-colore-per-pixel">Immagini RGB: tre matrici, un colore per pixel</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quanta-memoria-serve">Quanta memoria serve?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dai-valori-interi-ai-calcoli-sull-immagine">Dai valori interi ai calcoli sull’immagine</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dalle-piccole-matrici-a-una-fotografia">Dalle piccole matrici a una fotografia</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#luminosita-e-negativo">Luminosità e negativo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contrasto-trasformazione-gamma-e-sogliatura">Contrasto, trasformazione gamma e sogliatura</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gli-stessi-esempi-sullimmagine-a-colori">Gli stessi esempi sull’immagine a colori</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convoluzione">Convoluzione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pratica-guida-alla-convoluzione-di-immagini">Pratica guida alla convoluzione di immagini</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#filtri-di-media-crescenti-sull-immagine-grayscale">Filtri di media crescenti sull’immagine grayscale</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#filtri-di-media-crescenti-sullimmagine-a-colori">Filtri di media crescenti sull’immagine a colori</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#effetto-della-dimensione-del-filtro-di-media">Effetto della dimensione del filtro di media</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="dati-come-immagini">
+<h1>Dati come immagini<a class="headerlink" href="#dati-come-immagini" title="Link to this heading">#</a></h1>
+<section id="un-immagine-e-una-griglia-di-numeri">
+<h2>Un’immagine è una griglia di numeri<a class="headerlink" href="#un-immagine-e-una-griglia-di-numeri" title="Link to this heading">#</a></h2>
+<p>Un’immagine digitale è una griglia rettangolare di piccoli elementi chiamati <strong>pixel</strong> (<em>picture elements</em>). Per ogni pixel memorizziamo uno o più numeri che ne descrivono l’intensità o il colore.</p>
+<p>Indichiamo con <span class="math notranslate nohighlight">\(M\)</span> il numero di <strong>righe</strong> (altezza) e con <span class="math notranslate nohighlight">\(N\)</span> il numero di <strong>colonne</strong> (larghezza): l’immagine contiene <span class="math notranslate nohighlight">\(MN\)</span> pixel. In NumPy si accede al pixel con <code class="docutils literal notranslate"><span class="pre">immagine[i,</span> <span class="pre">j]</span></code>, indicando <strong>prima la riga e poi la colonna</strong>. Gli indici partono da zero; nelle visualizzazioni seguenti il pixel <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">0]</span></code> è in alto a sinistra.</p>
+<p>La differenza fondamentale è nel numero di valori associati a ciascun pixel:</p>
+<ul class="simple">
+<li><p>un’immagine <strong>grayscale</strong>, o in scala di grigi, ha un valore per pixel;</p></li>
+<li><p>un’immagine a colori <strong>RGB</strong> ha tre valori per pixel: rosso, verde e blu.</p></li>
+</ul>
+</section>
+<section id="immagini-grayscale-una-matrice">
+<h2>Immagini grayscale: una matrice<a class="headerlink" href="#immagini-grayscale-una-matrice" title="Link to this heading">#</a></h2>
+<p>Un’immagine in scala di grigi si rappresenta con una matrice <span class="math notranslate nohighlight">\(G\in\mathbb{R}^{M\times N}\)</span>. Nel formato comune <strong>a 8 bit</strong>, ciascun valore è un intero compreso tra <span class="math notranslate nohighlight">\(0\)</span> e <span class="math notranslate nohighlight">\(255\)</span>:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(0\)</span> corrisponde al nero;</p></li>
+<li><p><span class="math notranslate nohighlight">\(255\)</span> corrisponde al bianco;</p></li>
+<li><p>i valori intermedi corrispondono a grigi progressivamente più chiari.</p></li>
+</ul>
+<p>Gli 8 bit permettono di rappresentare <span class="math notranslate nohighlight">\(2^8=256\)</span> livelli. In NumPy il tipo corrispondente è <code class="docutils literal notranslate"><span class="pre">uint8</span></code>, cioè intero senza segno a 8 bit. Non tutte le immagini usano questo formato: esistono anche rappresentazioni a 16 bit o in virgola mobile.</p>
+<p>Consideriamo questa piccola immagine di <span class="math notranslate nohighlight">\(4\times4=16\)</span> pixel:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}G=\begin{pmatrix}
+0&amp;0&amp;255&amp;255\\
+0&amp;64&amp;192&amp;255\\
+64&amp;128&amp;192&amp;255\\
+255&amp;192&amp;128&amp;0
+\end{pmatrix}.\end{split}\]</div>
+<p><strong>Ogni elemento della matrice determina il grigio di una casella.</strong> Cambiare un elemento significa cambiare il pixel corrispondente. Nell’esempio modifichiamo <code class="docutils literal notranslate"><span class="pre">G[1,</span> <span class="pre">1]</span></code>, cioè il pixel della seconda riga e della seconda colonna, da <span class="math notranslate nohighlight">\(64\)</span> a <span class="math notranslate nohighlight">\(255\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rectangle</span>
+
+<span class="n">G</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span>   <span class="mi">64</span><span class="p">,</span>  <span class="mi">192</span><span class="p">,</span> <span class="mi">255</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">64</span><span class="p">,</span>  <span class="mi">128</span><span class="p">,</span> <span class="mi">192</span><span class="p">,</span> <span class="mi">255</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">255</span><span class="p">,</span> <span class="mi">192</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+<span class="n">G_modificata</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>  <span class="c1"># Mantieni anche la matrice originale</span>
+<span class="n">G_modificata</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">255</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Forma (righe, colonne):&quot;</span><span class="p">,</span> <span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tipo:&quot;</span><span class="p">,</span> <span class="n">G</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="s2">&quot;— memoria dei pixel:&quot;</span><span class="p">,</span> <span class="n">G</span><span class="o">.</span><span class="n">nbytes</span><span class="p">,</span> <span class="s2">&quot;byte&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pixel G[1, 1]:&quot;</span><span class="p">,</span> <span class="n">G</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;→&quot;</span><span class="p">,</span> <span class="n">G_modificata</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">assi</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mf">4.6</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">titolo</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">assi</span><span class="p">,</span> <span class="p">[</span><span class="n">G</span><span class="p">,</span> <span class="n">G_modificata</span><span class="p">],</span>
+                        <span class="p">[</span><span class="s2">&quot;Matrice G visualizzata&quot;</span><span class="p">,</span> <span class="s2">&quot;Un elemento modificato: G[1, 1] = 255&quot;</span><span class="p">]):</span>
+    <span class="c1"># La scala è fissata per confrontare correttamente le intensità</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]),</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span> <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">128</span> <span class="k">else</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">Rectangle</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                           <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;#D95F02&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">which</span><span class="o">=</span><span class="s2">&quot;minor&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#94A3B8&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">which</span><span class="o">=</span><span class="s2">&quot;minor&quot;</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Colonna j&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Riga i&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">titolo</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Grayscale: un numero per pixel&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Forma (righe, colonne): (4, 4)
+Tipo: uint8 — memoria dei pixel: 16 byte
+Pixel G[1, 1]: 64 → 255
+</pre></div>
+</div>
+<img alt="../_images/4d2a721710d11b903eb1b6fe39ddbcbb9e19d7086fd04a68eed11518cc20ad6a.png" src="../_images/4d2a721710d11b903eb1b6fe39ddbcbb9e19d7086fd04a68eed11518cc20ad6a.png" />
+</div>
+</div>
+<p>I numeri scritti nei quadrati sono annotazioni aggiunte per leggere la figura: <strong>non fanno parte dell’immagine</strong>. L’immagine contiene soltanto i 16 valori della matrice.</p>
+<p>Il parametro <code class="docutils literal notranslate"><span class="pre">cmap=&quot;gray&quot;</span></code> visualizza i numeri come livelli di grigio. Senza questa scelta, Matplotlib può associare ai numeri falsi colori. Impostando <code class="docutils literal notranslate"><span class="pre">vmin=0,</span> <span class="pre">vmax=255</span></code>, il valore <span class="math notranslate nohighlight">\(0\)</span> rimane nero e <span class="math notranslate nohighlight">\(255\)</span> rimane bianco in entrambi i pannelli.</p>
+</section>
+<section id="immagini-rgb-tre-matrici-un-colore-per-pixel">
+<h2>Immagini RGB: tre matrici, un colore per pixel<a class="headerlink" href="#immagini-rgb-tre-matrici-un-colore-per-pixel" title="Link to this heading">#</a></h2>
+<p>Per descrivere il colore usiamo tre componenti: <strong>R</strong> (<em>Red</em>, rosso), <strong>G</strong> (<em>Green</em>, verde) e <strong>B</strong> (<em>Blue</em>, blu). Nel formato RGB a 8 bit per canale, ogni componente varia da <span class="math notranslate nohighlight">\(0\)</span> a <span class="math notranslate nohighlight">\(255\)</span>.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Terna <span class="math notranslate nohighlight">\((R,G,B)\)</span></p></th>
+<th class="head"><p>Colore</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\((0,0,0)\)</span></p></td>
+<td><p>Nero</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\((255,255,255)\)</span></p></td>
+<td><p>Bianco</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\((255,0,0)\)</span></p></td>
+<td><p>Rosso</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\((0,255,0)\)</span></p></td>
+<td><p>Verde</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\((0,0,255)\)</span></p></td>
+<td><p>Blu</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\((255,255,0)\)</span></p></td>
+<td><p>Giallo</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\((128,128,128)\)</span></p></td>
+<td><p>Grigio intermedio</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Un’immagine RGB di <span class="math notranslate nohighlight">\(M\times N\)</span> pixel è quindi memorizzata, nella rappresentazione NumPy usata qui, come un <strong>array di forma <span class="math notranslate nohighlight">\((M,N,3)\)</span></strong>. La terza dimensione identifica il canale: <code class="docutils literal notranslate"><span class="pre">0</span></code> per R, <code class="docutils literal notranslate"><span class="pre">1</span></code> per G, <code class="docutils literal notranslate"><span class="pre">2</span></code> per B.</p>
+<div class="math notranslate nohighlight">
+\[I[i,j,:]=\bigl(R[i,j],\ G[i,j],\ B[i,j]\bigr).\]</div>
+<p>Creiamo un’immagine di <strong>2 righe e 3 colonne</strong>, quindi appena <strong>6 pixel</strong>: rosso, verde e blu nella prima riga; giallo, bianco e nero nella seconda. I suoi tre canali sono</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}R=\begin{pmatrix}255&amp;0&amp;0\\255&amp;255&amp;0\end{pmatrix},\quad
+G=\begin{pmatrix}0&amp;255&amp;0\\255&amp;255&amp;0\end{pmatrix},\quad
+B=\begin{pmatrix}0&amp;0&amp;255\\0&amp;255&amp;0\end{pmatrix}.\end{split}\]</div>
+<p>Per esempio, il pixel giallo ha coordinate <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">0]</span></code>: nello stesso punto troviamo <span class="math notranslate nohighlight">\(R=255\)</span>, <span class="math notranslate nohighlight">\(G=255\)</span> e <span class="math notranslate nohighlight">\(B=0\)</span>. Le tre componenti insieme determinano il colore visualizzato.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RGB</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[[</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>   <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">]],</span>
+    <span class="p">[[</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+<span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Forma (righe, colonne, canali):&quot;</span><span class="p">,</span> <span class="n">RGB</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Numero di pixel:&quot;</span><span class="p">,</span> <span class="n">RGB</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">RGB</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Numero di valori memorizzati:&quot;</span><span class="p">,</span> <span class="n">RGB</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Memoria dei pixel:&quot;</span><span class="p">,</span> <span class="n">RGB</span><span class="o">.</span><span class="n">nbytes</span><span class="p">,</span> <span class="s2">&quot;byte&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Terna del pixel giallo RGB[1, 0]:&quot;</span><span class="p">,</span> <span class="n">RGB</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Componente rossa RGB[1, 0, 0]:&quot;</span><span class="p">,</span> <span class="n">RGB</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">assi</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">assi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">RGB</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span>
+<span class="n">assi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Immagine RGB: 6 pixel&quot;</span><span class="p">)</span>
+<span class="n">nomi</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;rosso&quot;</span><span class="p">,</span> <span class="s2">&quot;verde&quot;</span><span class="p">,</span> <span class="s2">&quot;blu&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;giallo&quot;</span><span class="p">,</span> <span class="s2">&quot;bianco&quot;</span><span class="p">,</span> <span class="s2">&quot;nero&quot;</span><span class="p">]]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">colore</span> <span class="o">=</span> <span class="s2">&quot;white&quot;</span> <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span> <span class="k">else</span> <span class="s2">&quot;black&quot;</span>
+        <span class="n">assi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">nomi</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                     <span class="n">color</span><span class="o">=</span><span class="n">colore</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">nome</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s2">&quot;R: rosso&quot;</span><span class="p">,</span> <span class="s2">&quot;G: verde&quot;</span><span class="p">,</span> <span class="s2">&quot;B: blu&quot;</span><span class="p">]):</span>
+    <span class="n">canale</span> <span class="o">=</span> <span class="n">RGB</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">c</span><span class="p">]</span>  <span class="c1"># Tutte le righe e le colonne, un solo canale</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">assi</span><span class="p">[</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">canale</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Canale </span><span class="si">{</span><span class="n">nome</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">canale</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]),</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span> <span class="k">if</span> <span class="n">canale</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">128</span> <span class="k">else</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">assi</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Colonna j&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Riga i&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">which</span><span class="o">=</span><span class="s2">&quot;minor&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#94A3B8&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">which</span><span class="o">=</span><span class="s2">&quot;minor&quot;</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;RGB: tre valori per pixel — i singoli canali sono mostrati in scala di grigi&quot;</span><span class="p">,</span>
+             <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Forma (righe, colonne, canali): (2, 3, 3)
+Numero di pixel: 6
+Numero di valori memorizzati: 18
+Memoria dei pixel: 18 byte
+Terna del pixel giallo RGB[1, 0]: [255 255   0]
+Componente rossa RGB[1, 0, 0]: 255
+</pre></div>
+</div>
+<img alt="../_images/dd5d9fb23ead72c8ad960bcd6717446553f075b7c954e65146d71f524ca687b3.png" src="../_images/dd5d9fb23ead72c8ad960bcd6717446553f075b7c954e65146d71f524ca687b3.png" />
+</div>
+</div>
+</section>
+<section id="quanta-memoria-serve">
+<h2>Quanta memoria serve?<a class="headerlink" href="#quanta-memoria-serve" title="Link to this heading">#</a></h2>
+<p>Un <strong>byte</strong> contiene 8 bit. Con il tipo <code class="docutils literal notranslate"><span class="pre">uint8</span></code>, ogni valore occupa un byte: un pixel grayscale richiede un byte, un pixel RGB ne richiede tre.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Rappresentazione</p></th>
+<th class="head"><p>Forma dell’array</p></th>
+<th class="head text-right"><p>Valori per pixel</p></th>
+<th class="head text-right"><p>Memoria dei dati <code class="docutils literal notranslate"><span class="pre">uint8</span></code></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Grayscale</p></td>
+<td><p><span class="math notranslate nohighlight">\((M,N)\)</span></p></td>
+<td class="text-right"><p>1</p></td>
+<td class="text-right"><p><span class="math notranslate nohighlight">\(MN\)</span> byte</p></td>
+</tr>
+<tr class="row-odd"><td><p>RGB</p></td>
+<td><p><span class="math notranslate nohighlight">\((M,N,3)\)</span></p></td>
+<td class="text-right"><p>3</p></td>
+<td class="text-right"><p><span class="math notranslate nohighlight">\(3MN\)</span> byte</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Nell’esempio grayscale memorizziamo <span class="math notranslate nohighlight">\(4\cdot4=16\)</span> valori, quindi <strong>16 byte</strong>. Nell’esempio RGB i pixel sono <span class="math notranslate nohighlight">\(2\cdot3=6\)</span>, ma i valori sono <span class="math notranslate nohighlight">\(2\cdot3\cdot3=18\)</span>, quindi <strong>18 byte</strong>. Non bisogna confondere il numero di pixel con il numero di valori memorizzati.</p>
+<p>Per un’immagine di <span class="math notranslate nohighlight">\(1000\times1000\)</span> pixel servono <strong>1 MB</strong> in grayscale oppure <strong>3 MB</strong> in RGB, usando <span class="math notranslate nohighlight">\(1\text{ MB}=10^6\)</span> byte. Questi conti riguardano i dati dell’array non compressi, senza i metadati: la dimensione di un file PNG o JPEG può essere diversa perché dipende anche dal formato e dalla compressione.</p>
+</section>
+<section id="dai-valori-interi-ai-calcoli-sull-immagine">
+<h2>Dai valori interi ai calcoli sull’immagine<a class="headerlink" href="#dai-valori-interi-ai-calcoli-sull-immagine" title="Link to this heading">#</a></h2>
+<p>Per eseguire operazioni numeriche è spesso utile convertire i dati in virgola mobile e, nel caso a 8 bit, normalizzarli nell’intervallo <span class="math notranslate nohighlight">\([0,1]\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[G_{\mathrm{float}}[i,j]=\frac{G[i,j]}{255}.\]</div>
+<p>Il nero diventa <span class="math notranslate nohighlight">\(0\)</span>, il bianco diventa <span class="math notranslate nohighlight">\(1\)</span>. Cambiano tipo e scala numerica, mentre la griglia dei pixel rimane la stessa. Un valore <code class="docutils literal notranslate"><span class="pre">float32</span></code> occupa 4 byte, quindi l’array richiede quattro volte la memoria dell’equivalente <code class="docutils literal notranslate"><span class="pre">uint8</span></code>.</p>
+<p><strong>Prima di somme e sottrazioni, convertiamo gli interi in float:</strong> l’aritmetica direttamente su <code class="docutils literal notranslate"><span class="pre">uint8</span></code> può produrre overflow o underflow, perché i risultati non sono rappresentabili oltre l’intervallo <span class="math notranslate nohighlight">\([0,255]\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G_float</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="o">/</span> <span class="mf">255.0</span>
+<span class="n">RGB_float</span> <span class="o">=</span> <span class="n">RGB</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="o">/</span> <span class="mf">255.0</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Grayscale normalizzata:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">G_float</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Forma:&quot;</span><span class="p">,</span> <span class="n">G_float</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="s2">&quot;— tipo:&quot;</span><span class="p">,</span> <span class="n">G_float</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Memoria:&quot;</span><span class="p">,</span> <span class="n">G_float</span><span class="o">.</span><span class="n">nbytes</span><span class="p">,</span> <span class="s2">&quot;byte, contro&quot;</span><span class="p">,</span> <span class="n">G</span><span class="o">.</span><span class="n">nbytes</span><span class="p">,</span> <span class="s2">&quot;byte in uint8&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Giallo normalizzato:&quot;</span><span class="p">,</span> <span class="n">RGB_float</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Grayscale normalizzata:
+[[0.    0.    1.    1.   ]
+ [0.    0.251 0.753 1.   ]
+ [0.251 0.502 0.753 1.   ]
+ [1.    0.753 0.502 0.   ]]
+Forma: (4, 4) — tipo: float32
+Memoria: 64 byte, contro 16 byte in uint8
+Giallo normalizzato: [1. 1. 0.]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="dalle-piccole-matrici-a-una-fotografia">
+<h2>Dalle piccole matrici a una fotografia<a class="headerlink" href="#dalle-piccole-matrici-a-una-fotografia" title="Link to this heading">#</a></h2>
+<p>Una fotografia usa la stessa rappresentazione dei nostri esempi, ma con molte più righe e colonne. Carichiamo <code class="docutils literal notranslate"><span class="pre">peppers1.tif</span></code> e normalizziamo i valori: mostreremo <strong>prima gli esempi in scala di grigi, poi quelli a colori</strong>. Passeremo infine alla convoluzione, che combina i valori di pixel vicini.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Leggi l&#39;immagine: i canali sono già in ordine RGB</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;immagini_sorgente/peppers1.tif&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Minimo assoluto: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">img</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Massimo assoluto: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">img</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Converti in float e normalizza se l&#39;immagine ha valori interi</span>
+<span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">):</span>
+    <span class="n">img2</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">iinfo</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">max</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">img2</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>  <span class="c1"># Si assumono valori già in [0, 1]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Minimo assoluto: 0
+Massimo assoluto: 229
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Eseguire dopo la cella che carica peppers e definisce img2.</span>
+<span class="k">if</span> <span class="n">img2</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="n">img_gray</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="mf">0.2126</span> <span class="o">*</span> <span class="n">img2</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="o">+</span> <span class="mf">0.7152</span> <span class="o">*</span> <span class="n">img2</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="o">+</span> <span class="mf">0.0722</span> <span class="o">*</span> <span class="n">img2</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">img_gray</span> <span class="o">=</span> <span class="n">img2</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Forma dell&#39;immagine di partenza:&quot;</span><span class="p">,</span> <span class="n">img2</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Forma dell&#39;immagine grayscale:&quot;</span><span class="p">,</span> <span class="n">img_gray</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Intervallo dei valori: [</span><span class="si">{</span><span class="n">img_gray</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">img_gray</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Forma dell&#39;immagine di partenza: (512, 512, 3)
+Forma dell&#39;immagine grayscale: (512, 512)
+Intervallo dei valori: [0.000, 0.868]
+</pre></div>
+</div>
+</div>
+</div>
+<section id="luminosita-e-negativo">
+<h3>Luminosità e negativo<a class="headerlink" href="#luminosita-e-negativo" title="Link to this heading">#</a></h3>
+<p>Applichiamo tre semplici trasformazioni alle intensità dei pixel:</p>
+<ul class="simple">
+<li><p><strong>Scurimento:</strong> <span class="math notranslate nohighlight">\(J=\operatorname{clip}(I-0.5,0,1)\)</span>.</p></li>
+<li><p><strong>Schiarimento:</strong> <span class="math notranslate nohighlight">\(J=\operatorname{clip}(I+0.5,0,1)\)</span>.</p></li>
+<li><p><strong>Negativo:</strong> <span class="math notranslate nohighlight">\(J=1-I\)</span>; le zone chiare diventano scure e viceversa.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">clip</span></code> tronca i valori sotto <span class="math notranslate nohighlight">\(0\)</span> e sopra <span class="math notranslate nohighlight">\(1\)</span>. In tutti i grafici fissiamo <strong><code class="docutils literal notranslate"><span class="pre">cmap=&quot;gray&quot;,</span> <span class="pre">vmin=0,</span> <span class="pre">vmax=1</span></code></strong>: senza una scala comune, il ridimensionamento automatico dei livelli potrebbe nascondere le differenze di luminosità.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gray_scura</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">img_gray</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">gray_chiara</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">img_gray</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">gray_negativa</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">img_gray</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">assi</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">immagini_gray</span> <span class="o">=</span> <span class="p">[</span><span class="n">img_gray</span><span class="p">,</span> <span class="n">gray_scura</span><span class="p">,</span> <span class="n">gray_chiara</span><span class="p">,</span> <span class="n">gray_negativa</span><span class="p">]</span>
+<span class="n">titoli_gray</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Originale grayscale&quot;</span><span class="p">,</span> <span class="s2">&quot;Scurita: I - 0.5&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;Schiarita: I + 0.5&quot;</span><span class="p">,</span> <span class="s2">&quot;Negativo: 1 - I&quot;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">immagine</span><span class="p">,</span> <span class="n">titolo</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">assi</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">immagini_gray</span><span class="p">,</span> <span class="n">titoli_gray</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">immagine</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">titolo</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/d1c184536f035e5af90bc5e772917a92500f6dc612a66a14ba81b8b4d75304bd.png" src="../_images/d1c184536f035e5af90bc5e772917a92500f6dc612a66a14ba81b8b4d75304bd.png" />
+</div>
+</div>
+</section>
+<section id="contrasto-trasformazione-gamma-e-sogliatura">
+<h3>Contrasto, trasformazione gamma e sogliatura<a class="headerlink" href="#contrasto-trasformazione-gamma-e-sogliatura" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Contrasto aumentato:</strong> allontaniamo le intensità dal livello <span class="math notranslate nohighlight">\(0.5\)</span> usando <span class="math notranslate nohighlight">\(J=\operatorname{clip}(0.5+2(I-0.5),0,1)\)</span>.</p></li>
+<li><p><strong>Trasformazione gamma:</strong> <span class="math notranslate nohighlight">\(J=I^{0.5}=\sqrt{I}\)</span> aumenta i valori intermedi, schiarendo soprattutto le zone scure.</p></li>
+<li><p><strong>Sogliatura:</strong> <span class="math notranslate nohighlight">\(J_{i,j}=1\)</span> se <span class="math notranslate nohighlight">\(I_{i,j}\geq0.5\)</span>, e <span class="math notranslate nohighlight">\(J_{i,j}=0\)</span> altrimenti. Otteniamo un’immagine binaria, con soli pixel bianchi e neri.</p></li>
+</ul>
+<p>Queste operazioni agiscono su ogni valore della matrice indipendentemente dai pixel vicini.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gray_contrasto</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">img_gray</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">gray_gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">img_gray</span><span class="p">)</span>
+<span class="n">gray_binaria</span> <span class="o">=</span> <span class="p">(</span><span class="n">img_gray</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">assi</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">immagini_gray</span> <span class="o">=</span> <span class="p">[</span><span class="n">img_gray</span><span class="p">,</span> <span class="n">gray_contrasto</span><span class="p">,</span> <span class="n">gray_gamma</span><span class="p">,</span> <span class="n">gray_binaria</span><span class="p">]</span>
+<span class="n">titoli_gray</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Originale grayscale&quot;</span><span class="p">,</span> <span class="s2">&quot;Contrasto aumentato&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;Gamma = 0.5&quot;</span><span class="p">,</span> <span class="s2">&quot;Sogliatura a 0.5&quot;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">immagine</span><span class="p">,</span> <span class="n">titolo</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">assi</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">immagini_gray</span><span class="p">,</span> <span class="n">titoli_gray</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">immagine</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">titolo</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/dc22820988177ca019bdcbc9ffff6d5070dbf09f09d70f800b0c25ca1239a048.png" src="../_images/dc22820988177ca019bdcbc9ffff6d5070dbf09f09d70f800b0c25ca1239a048.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="gli-stessi-esempi-sullimmagine-a-colori">
+<h2>Gli stessi esempi sull’immagine a colori<a class="headerlink" href="#gli-stessi-esempi-sullimmagine-a-colori" title="Link to this heading">#</a></h2>
+<p>Ripetiamo ora le trasformazioni su <code class="docutils literal notranslate"><span class="pre">img2</span></code>, l’immagine RGB normalizzata. Le operazioni di luminosità, negativo, contrasto e gamma vengono applicate separatamente ai tre canali. Per la sogliatura convertiamo prima l’immagine in scala di grigi.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">221</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;original&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">222</span><span class="p">)</span>
+<span class="n">img_d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">img2</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_d</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;darkened&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">223</span><span class="p">)</span>
+<span class="n">img_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">img2</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_b</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;brightened&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">224</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">img2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;inverted&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/500f39083a70b3682aa6fe1f6b260060e1713e17834542ceb986848e6038f220.png" src="../_images/500f39083a70b3682aa6fe1f6b260060e1713e17834542ceb986848e6038f220.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Aumento del contrasto rispetto al livello intermedio 0.5</span>
+<span class="n">img_contrasto</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">img2</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Trasformazione non lineare: schiarisce soprattutto i valori bassi</span>
+<span class="n">img_gamma</span> <span class="o">=</span> <span class="n">img2</span><span class="o">**</span><span class="mf">0.5</span>
+
+<span class="c1"># Conversione da RGB a scala di grigi</span>
+<span class="n">img_grigia</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="mf">0.2126</span> <span class="o">*</span> <span class="n">img2</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="o">+</span> <span class="mf">0.7152</span> <span class="o">*</span> <span class="n">img2</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="o">+</span> <span class="mf">0.0722</span> <span class="o">*</span> <span class="n">img2</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Sogliatura: ogni pixel diventa bianco oppure nero</span>
+<span class="n">img_binaria</span> <span class="o">=</span> <span class="p">(</span><span class="n">img_grigia</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="n">immagini</span> <span class="o">=</span> <span class="p">[</span><span class="n">img2</span><span class="p">,</span> <span class="n">img_contrasto</span><span class="p">,</span> <span class="n">img_gamma</span><span class="p">,</span> <span class="n">img_binaria</span><span class="p">]</span>
+<span class="n">titoli</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Originale&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Contrasto aumentato&quot;</span><span class="p">,</span>
+    <span class="sa">r</span><span class="s2">&quot;Trasformazione $s=\sqrt</span><span class="si">{r}</span><span class="s2">$&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Sogliatura a 0.5&quot;</span>
+<span class="p">]</span>
+
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">immagine</span><span class="p">,</span> <span class="n">titolo</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">immagini</span><span class="p">,</span> <span class="n">titoli</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">immagine</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">titolo</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/41da55b341c9194dfdf143bece2241196efbacd633869c349b4eecb89ff68970.png" src="../_images/41da55b341c9194dfdf143bece2241196efbacd633869c349b4eecb89ff68970.png" />
+</div>
+</div>
+<p>Queste trasformazioni calcolano ogni pixel di uscita usando soltanto il pixel corrispondente; la convoluzione combina invece i valori di un intorno.</p>
+</section>
+<section id="convoluzione">
+<h2>Convoluzione<a class="headerlink" href="#convoluzione" title="Link to this heading">#</a></h2>
+<p>In generale, la convoluzione è
+un’operazione matematica (simbolo: *)
+che, date due funzioni, ne produce una
+terza che è calcolata come segue:</p>
+<div class="math notranslate nohighlight">
+\[
+ (f*g)(t)=\int{f(\tau)g(t-\tau)d\tau}
+ \]</div>
+<p>Nell’imaging, <span class="math notranslate nohighlight">\(f\)</span> e <span class="math notranslate nohighlight">\(g\)</span> sono funzioni discrete bidimensionali, cioè
+matrici,corrispondenti ad immagini.
+La convoluzione discreta 2D diventa quindi:</p>
+<div class="math notranslate nohighlight">
+\[
+(f*g)(x,y)=\sum_{i=0}^M \sum_{j=1}^N f(x,y) g(x-i,y-j), \ \ x,y=0, \ldots N
+\]</div>
+<p>L’applicazione delle convoluzioni in imaging
+può essere più facilmente spiegata
+graficamente come segue:</p>
+<ul class="simple">
+<li><p>consideriamo una matrice <span class="math notranslate nohighlight">\(K\)</span> di dimensione  nxn (di solito n è dispari) il cui punto centrale viene fatto coincidere con un pixel dell’immagine <span class="math notranslate nohighlight">\(f\)</span> a cui applicare la convoluzione</p></li>
+<li><p>moltiplichiamo i valori nella matrice con i valori dei
+pixel corrispondenti, e sommiamo tutti i risultati</p></li>
+<li><p>ll valore ottenuto è il valore del pixel centrale nel
+risultato</p></li>
+<li><p>l’operazione viene ripetuta (spostando la matrice)
+per tutti i pixel dell’immagine</p></li>
+</ul>
+<p>All’interno del contesto di questa definizione, la matrice <span class="math notranslate nohighlight">\(K\)</span> prenderà il nome di <strong>nucleo di convoluzione</strong> o <strong>kernel di convoluzione</strong></p>
+<p><img alt="" src="../_images/conv.png" /></p>
+</section>
+<section id="pratica-guida-alla-convoluzione-di-immagini">
+<h2>Pratica guida alla convoluzione di immagini<a class="headerlink" href="#pratica-guida-alla-convoluzione-di-immagini" title="Link to this heading">#</a></h2>
+<p>Mostriamo un esempio di come applicare le definizioni sinora presentate.</p>
+<p>In primo luogo, come già evidenziato precedentemente, un immagine non è altro che una matrice (di qualche dimensione) i cui coefficienti rappresentato l’intensità di uno o più colori.</p>
+<p>Dunque, assumiamo che la seguente immagine:</p>
+<p><img alt="alt-text" src="../_images/bc_zero_cropped.png" /></p>
+<p>sia la nostra matrice <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<p>E supponiamo che la seguente matrice, sia il nostro nucleo di convoluzione <span class="math notranslate nohighlight">\(K\)</span>:</p>
+<p><img alt="alt-text" src="../_images/fig103_ker.png" /></p>
+<p>Adesso dobbiamo scegliere come estendere la matrice <span class="math notranslate nohighlight">\(A\)</span>. Ecco alcune opzioni:</p>
+<p><img alt="alt-text" src="../_images/cond_bordo.png" /></p>
+<p>tutti i diversi modi di estendere diversamente la matrice <span class="math notranslate nohighlight">\(A\)</span> prendono il nome di: <strong>condizioni al bordo</strong>.</p>
+<p><strong>ATTENZIONE</strong>: la matrice <span class="math notranslate nohighlight">\(A\)</span> ha dimensioni <span class="math notranslate nohighlight">\(503 \times 503\)</span> e <span class="math notranslate nohighlight">\(K\)</span> ha dimensioni <span class="math notranslate nohighlight">\(3 \times 3\)</span>, quindi ci occorre un estensione di <span class="math notranslate nohighlight">\(A\)</span> di dimensioni <span class="math notranslate nohighlight">\(503 + (3-1) \times (503 + (3-1)\)</span>.
+Ne segue, che le estensioni mostrate hanno dimensioni <strong>ben più estese di quanto dovrebbero!</strong> Sono solo da considerarsi come esempi utili di diverse condizioni al bordo.</p>
+<!---**Attenzione**: la funzione di convoluzione $[K * (\cdot) \; | \; \mathcal{P}]$ **può** essere una funzione lineare. Vale a dire che **per delle opportune scelte del pattern di estensione $\mathcal{P}$**
+potrà essere vero che, $\forall \; \alpha,\beta \in \mathbb{R}$:
+
+$$ [K * (\alpha \; X + \beta \; Y) \; | \; \mathcal{P}] = \alpha \; [K * X \; | \; \mathcal{P}] + \beta \; [K * Y \; | \; \mathcal{P}] $$
+
+di qui in avanti, si assumerà che qualunque sia il pattern di estensione $\mathcal{P}$ renda sempre la funzione di convoluzione lineare.---!><!---**Osservazione**: Poichè abbiamo presupposto che $[K * (\cdot) \; | \; \mathcal{P}]$ sia una funzione lineare. Allora, sappiamo che esiste un **unica** matrice $T$ di dimensioni $(N*M) \times (N*M)$, tale che:
+
+$$T \, \mathcal{L}(X) = \mathcal{L}( \; [K * X \; | \; \mathcal{P}] \; )$$---!><p><img alt="alt text" src="../_images/fig100_2.png" /></p>
+<p>In questo caso, il kernel utilizzato sostituisce il valore di ogni pixel con la media aritmetica dei valori contenuti nei quattro pixel ad esso adiacenti.</p>
+<p>Ottenendo il seguente effetto di sfocatura:</p>
+<p><img alt="alt text" src="../_images/fig103.png" /></p>
+<p>Consideriamo ora il seguente kernel:</p>
+<p><img alt="alt text" src="../_images/kernel_bordi.png" /></p>
+<p>Osserviamo che, poichè la somma dei coefficienti è 0, sappiamo che se un pixel ha approssimativamente lo stesso colore dei quattro che
+gli sono adiacenti, allora verrà rimpiazzato da un valore prossimo a zero; in altre parole, il pixer divverà di colore nero.</p>
+<p>Ne segue che tutti e soli i pixel che avranno un valore non nullo, saranno quelli posizionati in mezzo a due regioni di colori contrastanti.
+Pertanto, questo è un filtro che evidenzia i bordi dell’immagine</p>
+<p><img alt="alt text" src="../_images/fig104.png" /></p>
+<p>Cosa succede infine se il filtro aumenta di dimensione?</p>
+</section>
+<section id="filtri-di-media-crescenti-sull-immagine-grayscale">
+<h2>Filtri di media crescenti sull’immagine grayscale<a class="headerlink" href="#filtri-di-media-crescenti-sull-immagine-grayscale" title="Link to this heading">#</a></h2>
+<p>Confrontiamo kernel <span class="math notranslate nohighlight">\(3\times3\)</span>, <span class="math notranslate nohighlight">\(7\times7\)</span> e <span class="math notranslate nohighlight">\(15\times15\)</span>. Ogni kernel è</p>
+<div class="math notranslate nohighlight">
+\[K=\frac{1}{n^2}\mathbf{1}_{n\times n}.\]</div>
+<p>Poiché <code class="docutils literal notranslate"><span class="pre">img_gray</span></code> è una sola matrice, basta <strong>una chiamata a <code class="docutils literal notranslate"><span class="pre">convolve2d</span></code> per ciascun kernel</strong>, senza il ciclo sui canali RGB. <code class="docutils literal notranslate"><span class="pre">mode=&quot;same&quot;</span></code> mantiene le dimensioni dell’immagine, mentre <code class="docutils literal notranslate"><span class="pre">boundary=&quot;symm&quot;</span></code> usa un’estensione simmetrica ai bordi.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.signal</span><span class="w"> </span><span class="kn">import</span> <span class="n">convolve2d</span>
+
+<span class="n">dimensioni_gray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">15</span><span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">assi</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">assi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_gray</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">assi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Originale grayscale&quot;</span><span class="p">)</span>
+<span class="n">assi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">assi</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">dimensioni_gray</span><span class="p">):</span>
+    <span class="n">kernel_gray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">gray_filtrata</span> <span class="o">=</span> <span class="n">convolve2d</span><span class="p">(</span>
+        <span class="n">img_gray</span><span class="p">,</span> <span class="n">kernel_gray</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">,</span> <span class="n">boundary</span><span class="o">=</span><span class="s2">&quot;symm&quot;</span>
+    <span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">gray_filtrata</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filtro di media </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> × </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/1256628b23d810aeb2d5f5d93905d15b27ec9cd951fe54971b810f6cab330003.png" src="../_images/1256628b23d810aeb2d5f5d93905d15b27ec9cd951fe54971b810f6cab330003.png" />
+</div>
+</div>
+<p><strong>Osservazione.</strong> Aumentando la dimensione del kernel, ogni pixel dipende da un intorno più ampio: la sfocatura aumenta, le piccole strutture si attenuano e i contorni diventano meno netti. La somma dei coefficienti del kernel è <span class="math notranslate nohighlight">\(1\)</span>, quindi le regioni uniformi vengono preservate con le condizioni al bordo adottate.</p>
+<p><strong>Da provare:</strong> sostituire <code class="docutils literal notranslate"><span class="pre">[3,</span> <span class="pre">7,</span> <span class="pre">15]</span></code> con <code class="docutils literal notranslate"><span class="pre">[3,</span> <span class="pre">15,</span> <span class="pre">31]</span></code> e confrontare un dettaglio dell’immagine. Perché un filtro più grande rende meno distinguibili due strutture vicine?</p>
+</section>
+<section id="filtri-di-media-crescenti-sullimmagine-a-colori">
+<h2>Filtri di media crescenti sull’immagine a colori<a class="headerlink" href="#filtri-di-media-crescenti-sullimmagine-a-colori" title="Link to this heading">#</a></h2>
+<p>Ripetiamo il confronto sulla versione RGB di <code class="docutils literal notranslate"><span class="pre">peppers</span></code>, usando le stesse dimensioni del kernel. In questo caso applichiamo la convoluzione separatamente a ciascuno dei tre canali e poi ricomponiamo l’immagine a colori.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.signal</span><span class="w"> </span><span class="kn">import</span> <span class="n">convolve2d</span>
+
+<span class="n">dimensioni</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">15</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img2</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Originale&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">dimensioni</span><span class="p">):</span>
+
+    <span class="c1"># Kernel di media: la somma dei coefficienti è 1</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span> <span class="o">/</span> <span class="n">n</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="c1"># Applica la convoluzione separatamente ai tre canali RGB</span>
+    <span class="n">img_filtrata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span>
+        <span class="n">convolve2d</span><span class="p">(</span>
+            <span class="n">img2</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">c</span><span class="p">],</span>
+            <span class="n">K</span><span class="p">,</span>
+            <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">,</span>       <span class="c1"># Mantiene le dimensioni dell&#39;immagine</span>
+            <span class="n">boundary</span><span class="o">=</span><span class="s2">&quot;symm&quot;</span>     <span class="c1"># Estensione simmetrica ai bordi</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">img_filtrata</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filtro di media </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> × </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/51803f00686dbf3c80ed3d5d82b5330697519561d7827246e260df4a280b01d7.png" src="../_images/51803f00686dbf3c80ed3d5d82b5330697519561d7827246e260df4a280b01d7.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="effetto-della-dimensione-del-filtro-di-media">
+<h1>Effetto della dimensione del filtro di media<a class="headerlink" href="#effetto-della-dimensione-del-filtro-di-media" title="Link to this heading">#</a></h1>
+<p>Ogni filtro sostituisce il valore di un pixel con la <strong>media dei valori in un intorno di <span class="math notranslate nohighlight">\(n \times n\)</span> pixel</strong>, separatamente per ciascun canale RGB. Il kernel è:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+K=\frac{1}{n^2}
+\begin{pmatrix}
+1 &amp; \cdots &amp; 1\\
+\vdots &amp; \ddots &amp; \vdots\\
+1 &amp; \cdots &amp; 1
+\end{pmatrix}.
+\end{split}\]</div>
+<p>Confrontando filtri di dimensione <span class="math notranslate nohighlight">\(3 \times 3\)</span>, <span class="math notranslate nohighlight">\(7 \times 7\)</span> e <span class="math notranslate nohighlight">\(15 \times 15\)</span>, si osserva che, all’aumentare della dimensione del filtro, la media coinvolge pixel più lontani: <strong>la sfocatura aumenta, i piccoli dettagli scompaiono e i contorni diventano meno netti</strong>.</p>
+<p>Il fattore <span class="math notranslate nohighlight">\(1/n^2\)</span> mantiene la somma dei pesi uguale a <span class="math notranslate nohighlight">\(1\)</span>, preservando le intensità nelle regioni uniformi. In prossimità dei bordi, il risultato dipende anche dalla condizione al bordo scelta; nell’esempio si utilizza un’estensione simmetrica.</p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./book"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="regressione_lsq.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Il problema dei minimi quadrati nell’approssimazione dei dati.</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Dati come immagini</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#un-immagine-e-una-griglia-di-numeri">Un’immagine è una griglia di numeri</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#immagini-grayscale-una-matrice">Immagini grayscale: una matrice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#immagini-rgb-tre-matrici-un-colore-per-pixel">Immagini RGB: tre matrici, un colore per pixel</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quanta-memoria-serve">Quanta memoria serve?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dai-valori-interi-ai-calcoli-sull-immagine">Dai valori interi ai calcoli sull’immagine</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dalle-piccole-matrici-a-una-fotografia">Dalle piccole matrici a una fotografia</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#luminosita-e-negativo">Luminosità e negativo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contrasto-trasformazione-gamma-e-sogliatura">Contrasto, trasformazione gamma e sogliatura</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gli-stessi-esempi-sullimmagine-a-colori">Gli stessi esempi sull’immagine a colori</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convoluzione">Convoluzione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pratica-guida-alla-convoluzione-di-immagini">Pratica guida alla convoluzione di immagini</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#filtri-di-media-crescenti-sull-immagine-grayscale">Filtri di media crescenti sull’immagine grayscale</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#filtri-di-media-crescenti-sullimmagine-a-colori">Filtri di media crescenti sull’immagine a colori</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#effetto-della-dimensione-del-filtro-di-media">Effetto della dimensione del filtro di media</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Elena Loli Piccolomini
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

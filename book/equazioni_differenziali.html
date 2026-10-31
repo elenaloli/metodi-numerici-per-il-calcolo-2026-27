@@ -186,6 +186,23 @@
 <li class="toctree-l1"><a class="reference internal" href="calcolo_multivariato.html">Calcolo multivariato</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="Ottimizzazione.html">Ottimizzazione numerica</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="analisi_dati.html">Analisi dati:introduzione</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="intro_algebra%20lineare.html">Algebra lineare numerica: basics</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="SVD_eigs.html">Fattorizzazioni che diagonalizzano: autovalori e valori singolari</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="minimi_quadrati.html">Il problema lineare dei minimi quadrati</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classificazione_regressione.html">Task del Machine Learning: classificazione e regressione</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regressione_lsq.html">Il problema dei minimi quadrati nell’approssimazione dei dati.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="convoluzioni.html">Dati come immagini</a></li>
+
 </ul>
 
     </div>
@@ -381,18 +398,16 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#obiettivi-didattici">Obiettivi didattici</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-studiare-le-equazioni-differenziali">Perché studiare le equazioni differenziali?</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#equazioni-differenziali-ordinarie">Equazioni differenziali ordinarie</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#il-problema-di-cauchy">Il problema di Cauchy</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dalla-soluzione-continua-ai-valori-numerici">Dalla soluzione continua ai valori numerici</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#il-metodo-di-eulero-esplicito">Il metodo di Eulero esplicito</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo">Algoritmo</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#errore-e-convergenza">Errore e convergenza</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#il-passo-e-la-stabilita-numerica">Il passo e la stabilità numerica</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sistemi-di-equazioni-differenziali">Sistemi di equazioni differenziali</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-studiare-le-equazioni-differenziali">Perché studiare le equazioni differenziali?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#equazioni-differenziali-ordinarie">Equazioni differenziali ordinarie</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#il-problema-di-cauchy">Il problema di Cauchy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dalla-soluzione-continua-ai-valori-numerici">Dalla soluzione continua ai valori numerici</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#il-metodo-di-eulero-esplicito">Il metodo di Eulero esplicito</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-grafica-del-metodo-di-eulero">Interpretazione grafica del metodo di Eulero</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo">Algoritmo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#errore-e-convergenza">Errore e convergenza</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#il-passo-e-la-stabilita-numerica">Il passo e la stabilità numerica</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sistemi-di-equazioni-differenziali">Sistemi di equazioni differenziali</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#riepilogo">Riepilogo</a></li>
 </ul>
             </nav>
@@ -407,8 +422,6 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="introduzione-alle-equazioni-differenziali-e-ai-problemi-di-cauchy">
 <h1>Introduzione alle equazioni differenziali e ai problemi di Cauchy<a class="headerlink" href="#introduzione-alle-equazioni-differenziali-e-ai-problemi-di-cauchy" title="Link to this heading">#</a></h1>
-<section id="obiettivi-didattici">
-<h2>Obiettivi didattici<a class="headerlink" href="#obiettivi-didattici" title="Link to this heading">#</a></h2>
 <p>Al termine del notebook saremo in grado di:</p>
 <ul class="simple">
 <li><p>riconoscere un’equazione differenziale ordinaria e il suo ordine;</p></li>
@@ -419,7 +432,7 @@ document.write(`
 <li><p>riconoscere l’effetto del passo sulla stabilità numerica.</p></li>
 </ul>
 <section id="perche-studiare-le-equazioni-differenziali">
-<h3>Perché studiare le equazioni differenziali?<a class="headerlink" href="#perche-studiare-le-equazioni-differenziali" title="Link to this heading">#</a></h3>
+<h2>Perché studiare le equazioni differenziali?<a class="headerlink" href="#perche-studiare-le-equazioni-differenziali" title="Link to this heading">#</a></h2>
 <p>Molti fenomeni vengono descritti più naturalmente specificando <strong>come una quantità varia</strong> anziché fornendo direttamente il suo valore. Se <span class="math notranslate nohighlight">\(y(t)\)</span> indica una grandezza dipendente dal tempo, la derivata <span class="math notranslate nohighlight">\(y'(t)\)</span> ne rappresenta il tasso di variazione.</p>
 <p>Esempi:</p>
 <ul class="simple">
@@ -432,7 +445,7 @@ document.write(`
 <p>Un’equazione che lega una funzione incognita alle sue derivate è detta <strong>equazione differenziale</strong>.</p>
 </section>
 <section id="equazioni-differenziali-ordinarie">
-<h3>Equazioni differenziali ordinarie<a class="headerlink" href="#equazioni-differenziali-ordinarie" title="Link to this heading">#</a></h3>
+<h2>Equazioni differenziali ordinarie<a class="headerlink" href="#equazioni-differenziali-ordinarie" title="Link to this heading">#</a></h2>
 <p>Un’<strong>equazione differenziale ordinaria</strong> (ODE, <em>Ordinary Differential Equation</em>) contiene derivate rispetto a una sola variabile indipendente.</p>
 <p>L’<strong>ordine</strong> dell’equazione è l’ordine massimo delle derivate presenti. Per esempio:</p>
 <div class="math notranslate nohighlight">
@@ -454,7 +467,7 @@ document.write(`
 <p>soddisfano l’equazione. L’equazione differenziale, da sola, non determina quindi un’unica soluzione: occorre un’informazione aggiuntiva.</p>
 </section>
 <section id="il-problema-di-cauchy">
-<h3>Il problema di Cauchy<a class="headerlink" href="#il-problema-di-cauchy" title="Link to this heading">#</a></h3>
+<h2>Il problema di Cauchy<a class="headerlink" href="#il-problema-di-cauchy" title="Link to this heading">#</a></h2>
 <p>Un <strong>problema di Cauchy</strong> per un’ODE del primo ordine consiste nel trovare una funzione <span class="math notranslate nohighlight">\(y(t)\)</span> tale che</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -482,7 +495,7 @@ y(t_0)=y_0.
 </div></blockquote>
 </section>
 <section id="dalla-soluzione-continua-ai-valori-numerici">
-<h3>Dalla soluzione continua ai valori numerici<a class="headerlink" href="#dalla-soluzione-continua-ai-valori-numerici" title="Link to this heading">#</a></h3>
+<h2>Dalla soluzione continua ai valori numerici<a class="headerlink" href="#dalla-soluzione-continua-ai-valori-numerici" title="Link to this heading">#</a></h2>
 <p>In generale non è possibile esprimere la soluzione di un problema di Cauchy mediante una formula chiusa. Cerchiamo allora approssimazioni in un insieme discreto di istanti.</p>
 <p>Dividiamo <span class="math notranslate nohighlight">\([t_0,T]\)</span> in <span class="math notranslate nohighlight">\(N\)</span> sottointervalli di ampiezza costante</p>
 <div class="math notranslate nohighlight">
@@ -490,7 +503,7 @@ y(t_0)=y_0.
 <p>Indichiamo con <span class="math notranslate nohighlight">\(y_n\)</span> un’approssimazione del valore esatto <span class="math notranslate nohighlight">\(y(t_n)\)</span>. Il numero <span class="math notranslate nohighlight">\(h\)</span> è detto <strong>passo di discretizzazione</strong>.</p>
 </section>
 <section id="il-metodo-di-eulero-esplicito">
-<h3>Il metodo di Eulero esplicito<a class="headerlink" href="#il-metodo-di-eulero-esplicito" title="Link to this heading">#</a></h3>
+<h2>Il metodo di Eulero esplicito<a class="headerlink" href="#il-metodo-di-eulero-esplicito" title="Link to this heading">#</a></h2>
 <p>Dalla definizione di derivata, per <span class="math notranslate nohighlight">\(h\)</span> piccolo,</p>
 <div class="math notranslate nohighlight">
 \[y'(t_n)\approx\frac{y(t_{n+1})-y(t_n)}{h}.\]</div>
@@ -502,8 +515,22 @@ y(t_0)=y_0.
 \[\boxed{y_{n+1}=y_n+h f(t_n,y_n)}, \qquad y_0\text{ assegnato}.\]</div>
 <p>Il metodo è <strong>esplicito</strong> perché <span class="math notranslate nohighlight">\(y_{n+1}\)</span> si calcola direttamente usando quantità già note. Geometricamente, a ogni passo si prosegue lungo la retta tangente determinata dalla pendenza <span class="math notranslate nohighlight">\(f(t_n,y_n)\)</span>.</p>
 </section>
+<section id="interpretazione-grafica-del-metodo-di-eulero">
+<h2>Interpretazione grafica del metodo di Eulero<a class="headerlink" href="#interpretazione-grafica-del-metodo-di-eulero" title="Link to this heading">#</a></h2>
+<p>La figura illustra la discretizzazione dell’intervallo e la costruzione delle approssimazioni per il problema <span class="math notranslate nohighlight">\(y'=-2y\)</span>, <span class="math notranslate nohighlight">\(y(0)=1\)</span>, su <span class="math notranslate nohighlight">\([0,2]\)</span>.</p>
+<p><img alt="" src="../_images/metodo_eulero_schema.png" /></p>
+<ol class="arabic simple">
+<li><p><strong>Discretizziamo l’intervallo:</strong> scegliamo <span class="math notranslate nohighlight">\(N=10\)</span> sottointervalli, quindi <span class="math notranslate nohighlight">\(h=(2-0)/10=0.2\)</span> e <span class="math notranslate nohighlight">\(t_n=nh\)</span>. Otteniamo <span class="math notranslate nohighlight">\(N+1=11\)</span> nodi.</p></li>
+<li><p><strong>Calcoliamo le approssimazioni:</strong> partendo dal dato iniziale, costruiamo i punti <span class="math notranslate nohighlight">\((t_n,y_n)\)</span>. I segmenti che li collegano formano la spezzata di Eulero, confrontata con la soluzione esatta in blu.</p></li>
+<li><p><strong>Avanziamo di un passo:</strong> nel punto numerico <span class="math notranslate nohighlight">\((t_n,y_n)\)</span> valutiamo la pendenza <span class="math notranslate nohighlight">\(f(t_n,y_n)\)</span>; allo spostamento orizzontale <span class="math notranslate nohighlight">\(h\)</span> corrisponde una variazione verticale <span class="math notranslate nohighlight">\(h f(t_n,y_n)\)</span>.</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[y_{n+1}=y_n+h f(t_n,y_n).\]</div>
+<p>Nell’ingrandimento, <span class="math notranslate nohighlight">\(n=1\)</span>, <span class="math notranslate nohighlight">\(t_1=0.2\)</span> e <span class="math notranslate nohighlight">\(y_1=0.6\)</span>: la pendenza è <span class="math notranslate nohighlight">\(-2(0.6)=-1.2\)</span>, perciò <span class="math notranslate nohighlight">\(y_2=0.6+0.2(-1.2)=0.36\)</span>.</p>
+<p><strong>Attenzione:</strong> la retta usata da Eulero è tangente alla soluzione locale che passa per il punto numerico <span class="math notranslate nohighlight">\((t_n,y_n)\)</span> (curva verde tratteggiata). Dopo il primo passo, questo punto non coincide in generale con il punto della soluzione esatta del problema iniziale. A ogni nodo la pendenza viene ricalcolata.</p>
+</section>
 <section id="algoritmo">
-<h3>Algoritmo<a class="headerlink" href="#algoritmo" title="Link to this heading">#</a></h3>
+<h2>Algoritmo<a class="headerlink" href="#algoritmo" title="Link to this heading">#</a></h2>
 <p><strong>Input:</strong> funzione <span class="math notranslate nohighlight">\(f\)</span>, estremi <span class="math notranslate nohighlight">\(t_0,T\)</span>, dato iniziale <span class="math notranslate nohighlight">\(y_0\)</span>, numero di passi <span class="math notranslate nohighlight">\(N\)</span>.</p>
 <ol class="arabic simple">
 <li><p>Calcola <span class="math notranslate nohighlight">\(h=(T-t_0)/N\)</span>.</p></li>
@@ -617,7 +644,7 @@ y(0)=1,
 </div>
 </section>
 <section id="errore-e-convergenza">
-<h3>Errore e convergenza<a class="headerlink" href="#errore-e-convergenza" title="Link to this heading">#</a></h3>
+<h2>Errore e convergenza<a class="headerlink" href="#errore-e-convergenza" title="Link to this heading">#</a></h2>
 <p>L’<strong>errore globale</strong> al nodo <span class="math notranslate nohighlight">\(t_n\)</span> è</p>
 <div class="math notranslate nohighlight">
 \[e_n=y(t_n)-y_n.\]</div>
@@ -680,7 +707,7 @@ y(0)=1,
 </div>
 </section>
 <section id="il-passo-e-la-stabilita-numerica">
-<h3>Il passo e la stabilità numerica<a class="headerlink" href="#il-passo-e-la-stabilita-numerica" title="Link to this heading">#</a></h3>
+<h2>Il passo e la stabilità numerica<a class="headerlink" href="#il-passo-e-la-stabilita-numerica" title="Link to this heading">#</a></h2>
 <p>Un passo piccolo non serve soltanto a migliorare l’accuratezza: può essere necessario per evitare comportamenti numerici non fisici. Consideriamo l’equazione test</p>
 <div class="math notranslate nohighlight">
 \[y'=\lambda y, \qquad \lambda&lt;0.\]</div>
@@ -756,7 +783,7 @@ P(0)=P_0.
 </div>
 </section>
 <section id="sistemi-di-equazioni-differenziali">
-<h3>Sistemi di equazioni differenziali<a class="headerlink" href="#sistemi-di-equazioni-differenziali" title="Link to this heading">#</a></h3>
+<h2>Sistemi di equazioni differenziali<a class="headerlink" href="#sistemi-di-equazioni-differenziali" title="Link to this heading">#</a></h2>
 <p>Le stesse idee valgono quando l’incognita è un vettore <span class="math notranslate nohighlight">\(\mathbf y(t)\in\mathbb{R}^m\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[\mathbf y'(t)=\mathbf f(t,\mathbf y(t)), \qquad \mathbf y(t_0)=\mathbf y_0.\]</div>
@@ -816,13 +843,8 @@ v'=-\omega^2x-\gamma v.
 Per il problema <span class="math notranslate nohighlight">\(y'=y-t\)</span>, <span class="math notranslate nohighlight">\(y(0)=1\)</span>, calcolare a mano i primi tre passi di Eulero con <span class="math notranslate nohighlight">\(h=0.1\)</span>.</p>
 <p>*Esercizio 2 — <em>Confronto con la soluzione esatta</em>
 Applicare Eulero a <span class="math notranslate nohighlight">\(y'=3y\)</span>, <span class="math notranslate nohighlight">\(y(0)=2\)</span> nell’intervallo <span class="math notranslate nohighlight">\([0,1]\)</span>. Confrontare con <span class="math notranslate nohighlight">\(y(t)=2e^{3t}\)</span> usando <span class="math notranslate nohighlight">\(N=10,20,40\)</span>. Che cosa accade all’errore quando <span class="math notranslate nohighlight">\(N\)</span> raddoppia?</p>
-<p><em>Esercizio 3 — Stabilità</em>
-Per <span class="math notranslate nohighlight">\(y'=-20y\)</span>, determinare teoricamente l’intervallo di valori di <span class="math notranslate nohighlight">\(h\)</span> per cui Eulero è stabile. Verificare numericamente con due passi: uno interno e uno esterno all’intervallo.</p>
-<p><em>Esercizio 4 — Dati e modello logistico</em>
-Modificare <span class="math notranslate nohighlight">\(r\)</span>, <span class="math notranslate nohighlight">\(K\)</span> e <span class="math notranslate nohighlight">\(P_0\)</span> nell’esempio logistico. Descrivere separatamente l’effetto di ciascun parametro sulla curva.</p>
-<p><em>Esercizio 5 — Sistema</em>
+<p><em>Esercizio 3 — Sistema</em>
 Nel modello dell’oscillatore, porre <span class="math notranslate nohighlight">\(\gamma=0\)</span>. Ripetere l’esperimento con diversi valori di <span class="math notranslate nohighlight">\(h\)</span> e osservare se l’ampiezza numerica rimane costante.</p>
-</section>
 </section>
 <section id="riepilogo">
 <h2>Riepilogo<a class="headerlink" href="#riepilogo" title="Link to this heading">#</a></h2>
@@ -883,18 +905,16 @@ Nel modello dell’oscillatore, porre <span class="math notranslate nohighlight"
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#obiettivi-didattici">Obiettivi didattici</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-studiare-le-equazioni-differenziali">Perché studiare le equazioni differenziali?</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#equazioni-differenziali-ordinarie">Equazioni differenziali ordinarie</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#il-problema-di-cauchy">Il problema di Cauchy</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dalla-soluzione-continua-ai-valori-numerici">Dalla soluzione continua ai valori numerici</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#il-metodo-di-eulero-esplicito">Il metodo di Eulero esplicito</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo">Algoritmo</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#errore-e-convergenza">Errore e convergenza</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#il-passo-e-la-stabilita-numerica">Il passo e la stabilità numerica</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sistemi-di-equazioni-differenziali">Sistemi di equazioni differenziali</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-studiare-le-equazioni-differenziali">Perché studiare le equazioni differenziali?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#equazioni-differenziali-ordinarie">Equazioni differenziali ordinarie</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#il-problema-di-cauchy">Il problema di Cauchy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dalla-soluzione-continua-ai-valori-numerici">Dalla soluzione continua ai valori numerici</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#il-metodo-di-eulero-esplicito">Il metodo di Eulero esplicito</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-grafica-del-metodo-di-eulero">Interpretazione grafica del metodo di Eulero</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo">Algoritmo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#errore-e-convergenza">Errore e convergenza</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#il-passo-e-la-stabilita-numerica">Il passo e la stabilità numerica</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sistemi-di-equazioni-differenziali">Sistemi di equazioni differenziali</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#riepilogo">Riepilogo</a></li>
 </ul>
   </nav></div>
